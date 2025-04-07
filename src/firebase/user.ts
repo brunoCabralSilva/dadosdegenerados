@@ -1,7 +1,7 @@
 'use client'
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { getAuth } from 'firebase/auth';
-import { addDoc, collection, doc, getDoc, getDocs, getFirestore, query, runTransaction, where } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getFirestore } from 'firebase/firestore';
 // import { createProfileImage } from './storage';
 import firebaseConfig from "./connection";
 
@@ -13,12 +13,12 @@ export async function registerUser(
   image: File,
   setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>,
 ) {
-  const auth = getAuth(firebaseConfig);
+  // const auth = getAuth(firebaseConfig);
   const db = getFirestore(firebaseConfig);
   
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
+    // const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    // const user = userCredential.user;
     // const imageURL = await createProfileImage(user.uid, image, setShowMessage);
     const collectionRef = collection(db, 'users'); 
     await addDoc(collectionRef, {

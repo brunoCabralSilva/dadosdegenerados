@@ -16,6 +16,7 @@ export const signIn = async (email: string, password: string) => {
     await signInWithEmailAndPassword(auth, email, password);
     return true;
   } catch (error) {
+    console.log(error);
     return false;
   }
 }
@@ -32,24 +33,28 @@ export const signOutFirebase = async (setShowMessage: React.Dispatch<React.SetSt
 };
 
 export const authenticate = async (setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>) => {
-  return new Promise<{ email: string, photoURL: string, displayName: string } | null>((resolve) => {
-    const auth = getAuth(firebaseConfig);
-    const unsubscribe = onAuthStateChanged(auth, async (user: User | null) => {
-      if (user && user.email) {
-        // const dataUser = await getUserByEmail(user.email, setShowMessage);
-        // const displayName = dataUser.firstName + ' ' + dataUser.lastName;
-        // const photoURL = dataUser.imageURL;
-        // const { email } = user;
-        // resolve({
-        //   email,
-        //   displayName,
-        //   photoURL,
-        // });
-      } else {
-        resolve(null);
-      } unsubscribe();
+  try {
+    return new Promise<{ email: string, photoURL: string, displayName: string } | null>((resolve) => {
+      const auth = getAuth(firebaseConfig);
+      const unsubscribe = onAuthStateChanged(auth, async (user: User | null) => {
+        if (user && user.email) {
+          // const dataUser = await getUserByEmail(user.email, setShowMessage);
+          // const displayName = dataUser.firstName + ' ' + dataUser.lastName;
+          // const photoURL = dataUser.imageURL;
+          // const { email } = user;
+          // resolve({
+          //   email,
+          //   displayName,
+          //   photoURL,
+          // });
+        } else {
+          resolve(null);
+        } unsubscribe();
+      });
     });
-  });
+  } catch(error) {
+    setShowMessage({ show: true, text: 'Ocorreu um erro ao autenticar: ' + error });
+  }
 };
 
 export const changeUserPassword = async (

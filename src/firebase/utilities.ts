@@ -21,7 +21,7 @@ export const parseDate = (dateStr: string): Date => {
 };
 
 
-export const capitalizeFirstLetter = (str: string): String => {
+export const capitalizeFirstLetter = (str: string): string => {
   switch(str) {
     default: return str?.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
