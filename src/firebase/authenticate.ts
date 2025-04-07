@@ -6,7 +6,7 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { getUserByEmail } from "./user";
+// import { getUserByEmail } from "./user";
 import firebaseConfig from "./connection";
 import { User } from 'firebase/auth';
 
@@ -36,15 +36,15 @@ export const authenticate = async (setShowMessage: React.Dispatch<React.SetState
     const auth = getAuth(firebaseConfig);
     const unsubscribe = onAuthStateChanged(auth, async (user: User | null) => {
       if (user && user.email) {
-        const dataUser = await getUserByEmail(user.email, setShowMessage);
-        const displayName = dataUser.firstName + ' ' + dataUser.lastName;
-        const photoURL = dataUser.imageURL;
-        const { email } = user;
-        resolve({
-          email,
-          displayName,
-          photoURL,
-        });
+        // const dataUser = await getUserByEmail(user.email, setShowMessage);
+        // const displayName = dataUser.firstName + ' ' + dataUser.lastName;
+        // const photoURL = dataUser.imageURL;
+        // const { email } = user;
+        // resolve({
+        //   email,
+        //   displayName,
+        //   photoURL,
+        // });
       } else {
         resolve(null);
       } unsubscribe();
