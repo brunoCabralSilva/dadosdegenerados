@@ -69,6 +69,14 @@ export default function Nav() {
             <Link href="/sessions"
               className="transition duration-1000 px-2 hover:underline hover:underline-offset-4"
             >
+              Eventos
+            </Link>
+          </li>
+          <li className="pt-4">
+            <Link href="/profile"
+              onClick={ () => setShowMenu(!showMenu) }
+              className="transition duration-1000 px-2 hover:underline hover:underline-offset-4"
+            >
               Sessões
             </Link>
           </li>
@@ -77,7 +85,15 @@ export default function Nav() {
               onClick={ () => setShowMenu(!showMenu) }
               className="transition duration-1000 px-2 hover:underline hover:underline-offset-4"
             >
-              Perfil
+              Blog
+            </Link>
+          </li>
+          <li className="pt-4">
+            <Link href="/profile"
+              onClick={ () => setShowMenu(!showMenu) }
+              className="transition duration-1000 px-2 hover:underline hover:underline-offset-4"
+            >
+              Mídia
             </Link>
           </li>
           <li className="pt-4">

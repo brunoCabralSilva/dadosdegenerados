@@ -41,7 +41,13 @@ export default function Home() {
         </div>
       </div>
       <div className="bg-black h-screen w-full">
-        Aqui
+        <Image
+          alt="Logo dos Dados Degenerados"
+          src="/images/degenerados4.png"
+          width="1000"
+          height="1000"
+          className="object-contain w-8/12 sm:w-2/12"
+        />
       </div>
       <Footer />
     </div>
