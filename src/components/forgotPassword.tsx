@@ -44,7 +44,7 @@ export default function ForgotPassword() {
                 value={ email }
                 placeholder="name@company.com"
                 className="break-words bg-black border-white border w-full p-3 cursor-pointer text-white text-left focus:outline-none"
-                onChange={ (e: any) => setEmail(e.target.value) }
+                onChange={ (e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value) }
               />
             </label>
             <button

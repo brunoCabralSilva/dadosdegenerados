@@ -5,7 +5,7 @@ interface DegeneratesContext {
   dataUser: { email: string, displayName: string },
   setDataUser: (state: { email: string, displayName: string }) => void,
   showMessage: { show: boolean, text: string },
-  setShowMessage: (state: { show: boolean, text: string }) => void,
+  setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>,
   logoutUser: boolean,
   setLogoutUser: (state: boolean) => void,
   showForgotPassword: boolean,

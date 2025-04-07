@@ -12,7 +12,7 @@
 //   measurementId: "G-1F90CL46XG"
 // });
 
-// export async function createSessionImage(id: string, data: any, setShowMessage: any) {
+// export async function createSessionImage(id: string, data: any, setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>) {
 //   const db = getFirestore(firebaseConfig);
 //   const storage = getStorage(firebaseConfig);
 //   const storageRef = ref(storage, `images/sessions/${id}/${data.name}`);
@@ -33,7 +33,7 @@
 //   }
 // }
 
-// export const deletePlayerImage = async (sessionId: string, playerId: string, imageUrl: string, setShowMessage: any) => {
+// export const deletePlayerImage = async (sessionId: string, playerId: string, imageUrl: string, setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>) => {
 //   if (!imageUrl) return;
   
 //   try {
@@ -46,7 +46,7 @@
 //   }
 // };
 
-// export async function createProfileImage(id: string, img: any, setShowMessage: any) {
+// export async function createProfileImage(id: string, img: any, setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>) {
 //   const db = getFirestore(firebaseConfig);
 //   const storage = getStorage(firebaseConfig);
 //   const storageRef = ref(storage, `images/users/${id}/${img.name}`);
@@ -67,7 +67,7 @@
 //   }
 // }
 
-// export async function updatePlayerImage(sessionId: string, playerId: string, newImage: any, setShowMessage: any) {
+// export async function updatePlayerImage(sessionId: string, playerId: string, newImage: any, setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>) {
 //   const storage = getStorage(firebaseConfig);
 //   const folderRef = ref(storage, `images/sessions/${sessionId}/players/${playerId}`);
 //   try {

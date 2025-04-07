@@ -8,6 +8,7 @@ import {
 } from "firebase/auth";
 import { getUserByEmail } from "./user";
 import firebaseConfig from "./connection";
+import { User } from 'firebase/auth';
 
 export const signIn = async (email: string, password: string) => {
   const auth = getAuth(firebaseConfig);
@@ -19,7 +20,7 @@ export const signIn = async (email: string, password: string) => {
   }
 }
 
-export const signOutFirebase = async (setShowMessage: any) => {
+export const signOutFirebase = async (setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>) => {
   try {
     const auth = getAuth(firebaseConfig);
     await signOut(auth);
@@ -30,11 +31,11 @@ export const signOutFirebase = async (setShowMessage: any) => {
   }
 };
 
-export const authenticate = async (setShowMessage: any) => {
+export const authenticate = async (setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>) => {
   return new Promise<{ email: string, photoURL: string, displayName: string } | null>((resolve) => {
     const auth = getAuth(firebaseConfig);
-    const unsubscribe = onAuthStateChanged(auth, async (user: any) => {
-      if (user) {
+    const unsubscribe = onAuthStateChanged(auth, async (user: User | null) => {
+      if (user && user.email) {
         const dataUser = await getUserByEmail(user.email, setShowMessage);
         const displayName = dataUser.firstName + ' ' + dataUser.lastName;
         const photoURL = dataUser.imageURL;
@@ -55,14 +56,14 @@ export const changeUserPassword = async (
   oldPassword: string,
   email: string,
   newPassword: string,
-  setShowMessage: any,
+  setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>,
 ) => {
   const auth = getAuth(firebaseConfig);
   try {
     const credenciais = signInWithEmailAndPassword(auth, email, oldPassword);
     await credenciais;
-    const user: any = auth.currentUser;
-    await updatePassword(user, newPassword);
+    const user: User | null = auth.currentUser;
+    if (user) await updatePassword(user, newPassword);
     setShowMessage({ show: true, text: 'Senha alterada com sucesso!' });
     return true
   } catch (error) {
@@ -71,7 +72,7 @@ export const changeUserPassword = async (
   }
 };
 
-export const forgotPassword = async (email: string, setShowMessage: any) => {
+export const forgotPassword = async (email: string, setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>) => {
   const auth = getAuth(firebaseConfig);
   try {
     await sendPasswordResetEmail(auth, email);
