@@ -1,6 +1,6 @@
 'use client'
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { getAuth } from 'firebase/auth';
+// import { createUserWithEmailAndPassword } from 'firebase/auth';
+// import { getAuth } from 'firebase/auth';
 import { addDoc, collection, doc, getDoc, getFirestore } from 'firebase/firestore';
 // import { createProfileImage } from './storage';
 import firebaseConfig from "./connection";
