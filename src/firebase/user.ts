@@ -42,20 +42,15 @@ export async function getUserByEmail(email: string, setShowMessage: React.Dispat
     const usersCollectionRef = collection(db, 'users');
     const q = query(usersCollectionRef, where('email', '==', email));
     const querySnapshot = await getDocs(q);
-    
-    if (querySnapshot.empty) {
-      throw new Error('Usuário com o email fornecido não encontrado.');
-    } else {
-      let user;
-      querySnapshot.forEach((doc) => {
-        user = doc.data();
-        user.id = doc.id;
-      });
-      return user;
-    }
+    let user;
+    querySnapshot.forEach((doc) => {
+      user = doc.data();
+      user.id = doc.id;
+    });
+    return user;
   } catch (error) {
     setShowMessage({ show: true, text: 'Erro ao obter usuário por email: ' + error });
-    return false;
+    return null;
   }
 }
 

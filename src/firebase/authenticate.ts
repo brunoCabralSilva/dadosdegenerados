@@ -10,6 +10,12 @@ import { getUserByEmail } from "./user";
 import firebaseConfig from "./connection";
 import { User } from 'firebase/auth';
 
+interface UserData {
+  firstName: string;
+  lastName: string;
+  imageURL: string;
+}
+
 export const signIn = async (email: string, password: string) => {
   const auth = getAuth(firebaseConfig);
   try {
@@ -38,15 +44,13 @@ export const authenticate = async (setShowMessage: React.Dispatch<React.SetState
       const auth = getAuth(firebaseConfig);
       const unsubscribe = onAuthStateChanged(auth, async (user: User | null) => {
         if (user && user.email) {
-          const dataUser = await getUserByEmail(user.email, setShowMessage);
-          const displayName = dataUser.firstName + ' ' + dataUser.lastName;
-          const photoURL = dataUser.imageURL;
-          const { email } = user;
-          resolve({
-            email,
-            displayName,
-            photoURL,
-          });
+          const dataUser = await getUserByEmail(user.email, setShowMessage) as UserData | null;
+          if (dataUser) {
+            const displayName = dataUser.firstName + ' ' + dataUser.lastName;
+            const photoURL = dataUser.imageURL;
+            const { email } = user;
+            resolve({ email, displayName, photoURL });
+          }
         } else {
           resolve(null);
         } unsubscribe();
