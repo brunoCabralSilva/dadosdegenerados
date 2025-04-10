@@ -51,7 +51,7 @@ export default function ChangePassword() {
                   value={ lastPassword }
                   placeholder="••••••"
                   className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white text-left outline-none"
-                  onChange={ (e: any) => setLastPassword(e.target.value) }
+                  onChange={ (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setLastPassword(e.target.value) }
                 />
               </label>
               <label htmlFor="newPassword1" className="break-words mb-4 flex flex-col items-center w-full">
@@ -62,7 +62,7 @@ export default function ChangePassword() {
                   value={ newPassword1 }
                   placeholder="••••••"
                   className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white text-left outline-none"
-                  onChange={ (e: any) => setNewPassword1(e.target.value) }
+                  onChange={ (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setNewPassword1(e.target.value) }
                 />
               </label>
               <label htmlFor="newPassword2" className="break-words mb-4 flex flex-col items-center w-full">
@@ -73,7 +73,7 @@ export default function ChangePassword() {
                   value={ newPassword2 }
                   placeholder="••••••"
                   className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white text-left outline-none"
-                  onChange={ (e: any) => setNewPassword2(e.target.value) }
+                  onChange={ (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setNewPassword2(e.target.value) }
                 />
               </label>
               <button
