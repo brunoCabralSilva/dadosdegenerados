@@ -46,8 +46,8 @@ export async function getUserByEmail(email: string, setShowMessage: React.Dispat
     if (querySnapshot.empty) {
       throw new Error('Usuário com o email fornecido não encontrado.');
     } else {
-      let user: any;
-      querySnapshot.forEach((doc: any) => {
+      let user;
+      querySnapshot.forEach((doc) => {
         user = doc.data();
         user.id = doc.id;
       });
