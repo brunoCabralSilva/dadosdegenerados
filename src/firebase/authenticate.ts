@@ -58,6 +58,7 @@ export const authenticate = async (setShowMessage: React.Dispatch<React.SetState
     });
   } catch(error) {
     setShowMessage({ show: true, text: 'Ocorreu um erro ao autenticar: ' + error });
+    return null;
   }
 };
 

@@ -6,3 +6,9 @@ export interface IUserData {
     imageURL: string,
     description: string,
 }
+
+export interface IAuthenticate {
+    email: string,
+    displayName: string,
+    photoURL: string,
+}

@@ -3,7 +3,6 @@ import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { authenticate } from "@/firebase/authenticate";
 import { getUserByEmail } from "@/firebase/user";
-import { MdVideocam } from "react-icons/md";
 import Footer from "@/components/footer";
 import Loading from "@/components/loading";
 import Image from "next/image";
@@ -11,6 +10,7 @@ import contexto from "../../context/context";
 import Nav from "@/components/nav";
 import ChangePassword from "@/components/changePassword";
 import EditProfile from "@/components/editProfile";
+import { IAuthenticate } from "@/interfaces";
 
 export default function Profile() {
   const {
@@ -32,7 +32,7 @@ export default function Profile() {
 
   useEffect(() => {
     const authUser = async () => {
-      const auth: any = await authenticate(setShowMessage);
+      const auth: IAuthenticate | null = await authenticate(setShowMessage);
       if (auth) {
         if (userData.id === '') {
           const getUser = await getUserByEmail(auth.email, setShowMessage);
