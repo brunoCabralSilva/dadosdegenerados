@@ -1,4 +1,5 @@
 'use client'
+import { IUserData } from '@/interfaces';
 import { createContext } from 'react';
 
 interface DegeneratesContext {
@@ -10,6 +11,12 @@ interface DegeneratesContext {
   setLogoutUser: (state: boolean) => void,
   showForgotPassword: boolean,
   setShowForgotPassword: (state: boolean) => void,
+  userData: IUserData,
+  setUserData: (state: IUserData) => void,
+  showEditProfile: boolean,
+  setShowEditProfile: (state: boolean) => void,
+  showChangePassword: boolean,
+  setShowChangePassword: (state: boolean) => void,
 }
 
 const initialValue: DegeneratesContext = {
@@ -21,6 +28,19 @@ const initialValue: DegeneratesContext = {
   setLogoutUser: () => {},
   showForgotPassword: false,
   setShowForgotPassword: () => {},
+  userData: {
+    id: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    imageURL: '',
+    description: '',
+  },
+  setUserData : () => {},
+  showEditProfile: false,
+  setShowEditProfile: () => {},
+  showChangePassword: false,
+  setShowChangePassword: () => {},
 }
 
 const contexto = createContext(initialValue);

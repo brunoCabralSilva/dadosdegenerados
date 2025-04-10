@@ -50,7 +50,7 @@ const Register = () => {
         if (data) {
           setDataUser({ email: data.email, displayName: data.displayName });
         }
-        router.push('/sessions');
+        router.push('/');
       }
       setFirstName('');
       setLastName('');

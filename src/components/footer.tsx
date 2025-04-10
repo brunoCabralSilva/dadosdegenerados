@@ -19,12 +19,6 @@ export default function Footer() {
       </div>
       <div className="sm:w-3/4 text-sm">
         <p className="text-center sm:text-right w-full">© Dados Degenerados. Trademarks belong to their respective owners. All rights reserved.</p>
-        <p
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className={`pt-3 pb-2 sm:py-0 text-center sm:text-right w-full cursor-pointer hover:text-red-800 text-red-600 transition-colors duration-700`}
-        >
-          Retornar ao Topo
-        </p>
       </div>
     </footer>
   );

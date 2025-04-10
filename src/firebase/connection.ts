@@ -1,13 +1,13 @@
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = initializeApp({
-  apiKey: "AIzaSyD8mc9BudB392g20iMGimaZC9mR_T8Hrvs",
-  authDomain: "dadosdegenerados-f3c1c.firebaseapp.com",
-  projectId: "dadosdegenerados-f3c1c",
-  storageBucket: "dadosdegenerados-f3c1c.firebasestorage.app",
-  messagingSenderId: "267164674530",
-  appId: "1:267164674530:web:b2c36917740a5d25d3f1bb",
-  measurementId: "G-KPL0EXDSMR"
+  apiKey: "AIzaSyDnmfij0BzqhrXm4mysV7RNPXaeYEnVgcQ",
+  authDomain: "valyrian-wars-1.firebaseapp.com",
+  projectId: "valyrian-wars-1",
+  storageBucket: "valyrian-wars-1.appspot.com",
+  messagingSenderId: "719626971606",
+  appId: "1:719626971606:web:85eac82dd4166fdbce5c77",
+  measurementId: "G-FZM2Y82780"
 });
 
 export default firebaseConfig;
