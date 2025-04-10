@@ -20,7 +20,7 @@ export default function Home() {
           className="object-cover w-10 mt-2 mx-2 cursor-pointer"
         />
       </div>
-      <div className="w-full flex flex-col items-center mt-10 justify-center bg-[url(/images/dd_logo_bg_black.png)] bg-cover bg-green-800 py-10">
+      <div className="w-full flex flex-col items-center mt-10 justify-center bg-[url(/images/dd_logo_bg_black.png)] bg-cover bg-black py-10">
         <Image
           alt="Logo dos Dados Degenerados"
           src="/images/dd_logo_completa_sem_fundo.png"
