@@ -1,8 +1,7 @@
 'use client'
-// import { createUserWithEmailAndPassword } from 'firebase/auth';
-// import { getAuth } from 'firebase/auth';
-import { addDoc, collection, doc, getDoc, getFirestore } from 'firebase/firestore';
-// import { createProfileImage } from './storage';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
+import { addDoc, collection, doc, getDoc, getDocs, getFirestore, query, where } from 'firebase/firestore';
 import firebaseConfig from "./connection";
 
 export async function registerUser(
@@ -13,11 +12,13 @@ export async function registerUser(
   image: File,
   setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>,
 ) {
-  // const auth = getAuth(firebaseConfig);
+  const auth = getAuth(firebaseConfig);
   const db = getFirestore(firebaseConfig);
   
   try {
-    // const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    console.log(image);
+    await createUserWithEmailAndPassword(auth, email, password);
+    // const userCredential = 
     // const user = userCredential.user;
     // const imageURL = await createProfileImage(user.uid, image, setShowMessage);
     const collectionRef = collection(db, 'users'); 
@@ -35,28 +36,28 @@ export async function registerUser(
   }
 }
 
-// export async function getUserByEmail(email: string, setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>) {
-//   try {
-//     const db = getFirestore(firebaseConfig);
-//     const usersCollectionRef = collection(db, 'users');
-//     const q = query(usersCollectionRef, where('email', '==', email));
-//     const querySnapshot = await getDocs(q);
+export async function getUserByEmail(email: string, setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>) {
+  try {
+    const db = getFirestore(firebaseConfig);
+    const usersCollectionRef = collection(db, 'users');
+    const q = query(usersCollectionRef, where('email', '==', email));
+    const querySnapshot = await getDocs(q);
     
-//     if (querySnapshot.empty) {
-//       throw new Error('Usuário com o email fornecido não encontrado.');
-//     } else {
-//       let user: any;
-//       querySnapshot.forEach((doc: any) => {
-//         user = doc.data();
-//         user.id = doc.id;
-//       });
-//       return user;
-//     }
-//   } catch (error) {
-//     setShowMessage({ show: true, text: 'Erro ao obter usuário por email: ' + error });
-//     return false;
-//   }
-// }
+    if (querySnapshot.empty) {
+      throw new Error('Usuário com o email fornecido não encontrado.');
+    } else {
+      let user: any;
+      querySnapshot.forEach((doc: any) => {
+        user = doc.data();
+        user.id = doc.id;
+      });
+      return user;
+    }
+  } catch (error) {
+    setShowMessage({ show: true, text: 'Erro ao obter usuário por email: ' + error });
+    return false;
+  }
+}
 
 export async function getUserById(userId: string, setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>) {
   try {

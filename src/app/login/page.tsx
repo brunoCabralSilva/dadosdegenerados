@@ -26,12 +26,12 @@ function App() {
   useEffect(() => {
     const authUser = async () => {
       if (dataUser.email !== '' && dataUser.displayName !== '') {
-        router.push("/sessions");
+        router.push("/");
       } else {
         const auth = await authenticate(setShowMessage);
         if(auth && auth.email && auth.displayName) {
           setDataUser({ email: auth.email, displayName: auth.displayName });
-          router.push("/sessions");
+          router.push("/");
         } else setShowData(true);
       }
     };
@@ -54,7 +54,7 @@ function App() {
         const auth = await authenticate(setShowMessage);
         if(auth && auth.email && auth.displayName) {
           setDataUser({ email: auth.email, displayName: auth.displayName });
-          router.push("/sessions");
+          router.push("/");
         }
       }
       else {
@@ -77,10 +77,10 @@ function App() {
   };
   
   return(
-    <section className="bg-[url(/images/dd_logo_bg.jpg)] bg-cover bg-center break-words h-screen w-full items-center justify-center">
+    <section className="bg-[#72060A] bg-cover bg-center break-words h-screen w-full items-center justify-center">
       { showMessage.show && <MessageToUser /> }
       <Nav />
-      <div className="break-words flex flex-col items-center justify-center sm:px-6 py-8 mx-auto h-full lg:py-0">
+      <div className="bg-[url(/images/dd_logo_bg.jpg)] break-words flex flex-col items-center justify-center sm:px-6 py-8 mx-auto h-full lg:py-0">
         {
           !showData 
           ? <Loading />            
@@ -135,7 +135,7 @@ function App() {
                         type="button"
                         onClick={handleLogin}
                         id="sendMessage"
-                        className="break-words border-2 border-black hover:border-[#42000A] transition-colors duration-400 text-white cursor-pointer w-full bg-[url(/images/dd_logo_bg.jpg)] hover:bg-[url(/images/dd_logo_bg_black.png)] hover:bg-bottom font-bold rounded-lg text-sm px-5 py-2.5 text-center"
+                        className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer w-full bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center"
                       >
                         { loading ? 'Verificando...' : 'Entrar'}
                       </button>

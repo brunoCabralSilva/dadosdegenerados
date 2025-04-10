@@ -7,6 +7,7 @@ import Loading from '@/components/loading';
 import contexto from '@/context/context';
 import { authenticate } from '@/firebase/authenticate';
 import MessageToUser from '@/components/messageToUser';
+import Image from 'next/image';
 
 const Register = () => {
   const [firstName, setFirstName] = useState('');
@@ -71,10 +72,19 @@ const Register = () => {
     { showMessage.show && <MessageToUser /> }
     <div className="break-words bg-black/95 flex flex-col items-center justify-center px-2 sm:px-6 py-8 mx-auto h-full lg:py-0">
        <div className="break-words md:my-5 w-full rounded-lg shadow">
-          <div className="break-words p-4 space-y-4 md:space-y-6 sm:p-8">
+          <div className="flex justify-center w-full">
+            <Image
+              src="/images/dd_logo_sem_fundo.png"
+              alt="Glifo de um lobo"
+              className="w-14 relative object-contain mb-5"
+              width={1000}
+              height={1000}
+            />
+          </div>
+          <div className="break-words p-4">
             <div className="break-words flex items-center justify-between w-full mb-6 sm:mb-0">
-              <h1 className="break-words text-xl font-bold leading-tight tracking-tight md:text-2xl text-white">
-                  Cadastro
+              <h1 className="break-words text-xl font-bold leading-tight tracking-tight md:text-2xl text-white mb-5">
+                Cadastro
               </h1>
               <FaBackward
                 className="break-words text-white hover:text-red-500 transition-colors sm:text-3xl text-2xl cursor-pointer"
@@ -157,7 +167,7 @@ const Register = () => {
               <button 
                 type="button"
                 onClick={ handleRegisterDev }
-                className="break-words relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-600 to-red-900 hover:from-red-900 hover:to-red-600 hover:text-white focus:ring-4 focus:outline-none w-full"
+                className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer w-full bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center"
               >
                 <span className="break-words relative px-5 py-2.5 transition-all ease-in duration-75 text-white rounded-md group-hover:bg-opacity-0">
                   { loading ? 'Registrando, por favor aguarde' : 'Registrar' }

@@ -1,8 +1,12 @@
+'use client'
 import Footer from "@/components/footer";
 import Nav from "@/components/nav";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
+  const router = useRouter();
   return (
     <div className="flex flex-col min-h-screen w-full bg-[url(/images/dd_logo_bg_black.png)]">
       <Nav />
@@ -12,7 +16,8 @@ export default function Home() {
           src="/images/dd_logo_sem_fundo.png"
           width="1000"
           height="1000"
-          className="object-cover w-10 mt-2 mx-2"
+          onClick={ () => router.push("/") }
+          className="object-cover w-10 mt-2 mx-2 cursor-pointer"
         />
       </div>
       <div className="w-full flex flex-col items-center mt-10 justify-center bg-[url(/images/dd_logo_bg_black.png)] bg-cover bg-green-800 py-10">
@@ -40,14 +45,49 @@ export default function Home() {
           />
         </div>
       </div>
-      <div className="bg-black h-screen w-full">
-        <Image
-          alt="Logo dos Dados Degenerados"
-          src="/images/degenerados4.png"
-          width="1000"
-          height="1000"
-          className="object-contain w-8/12 sm:w-2/12"
-        />
+      <div className="bg-black grid grid-cols-2 sm:grid-cols-8 w-full h-full px-4 sm:px-8 pb-4 gap-4 sm:gap-6 py-5">
+        <Link href="/trybes" className="col-span-1 sm:col-span-2 sm:row-span-2">
+          <div
+            className={`bg-[url(/images/degenerados.jpeg)] bg-center bg-cover h-full sm:h-[40vh] text-white flex relative cursor-pointer border-transparent items-end`}>
+            <div className={`absolute w-full h-full bg-black/40`} />
+            <p className="z-10 font-bold text-base sm:text-lg px-3 p-2 relative">Eventos</p>
+          </div>
+        </Link>
+        <Link href="/auspices" className="col-span-1 sm:col-span-2 sm:row-span-4">
+          <div
+            className={`bg-[url(/images/degenerados3.jpeg)] bg-cover bg-center h-[20vh] sm:h-full text-white flex relative cursor-pointer border-transparent items-end`}>
+            <div className={`absolute w-full h-full bg-black/40`} />
+            <p className="z-10 font-bold text-base sm:text-lg px-3 p-2">Sessões</p>
+          </div>
+        </Link>
+        <Link href="/gifts" className="col-span-2 sm:col-span-4 sm:row-span-2">
+          <div
+            className={`bg-[url(/images/degenerados2.jpeg)] bg-cover bg-center h-[20vh] sm:h-[40vh] text-white flex relative cursor-pointer border-transparent items-end`}>
+            <div className={`absolute w-full h-full bg-black/40`} />
+            <p className="z-10 font-bold text-base sm:text-lg px-3 p-2">Blog</p>
+          </div>
+        </Link>
+        <Link href="/forms" className="col-span-1 sm:col-span-2 sm:row-span-2">
+          <div
+            className={`bg-[url(/images/degenerados5.jpeg)] bg-cover h-[20vh] sm:h-[40vh] text-white flex relative cursor-pointer bg-center border-transparent items-end`}>
+            <div className={`absolute w-full h-full bg-black/40`} />
+            <p className="z-10 font-bold text-base sm:text-lg px-3 p-2 relative">Mídia</p>
+          </div>
+        </Link>
+        <Link href="/rituals" className="col-span-1 row-span-2 sm:col-span-2 sm:row-span-2">
+          <div
+            className={`bg-[url(/images/degenerados1.jpeg)] bg-center bg-cover h-full sm:h-[40vh] text-white flex relative cursor-pointer border-transparent items-end`}>
+            <div className={`absolute w-full h-full bg-black/40`} />
+            <p className="z-10 font-bold text-base sm:text-lg px-3 p-2">Quem Somos</p>
+          </div>
+        </Link>
+        <Link href="/about" className="col-span-1 sm:row-span-2 sm:col-span-2">
+          <div
+            className={`bg-[url(/images/degenerados4.jpeg)] bg-center bg-cover h-[20vh] sm:h-[40vh] text-white flex relative cursor-pointer border-transparent items-end`}>
+            <div className={`absolute w-full h-full bg-black/40`} />
+            <p className="z-10 font-bold text-base sm:text-lg px-3 p-2">Perfil</p>
+          </div>
+        </Link>
       </div>
       <Footer />
     </div>
