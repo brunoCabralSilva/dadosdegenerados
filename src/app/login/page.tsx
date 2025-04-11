@@ -80,7 +80,7 @@ function App() {
     <section className="bg-[#72060A] bg-cover bg-center break-words h-screen w-full items-center justify-center">
       { showMessage.show && <MessageToUser /> }
       <Nav />
-      <div className="bg-[url(/images/dd_logo_bg.jpg)] break-words flex flex-col items-center justify-center sm:px-6 py-8 mx-auto h-full lg:py-0">
+      <div className="bg-[url(/images/dd_logo_bg.jpg)] break-words flex flex-col items-center justify-center px-3 sm:px-6 py-8 mx-auto h-full lg:py-0">
         {
           !showData 
           ? <Loading />            

@@ -97,7 +97,8 @@ export default function Profile() {
                         </div>
                       </div>
                     }
-                    <div>
+                    <div className="px-5 text-white">
+                      <p className="text-xl font-bold my-5">Atividades Programadas</p>
                       Aqui
                     </div>
                   </div>
