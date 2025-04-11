@@ -34,7 +34,7 @@ export default function Home() {
         </div>
       </div>
       <div className="bg-black grid grid-cols-2 sm:grid-cols-8 w-full h-full px-4 sm:px-8 pb-4 gap-4 sm:gap-6 py-5">
-        <Link href="/trybes" className="col-span-1 sm:col-span-2 sm:row-span-2">
+        <Link href="/events" className="col-span-1 sm:col-span-2 sm:row-span-2">
           <div
             className={`bg-[url(/images/degenerados.jpeg)] bg-center bg-cover h-full sm:h-[40vh] text-white flex relative cursor-pointer border-transparent items-end`}>
             <div className={`absolute w-full h-full bg-black/40`} />

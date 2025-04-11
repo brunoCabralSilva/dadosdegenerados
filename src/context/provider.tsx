@@ -15,10 +15,13 @@ export default function Provider({children }: IProvider) {
     lastName: '',
     email: '',
     imageURL: '',
-    description: ''
+    description: '',
+    role: '',
   });
+  const [showEditProfileImage, setShowEditProfileImage] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
-  const [showChangePassword, setShowChangePassword] = useState(false);;
+  const [showChangePassword, setShowChangePassword] = useState(false);
+  const [showCreateEvent, setShowCreateEvent] = useState(false);
 
   return (
     <contexto.Provider
@@ -27,9 +30,11 @@ export default function Provider({children }: IProvider) {
         showMessage, setShowMessage,
         logoutUser, setLogoutUser,
         showForgotPassword, setShowForgotPassword,
+        showEditProfileImage, setShowEditProfileImage,
         userData, setUserData,
         showEditProfile, setShowEditProfile,
         showChangePassword, setShowChangePassword,
+        showCreateEvent, setShowCreateEvent,
       }}
     >
       {children}

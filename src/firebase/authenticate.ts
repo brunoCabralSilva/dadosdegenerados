@@ -9,11 +9,13 @@ import {
 import { getUserByEmail } from "./user";
 import firebaseConfig from "./connection";
 import { User } from 'firebase/auth';
+import { IAuthenticate } from "@/interfaces";
 
 interface UserData {
   firstName: string;
   lastName: string;
   imageURL: string;
+  role: string;
 }
 
 export const signIn = async (email: string, password: string) => {
@@ -40,7 +42,7 @@ export const signOutFirebase = async (setShowMessage: React.Dispatch<React.SetSt
 
 export const authenticate = async (setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>) => {
   try {
-    return new Promise<{ email: string, photoURL: string, displayName: string } | null>((resolve) => {
+    return new Promise<IAuthenticate | null>((resolve) => {
       const auth = getAuth(firebaseConfig);
       const unsubscribe = onAuthStateChanged(auth, async (user: User | null) => {
         if (user && user.email) {
@@ -48,8 +50,9 @@ export const authenticate = async (setShowMessage: React.Dispatch<React.SetState
           if (dataUser) {
             const displayName = dataUser.firstName + ' ' + dataUser.lastName;
             const photoURL = dataUser.imageURL;
+            const role = dataUser.role;
             const { email } = user;
-            resolve({ email, displayName, photoURL });
+            resolve({ email, displayName, photoURL, role });
           }
         } else {
           resolve(null);

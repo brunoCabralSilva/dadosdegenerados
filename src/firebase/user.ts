@@ -18,7 +18,7 @@ export async function registerUser(
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-    const imageURL = await createProfileImage(user.uid, image);
+    const imageURL = await createProfileImage(user.uid, image, setShowMessage);
     const collectionRef = collection(db, 'usersData'); 
     await addDoc(collectionRef, {
       email,
@@ -26,6 +26,7 @@ export async function registerUser(
       lastName,
       imageURL,
       description: '',
+      role: 'common',
     });
     setShowMessage({ show: true, text: 'Usuário registrado com sucesso!' });
     return true;

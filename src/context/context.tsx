@@ -15,8 +15,12 @@ interface DegeneratesContext {
   setUserData: (state: IUserData) => void,
   showEditProfile: boolean,
   setShowEditProfile: (state: boolean) => void,
+  showEditProfileImage: boolean,
+  setShowEditProfileImage: (state: boolean) => void,
   showChangePassword: boolean,
   setShowChangePassword: (state: boolean) => void,
+  showCreateEvent: boolean,
+  setShowCreateEvent: (state: boolean) => void,
 }
 
 const initialValue: DegeneratesContext = {
@@ -35,12 +39,17 @@ const initialValue: DegeneratesContext = {
     email: '',
     imageURL: '',
     description: '',
+    role: '',
   },
   setUserData : () => {},
   showEditProfile: false,
   setShowEditProfile: () => {},
+  showEditProfileImage: false,
+  setShowEditProfileImage: () => {},
   showChangePassword: false,
   setShowChangePassword: () => {},
+  showCreateEvent: false,
+  setShowCreateEvent: () => {},
 }
 
 const contexto = createContext(initialValue);

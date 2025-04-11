@@ -26,11 +26,11 @@ export default function EditProfile(props: { setDataUser: React.Dispatch<React.S
   
   const updateUser = async () => {
     setLoading(true);
-    setError('');
-    if(prevFirstName && prevFirstName.length < 2) {
-      setError('Necessário inserir um Nome com mais de 2 caracteres');
-    } else if(prevLastName && prevLastName.length < 2) {
-      setError('Necessário inserir um Sobrenome com mais de 2 caracteres');
+    console.log(prevLastName);
+    if (!prevFirstName || prevFirstName.length < 2) {
+      setShowMessage({ show: true, text: 'Necessário inserir um Nome com mais de 2 caracteres' });
+    } else if(!prevLastName || prevLastName.length < 2) {
+      setShowMessage({ show: true, text: 'Necessário inserir um Sobrenome com mais de 2 caracteres' });
     } else {
       const updtUser = await updateUserById({
         id: userData.id,
@@ -38,7 +38,6 @@ export default function EditProfile(props: { setDataUser: React.Dispatch<React.S
         lastName: prevLastName,
         description: prevDescription
       }, setShowMessage);
-      console.log(updtUser);
        if (updtUser) {
         setUserData({ ...userData, firstName: prevFirstName, lastName: prevLastName, description: prevDescription });
         setDataUser({ ...userData, firstName: prevFirstName, lastName: prevLastName, description: prevDescription });
