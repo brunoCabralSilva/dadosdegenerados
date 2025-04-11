@@ -15,7 +15,6 @@ export default function EditProfile(props: { setDataUser: React.Dispatch<React.S
   const [prevFirstName, setPrevFirstName] = useState('');
   const [prevLastName, setPrevLastName] = useState('');
   const [prevDescription, setPrevDescription] = useState('');
-  const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -110,9 +109,6 @@ export default function EditProfile(props: { setDataUser: React.Dispatch<React.S
                 Salvar
               </button>
             </div>
-            {
-              error !== '' && <div className="break-words text-white pt-4 pb-3 text-center">{ error }</div>
-            }
           </div>
           {
             loading

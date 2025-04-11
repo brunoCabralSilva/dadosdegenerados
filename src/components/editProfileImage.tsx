@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import Loading from "./loading";
 import contexto from "@/context/context";
@@ -17,8 +17,10 @@ export default function EditProfileImage(props: { setDataUser: React.Dispatch<Re
     setShowMessage,
   } = useContext(contexto);
 
-  const handleImage = (e: any) => {
-    if (e.target.files[0]) setProfileImage(e.target.files[0]);
+  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setProfileImage(e.target.files[0]);
+    }
   };
 
   const updateImage = async () => {

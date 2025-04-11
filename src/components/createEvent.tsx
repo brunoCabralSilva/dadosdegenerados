@@ -8,7 +8,6 @@ import { MdDelete } from "react-icons/md";
 
 export default function CreateEvent() {
   const {
-    setShowEditProfile,
     setShowMessage,
     setShowCreateEvent,
   } = useContext(contexto);
@@ -48,11 +47,6 @@ export default function CreateEvent() {
     ));
   }
 
-  function isValidGoogleMapsLink(url: string): boolean {
-    const mapsRegex = /^https:\/\/maps\.app\.goo\.gl\/[a-zA-Z0-9]+(\/)?(\?.*)?$/;
-    return mapsRegex.test(url.trim());
-  } 
-
   const addDate = () => {
     if (!prevDay || prevDay === '') {
       setShowMessage({ show: true, text: "Para adicionar uma Data, Você precisa selecionar um dia." });
@@ -87,8 +81,10 @@ export default function CreateEvent() {
     }
   };
 
-  const handleImage = (e: any) => {
-    if (e.target.files[0]) setImageFile(e.target.files[0]);
+  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setImageFile(e.target.files[0]);
+    }
   };
   
   const updateUser = async () => {
