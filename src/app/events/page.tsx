@@ -87,7 +87,7 @@ export default function Eventos() {
                 <div className="w-full px-3">
                   <hr />
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 px-3">
                   {
                     dataEvents && dataEvents.length > 0 && dataEvents.map((itemData: IEventRegisterWithId, index: number) => (
                       <button
