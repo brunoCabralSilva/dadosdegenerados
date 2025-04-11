@@ -135,11 +135,11 @@ export default function CreateEvent() {
               Criação de Evento
             </div>
             <div className="break-words w-full">
-              <label htmlFor="firstName" className="break-words mb-4 flex flex-col items-center w-full">
+              <label htmlFor="nameEvent" className="break-words mb-4 flex flex-col items-center w-full">
                 <p className="break-words w-full mb-1 text-white">Nome do Evento *</p>
                 <input
                   type="text"
-                  id="firstName"
+                  id="nameEvent"
                   value={ nameEvent }
                   placeholder="Digite o nome do Evento"
                   className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white outline-none"
@@ -147,7 +147,7 @@ export default function CreateEvent() {
                 />
               </label>
               <p className="w-full text-white mb-3">
-                Datas do Evento (Escolha a Data, horário de Início e Término e depois clique em "Adicionar". Você pode adicionar quantas datas desejar).
+                Datas do Evento (Escolha a Data, horário de Início e Término e depois clique em &quot;Adicionar&quot;. Você pode adicionar quantas datas desejar).
               </p>
               <div className="flex gap-3 mb-5 flex-wrap">
                 {
@@ -176,7 +176,6 @@ export default function CreateEvent() {
                     id="day"
                     value={prevDay}
                     className="break-words bg-white border border-white p-2.5 cursor-pointer text-black text-center outline-none w-full"
-                    placeholder="Sobrenome"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleDayChange(e) }
                   />
                 </label>
@@ -186,7 +185,6 @@ export default function CreateEvent() {
                     id="init"
                     value={prevInit}
                     className="break-words bg-white border border-white p-2.5 cursor-pointer text-black text-center outline-none w-full"
-                    placeholder="Sobrenome"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInitChange(e) }
                   />
                 </label>
@@ -196,7 +194,6 @@ export default function CreateEvent() {
                     id="end"
                     value={prevEnd}
                     className="break-words bg-white border border-white p-2.5 cursor-pointer text-black text-center outline-none w-full"
-                    placeholder="Sobrenome"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleEndChange(e) }
                   />
                 </label>
@@ -240,21 +237,21 @@ export default function CreateEvent() {
                 onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setAddress(e.target.value) }
               />
             </label>
-            <label htmlFor="address" className="break-words mb-5 flex flex-col items-center w-full">
+            <label htmlFor="linkMaps" className="break-words mb-5 flex flex-col items-center w-full">
               <p className="break-words w-full mb-3 text-white">Insira abaixo o link do maps do Endereço descrito *</p>
               <input
-                id="address"
+                id="linkMaps"
                 value={ linkMaps }
                 className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white text-left sm:text-justify outline-none"
                 placeholder="Cole aqui o link do maps"
                 onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setLinkMaps(e.target.value) }
               />
             </label>
-            <label htmlFor="address" className="break-words mb-5 flex flex-col items-center w-full">
+            <label htmlFor="imageFile" className="break-words mb-5 flex flex-col items-center w-full">
               <p className="break-words w-full mb-3 text-white">Adicione uma Imagem para o evento (1080 x 1350) *</p>
               <input
                 type="file"
-                id="address"
+                id="imageFile"
                 className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white text-left sm:text-justify outline-none"
                 placeholder="Cole aqui o link do maps"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImage(e) }

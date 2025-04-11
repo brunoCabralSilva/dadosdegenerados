@@ -9,7 +9,7 @@ export async function createProfileImage (id: string, img: File, setShowMessage:
     const downloadUrl = await getDownloadURL(storageRef);
     return downloadUrl;
   } catch (error) {
-    window.alert("Erro ao fazer upload da midia imagem: " + error);
+    setShowMessage({ show: true, text: "Erro ao fazer upload da midia imagem: " + error });
     return false;
   }
 };
