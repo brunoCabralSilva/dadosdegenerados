@@ -130,7 +130,7 @@ export default function CreateActivity(props: { idEvent: string }) {
       setShowMessage({ show: true, text: 'Necessário descrever os temas sensíveis para a Atividade com pelo menos 5 caracteres.' });
     } else {
       if (systemSession === 'Sessão de RPG') {
-        let findSystem = listSystems.find((systemData: ISystemToAdd) => systemData.name === systemSession);
+        const findSystem = listSystems.find((systemData: ISystemToAdd) => systemData.name === systemSession);
         if (findSystem) {
           const createActvt = await registerActivity({
             eventId: idEvent,
