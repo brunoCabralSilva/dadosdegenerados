@@ -1,8 +1,8 @@
 'use client'
 import contexto from "@/context/context";
-import { registerActivity, updateActivityById } from "@/firebase/activities";
+import { updateActivityById } from "@/firebase/activities";
 import { getAllSystems, registerSystem } from "@/firebase/systems";
-import { IActivityRegisterWithId, IDatesToAdd, ISystemToAdd } from "@/interfaces";
+import { IDatesToAdd, ISystemToAdd } from "@/interfaces";
 import { useContext, useEffect, useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { MdDelete } from "react-icons/md";

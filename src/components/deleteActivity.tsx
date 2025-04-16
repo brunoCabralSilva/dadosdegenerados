@@ -7,7 +7,6 @@ import { useContext } from 'react';
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
 export default function DeleteActivity() {
-  const router = useRouter();
   const {
     showDeleteActivity, setShowDeleteActivity,
     setShowMessage,
