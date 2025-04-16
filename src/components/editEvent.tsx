@@ -1,18 +1,15 @@
 'use client'
 import contexto from "@/context/context";
-import { registerEvent, updateEventById } from "@/firebase/event";
+import { updateEventById } from "@/firebase/event";
 import { IDatesToAdd, IEventRegisterWithId } from "@/interfaces";
 import { useContext, useEffect, useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 
 export default function EditEvent(
-  props: {
-    dataEvent: IEventRegisterWithId | null,
-    setDataEvent: React.Dispatch<React.SetStateAction<IEventRegisterWithId | null>>
-  }
+  props: { dataEvent: IEventRegisterWithId | null }
 ) {
-  const { dataEvent, setDataEvent } = props;
+  const { dataEvent } = props;
   const { setShowMessage, setShowEditEvent } = useContext(contexto);
   const [prevDay, setPrevDay] = useState<string>('');
   const [prevInit, setPrevInit] = useState<string>('');

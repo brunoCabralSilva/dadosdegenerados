@@ -65,10 +65,7 @@ export default function EventId() {
       { showMessage.show && <MessageToUser /> }
       {
         showEditEvent.show &&
-        <EditEvent
-          dataEvent={dataEvent}
-          setDataEvent={setDataEvent}
-        />
+        <EditEvent dataEvent={dataEvent} />
       }
       { showDeleteEvent.show && <DeleteEvent /> }
       { showCreateActivity.show && <CreateActivity idEvent={idEvent} /> }

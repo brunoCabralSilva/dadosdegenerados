@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs, getFirestore, updateDoc } from "firebase/firestore";
+import { addDoc, collection, getDocs, getFirestore } from "firebase/firestore";
 import firebaseConfig from "./connection";
 import { ISystemToAdd } from "@/interfaces";
 
