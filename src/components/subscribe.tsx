@@ -6,10 +6,10 @@ import { useContext, useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 
-export default function CreateEvent() {
+export default function Subscribe() {
   const {
     setShowMessage,
-    setShowCreateEvent,
+    setShowSubscribe,
   } = useContext(contexto);
   const [prevDay, setPrevDay] = useState<string>('');
   const [prevInit, setPrevInit] = useState<string>('');
@@ -126,7 +126,7 @@ export default function CreateEvent() {
         <div className="break-words pt-4 sm:pt-2 px-2 w-full flex justify-end top-0 right-0">
           <IoIosCloseCircleOutline
             className="break-words text-4xl text-white cursor-pointer hover:text-white duration-500 transition-colors"
-            onClick={() => setShowCreateEvent(false) }
+            onClick={() => setShowSubscribe({ show: false, id: '' }) }
           />
         </div>
         <div className="break-words px-4 sm:px-10 w-full">

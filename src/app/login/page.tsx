@@ -17,21 +17,21 @@ function App() {
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const {
+    routerTo,
     dataUser, setDataUser,
+    showMessage, setShowMessage,
     showForgotPassword, setShowForgotPassword,
-    setShowMessage,
-    showMessage,
   } = useContext(contexto);
 
   useEffect(() => {
     const authUser = async () => {
       if (dataUser.email !== '' && dataUser.displayName !== '') {
-        router.push("/");
+        router.push(routerTo);
       } else {
         const auth = await authenticate(setShowMessage);
         if(auth && auth.email && auth.displayName) {
           setDataUser({ email: auth.email, displayName: auth.displayName });
-          router.push("/");
+          router.push(routerTo);
         } else setShowData(true);
       }
     };
@@ -54,7 +54,7 @@ function App() {
         const auth = await authenticate(setShowMessage);
         if(auth && auth.email && auth.displayName) {
           setDataUser({ email: auth.email, displayName: auth.displayName });
-          router.push("/");
+          router.push(routerTo);
         }
       }
       else {

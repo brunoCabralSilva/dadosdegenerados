@@ -1,8 +1,8 @@
 'use client'
-import { addDoc, collection, doc, getDoc, getDocs, getFirestore, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, runTransaction, updateDoc } from 'firebase/firestore';
 import firebaseConfig from "./connection";
-import { createEventImage } from './storage';
-import { IEventRegister, IEventRegisterWithId } from '@/interfaces';
+import { createEventImage, deleteEventImage, updateEventImage } from './storage';
+import { IEventRegister, IEventRegisterWithId, IEventUpdateWithId } from '@/interfaces';
 
 export async function registerEvent(
   dataEvent: IEventRegister,
@@ -65,5 +65,45 @@ export async function getEventsById(
   } catch (error) {
     setShowMessage({ show: true, text: 'Erro ao obter Evento por ID: ' + error });
     return null;
+  }
+}
+
+export async function updateEventById(dataEvent: IEventUpdateWithId, setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>> ) {
+  const db = getFirestore(firebaseConfig);
+  try {
+    if (typeof dataEvent.imageURL === 'object') {
+      const updtImage = await updateEventImage(dataEvent.id, dataEvent.imageURL, setShowMessage);
+      if (updtImage) dataEvent.imageURL = updtImage;
+    }
+    const userDocRef = doc(db, 'events', dataEvent.id);
+    await runTransaction(db, async (transaction) => {
+      const userDocSnapshot = await transaction.get(userDocRef);
+      if (!userDocSnapshot.exists()) throw new Error('Evento não encontrad(a)');
+      const existingData = userDocSnapshot.data();
+      const updatedData = { ...existingData, ...dataEvent };
+      transaction.update(userDocRef, updatedData);
+    });
+    setShowMessage({ show: true, text: 'Evento atualizados com sucesso!' });
+    return true;
+  } catch (error) {
+    setShowMessage({ show: true, text: 'Erro ao atualizar Evento: ' + error });
+    return false;
+  }
+}
+
+export async function deleteEventById(
+  eventId: string,
+  setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>
+) {
+  try {
+    const db = getFirestore(firebaseConfig);
+    const eventRef = doc(collection(db, 'events'), eventId);
+    const deleteImage = await deleteEventImage(eventId, setShowMessage);
+    if (deleteImage) {
+      await deleteDoc(eventRef);
+      setShowMessage({ show: true, text: 'Evento excluído com sucesso.' });
+    }
+  } catch (error) {
+    setShowMessage({ show: true, text: 'Erro ao excluir o evento: ' + error });
   }
 }

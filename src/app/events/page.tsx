@@ -14,6 +14,7 @@ import { getUserByEmail } from "@/firebase/user";
 
 export default function Eventos() {
   const {
+    setRouterTo,
     userData, setUserData,
     showCreateEvent, setShowCreateEvent,
     showMessage, setShowMessage,
@@ -22,6 +23,7 @@ export default function Eventos() {
   const router = useRouter();
 
   useEffect(() => {
+    setRouterTo('/events');
     const getEvents = async () => {
       const events: IEventRegisterWithId[] | undefined = await getAllEvents(setShowMessage);
       if (events) setDataEvents(events);

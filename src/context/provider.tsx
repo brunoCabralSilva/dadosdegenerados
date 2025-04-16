@@ -22,19 +22,29 @@ export default function Provider({children }: IProvider) {
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [showCreateEvent, setShowCreateEvent] = useState(false);
+  const [routerTo, setRouterTo] = useState('/');
+  const [showEditEvent, setShowEditEvent] = useState({ show: false, id: '' });
+  const [showDeleteEvent, setShowDeleteEvent] = useState({ show: false, id: '' });
+  const [showCreateActivity, setShowCreateActivity] = useState({ show: false, id: '' });
+  const [showSubscribe, setShowSubscribe] = useState({ show: false, id: '' });
 
   return (
     <contexto.Provider
       value={{
+        routerTo, setRouterTo,
+        userData, setUserData,
         dataUser, setDataUser,
-        showMessage, setShowMessage,
         logoutUser, setLogoutUser,
+        showMessage, setShowMessage,
+        showEditEvent, setShowEditEvent,
+        showSubscribe, setShowSubscribe,
+        showCreateEvent, setShowCreateEvent,
+        showEditProfile, setShowEditProfile,
+        showDeleteEvent, setShowDeleteEvent,
+        showCreateActivity, setShowCreateActivity,
+        showChangePassword, setShowChangePassword,
         showForgotPassword, setShowForgotPassword,
         showEditProfileImage, setShowEditProfileImage,
-        userData, setUserData,
-        showEditProfile, setShowEditProfile,
-        showChangePassword, setShowChangePassword,
-        showCreateEvent, setShowCreateEvent,
       }}
     >
       {children}

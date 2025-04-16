@@ -41,3 +41,44 @@ export interface IEventRegisterWithId {
   linkMaps: string, 
   imageURL: string,
 }
+
+export interface IEventUpdateWithId {
+  id: string,
+  name: string, 
+  dates: IDatesToAdd[],
+  description: string, 
+  localName: string, 
+  address: string, 
+  linkMaps: string, 
+  imageURL: string | File,
+}
+
+export interface IActivityRegister {
+  eventId: string,
+  name: string,
+  typeActivity: string,
+  systemSession: ISystemToAdd,
+  slots: number,
+  noSlots: boolean,
+  dates: IDatesToAdd[],
+  description: string,
+  sensibility: string,
+}
+
+export interface IActivityRegisterWithId {
+  id: string,
+  eventId: string,
+  name: string,
+  typeActivity: string,
+  systemSession: ISystemToAdd,
+  slots: number,
+  noSlots: boolean,
+  dates: IDatesToAdd[],
+  description: string,
+  sensibility: string,
+}
+
+export interface ISystemToAdd {
+  name: string,
+  description: string,
+}

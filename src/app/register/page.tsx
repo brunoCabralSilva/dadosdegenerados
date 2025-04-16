@@ -18,7 +18,11 @@ const Register = () => {
   const [password2, setPassword2] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { setDataUser, setShowMessage, showMessage } = useContext(contexto);
+  const {
+    routerTo,
+    setDataUser,
+    showMessage, setShowMessage,
+  } = useContext(contexto);
 
   const handleRegisterDev = async () => {
     const validate = /\S+@\S+\.\S+/;
@@ -50,7 +54,7 @@ const Register = () => {
         if (data) {
           setDataUser({ email: data.email, displayName: data.displayName });
         }
-        router.push('/');
+        router.push(routerTo);
       }
       setFirstName('');
       setLastName('');

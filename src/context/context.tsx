@@ -3,6 +3,8 @@ import { IUserData } from '@/interfaces';
 import { createContext } from 'react';
 
 interface DegeneratesContext {
+  routerTo: string,
+  setRouterTo: (state: string) => void,
   dataUser: { email: string, displayName: string },
   setDataUser: (state: { email: string, displayName: string }) => void,
   showMessage: { show: boolean, text: string },
@@ -21,9 +23,19 @@ interface DegeneratesContext {
   setShowChangePassword: (state: boolean) => void,
   showCreateEvent: boolean,
   setShowCreateEvent: (state: boolean) => void,
+  showEditEvent: { show: boolean, id: string },
+  setShowEditEvent: (state: { show: boolean, id: string }) => void,
+  showDeleteEvent: { show: boolean, id: string },
+  setShowDeleteEvent: (state: { show: boolean, id: string }) => void,
+  showCreateActivity: { show: boolean, id: string },
+  setShowCreateActivity: (state: { show: boolean, id: string }) => void,
+  showSubscribe: { show: boolean, id: string },
+  setShowSubscribe: (state: { show: boolean, id: string }) => void,
 }
 
 const initialValue: DegeneratesContext = {
+  routerTo: '/',
+  setRouterTo: () => {},
   dataUser: { email: '', displayName: '' },
   setDataUser: () => {},
   showMessage: { show: false, text: '' },
@@ -50,6 +62,14 @@ const initialValue: DegeneratesContext = {
   setShowChangePassword: () => {},
   showCreateEvent: false,
   setShowCreateEvent: () => {},
+  showEditEvent: { show: false, id: '' },
+  setShowEditEvent: () => {},
+  showDeleteEvent: { show: false, id: '' },
+  setShowDeleteEvent: () => {},
+  showCreateActivity: { show: false, id: '' },
+  setShowCreateActivity: () => {},
+  showSubscribe: { show: false, id: '' },
+  setShowSubscribe: () => {},
 }
 
 const contexto = createContext(initialValue);

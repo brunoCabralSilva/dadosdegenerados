@@ -17,11 +17,12 @@ import MessageToUser from "@/components/messageToUser";
 
 export default function Profile() {
   const {
-    showEditProfileImage, setShowEditProfileImage,
+    setRouterTo,
     userData, setUserData,
+    showMessage, setShowMessage,
     showEditProfile, setShowEditProfile,
     showChangePassword, setShowChangePassword,
-    showMessage, setShowMessage,
+    showEditProfileImage, setShowEditProfileImage,
   } = useContext(contexto);
   const [showData, setShowData] = useState(false);
   const [dataUser, setDataUser] = useState({
@@ -36,6 +37,7 @@ export default function Profile() {
   const router = useRouter();
 
   useEffect(() => {
+    setRouterTo('/profile');
     const authUser = async () => {
       const auth: IAuthenticate | null = await authenticate(setShowMessage);
       if (auth) {
