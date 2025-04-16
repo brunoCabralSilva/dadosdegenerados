@@ -2,7 +2,6 @@
 import contexto from '@/context/context';
 import { deleteActivityById } from '@/firebase/activities';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { useContext } from 'react';
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
