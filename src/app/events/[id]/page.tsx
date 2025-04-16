@@ -8,7 +8,7 @@ import EditEvent from "@/components/editEvent";
 import CreateActivity from "@/components/createActivity";
 import Subscribe from "@/components/subscribe";
 import Footer from "@/components/footer";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { authenticate } from "@/firebase/authenticate";
 import { getUserByEmail } from "@/firebase/user";
@@ -23,9 +23,12 @@ import {
   IDatesToAdd,
   IEventRegisterWithId
 } from "@/interfaces";
+import DeleteActivity from "@/components/deleteActivity";
+import EditActivity from "@/components/editActivity";
 
 export default function EventId() {
   const params = useParams();
+  const router = useRouter();
   const idEvent = params?.id as string;
   const {
     setRouterTo,
@@ -33,6 +36,8 @@ export default function EventId() {
     showMessage, setShowMessage,
     showEditEvent, setShowEditEvent,
     showDeleteEvent, setShowDeleteEvent,
+    showEditActivity, setShowEditActivity,
+    showDeleteActivity, setShowDeleteActivity,
     showCreateActivity, setShowCreateActivity,
     showSubscribe, setShowSubscribe,
   } = useContext(contexto);
@@ -60,16 +65,21 @@ export default function EventId() {
     getEvent();
   }, []);
 
+  const subscribe = async () => {
+    const auth: IAuthenticate | null = await authenticate(setShowMessage);
+    if (auth) setShowSubscribe({ show: true, id: idEvent, email: auth.email });
+    else router.push('/login');
+}
+
   return(
     <div className="break-words w-full min-h-screen bg-black">
       { showMessage.show && <MessageToUser /> }
-      {
-        showEditEvent.show &&
-        <EditEvent dataEvent={dataEvent} />
-      }
+      { showEditEvent.show && <EditEvent dataEvent={ dataEvent } /> }
       { showDeleteEvent.show && <DeleteEvent /> }
-      { showCreateActivity.show && <CreateActivity idEvent={idEvent} /> }
-      { showSubscribe.show && <Subscribe /> }
+      { showCreateActivity.show && <CreateActivity idEvent={ idEvent } /> }
+      { showEditActivity.show && <EditActivity /> }
+      { showDeleteActivity.show && <DeleteActivity /> }
+      { showSubscribe.show && <Subscribe idEvent={ idEvent } /> }
       <Nav />
       <div className="break-words w-full h-full items-center justify-start flex flex-col pb-10 min-h-screen mt-11">
         {
@@ -145,7 +155,7 @@ export default function EventId() {
                 <p className="text-xl font-bold">Atividades Programadas</p>
                 <div className="flex gap-1">
                   <button
-                    onClick={ () => setShowSubscribe({ show: true, id: idEvent }) }
+                    onClick={ subscribe }
                     className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative mt-2 sm:mt-0"
                   >
                     Inscrever-se
@@ -168,7 +178,7 @@ export default function EventId() {
                   && listActivities.map((activity: IActivityRegisterWithId, index: number) => (
                     <div
                       key={index}
-                      className="p-4 border border-white"
+                      className="p-4 border border-white bg-[url(/images/dd_logo_bg_black.png)] bg-center"
                     >
                       <div className="text-xl font-bold mb-2 flex w-full justify-between">
                         <span className="pr-1">
@@ -180,14 +190,14 @@ export default function EventId() {
                             <div className="text-white flex gap-2 justify-end w-full">
                               <button
                                 type="button"
-                                onClick={ () => setShowEditEvent({ show: true, id: idEvent }) }
+                                onClick={ () => setShowEditActivity({ show: true, data: activity }) }
                                 className="text-2xl cursor-pointer"
                               >
                                 <FiEdit />
                               </button>
                               <button
                                 type="button"
-                                onClick={ () => setShowDeleteEvent({ show: true, id: idEvent }) }
+                                onClick={ () => setShowDeleteActivity({ show: true, id: activity.id }) }
                                 className="text-2xl cursor-pointer"
                               >
                                 <MdDelete />
@@ -196,6 +206,7 @@ export default function EventId() {
                           }
                         </div>
                       </div>
+                      <div className="w-full mb-3 h-0.5 bg-white" />
                       <div className="">
                         <span className="font-bold">Data: </span>
                         {

@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs, getFirestore, query, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, getFirestore, query, runTransaction, where } from "firebase/firestore";
 import firebaseConfig from "./connection";
 import { IActivityRegister, IActivityRegisterWithId } from "@/interfaces";
 
@@ -47,5 +47,54 @@ export async function getActivitiesByEventId(
   } catch (error) {
     setShowMessage({ show: true, text: 'Erro ao obter atividades: ' + String(error) });
     return [];
+  }
+}
+
+export async function updateActivityById (dataActivity: IActivityRegisterWithId, setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>) {
+  try {
+    const db = getFirestore(firebaseConfig);
+    const activityDocRef = doc(db, 'activities', dataActivity.id);
+    await runTransaction(db, async (transaction) => {
+      const activityDocSnapshot = await transaction.get(activityDocRef);
+      if (!activityDocSnapshot.exists()) throw new Error('Atividade não encontrada');
+      const existingData = activityDocSnapshot.data();
+      const updatedData = { ...existingData, ...dataActivity };
+      transaction.update(activityDocRef, updatedData);
+    });
+    setShowMessage({ show: true, text: 'Atividade atualizada com sucesso!' });
+    return true;
+  } catch (error) {
+    setShowMessage({ show: true, text: 'Erro ao atualizar Atividade: ' + error });
+    return false;
+  }
+}
+
+export async function deleteActivitiesByEventId(
+  eventId: string,
+  setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>
+) {
+  try {
+    const db = getFirestore(firebaseConfig);
+    const activitiesRef = collection(db, 'activities');
+    const q = query(activitiesRef, where('eventId', '==', eventId));
+    const querySnapshot = await getDocs(q);
+    const deletePromises = querySnapshot.docs.map(docSnap => deleteDoc(doc(db, 'activities', docSnap.id)));
+    await Promise.all(deletePromises);
+  } catch (error) {
+    setShowMessage({ show: true, text: 'Erro ao excluir atividades: ' + String(error) });
+  }
+}
+
+export async function deleteActivityById(
+  id: string,
+  setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>
+) {
+  try {
+    const db = getFirestore(firebaseConfig);
+    const activityRef = doc(db, 'activities', id);
+    await deleteDoc(activityRef);
+    setShowMessage({ show: true, text: 'Atividade excluída com sucesso.' });
+  } catch (error) {
+    setShowMessage({ show: true, text: 'Erro ao excluir atividade: ' + String(error) });
   }
 }

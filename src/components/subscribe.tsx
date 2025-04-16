@@ -1,121 +1,68 @@
 'use client'
 import contexto from "@/context/context";
-import { registerEvent } from "@/firebase/event";
-import { IDatesToAdd } from "@/interfaces";
-import { useContext, useState } from "react";
+import { getActivitiesByEventId } from "@/firebase/activities";
+import { IActivityRegisterWithId, IDatesToAdd } from "@/interfaces";
+import { useContext, useEffect, useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import { MdDelete } from "react-icons/md";
 
-export default function Subscribe() {
-  const {
-    setShowMessage,
-    setShowSubscribe,
-  } = useContext(contexto);
-  const [prevDay, setPrevDay] = useState<string>('');
-  const [prevInit, setPrevInit] = useState<string>('');
-  const [prevEnd, setPrevEnd] = useState<string>('');
-  const [listDates, setListDates] = useState<IDatesToAdd[]>([]);
-  const [nameEvent, setNameEvent] = useState('');
-  const [description, setDescription] = useState('');
-  const [localName, setLocalName] = useState<string>('');
-  const [address, setAddress] = useState<string>('');
-  const [linkMaps, setLinkMaps] = useState<string>('');
-  const [loading, setLoading] = useState(false);
-  const [imageFile, setImageFile] = useState<File | null>(null);
+export default function Subscribe(props: { idEvent: string }) {
+  const { idEvent } = props;
+  const { setShowMessage, setShowSubscribe } = useContext(contexto);
+  const [firstName, setFirstName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
+  const [age, setAge] = useState<number | string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [whatsapp, setWhatsapp] = useState<string>('');
+  const [listActivities, setListActivities] = useState<IActivityRegisterWithId[]>([]);
+  const [activitiesAdded, setActivitiesAdded] = useState<IActivityRegisterWithId[]>([]);
 
-
-  function handleDayChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const value = String(e.target.value);
-    setPrevDay(value);
-  }
-  
-  function handleInitChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const value = String(e.target.value);
-    setPrevInit(value);
-  }
-  
-  function handleEndChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const value = String(e.target.value);
-    setPrevEnd(value);
-  }
-
-  const deleteDate = (dateItem: IDatesToAdd) => {
-    setListDates(listDates.filter((dateItem2: IDatesToAdd) =>
-      !(dateItem2.day === dateItem.day &&
-        dateItem2.init === dateItem.init &&
-        dateItem2.end === dateItem.end)
-    ));
-  }
-
-  const addDate = () => {
-    if (!prevDay || prevDay === '') {
-      setShowMessage({ show: true, text: "Para adicionar uma Data, Você precisa selecionar um dia." });
-    } else if (!prevInit) {
-      setShowMessage({ show: true, text: "Você precisa informar o horário de início." });
-    } else {
-      const today = new Date();
-      const selectedDate = new Date(prevDay);
-      today.setHours(0, 0, 0, 0);
-      selectedDate.setHours(0, 0, 0, 0);
-      if (selectedDate < today) {
-        setShowMessage({ show: true, text: "A data selecionada é anterior à data atual." });
-      } else if (prevEnd && prevEnd !== '') {
-        const [initHour, initMinute] = prevInit.split(":").map(Number);
-        const [endHour, endMinute] = prevEnd.split(":").map(Number);
-        const startTime = initHour * 60 + initMinute;
-        const endTime = endHour * 60 + endMinute;
-        if (endTime <= startTime) {
-          setShowMessage({ show: true, text: "O horário de término deve ser depois do horário de início." });
-        } else {
-          setListDates([...listDates, { day: prevDay, init: prevInit, end: prevEnd }]);
-          setPrevDay('');
-          setPrevInit('');
-          setPrevEnd('');
-        }
-      } else {
-        setListDates([...listDates, { day: prevDay, init: prevInit, end: prevEnd }]);
-        setPrevDay('');
-        setPrevInit('');
-        setPrevEnd('');
-      }
+  useEffect(() => {
+    const getActivities = async () => {
+      const getAll = await getActivitiesByEventId(idEvent, setShowMessage);
+      setListActivities(getAll);
     }
-  };
+    getActivities();
+  }, []);
 
-  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setImageFile(e.target.files[0]);
-    }
-  };
+  const isValidWhatsappNumber = (phone: string) => {
+    const cleaned = phone.replace(/\D/g, '');
+    return cleaned.length === 11 || cleaned.length === 10;
+  }
+
+  const addOrRemoveActivity = (activity: IActivityRegisterWithId) => {
+    if (activitiesAdded.find((act: IActivityRegisterWithId) => act.name === activity.name)) {
+      setActivitiesAdded(activitiesAdded.filter((act: IActivityRegisterWithId) => act.name !== activity.name))
+    } else setActivitiesAdded([...activitiesAdded, activity]);
+  }
+
+  const verifyActivity = (activity: IActivityRegisterWithId) => {
+    if (activitiesAdded.find((act: IActivityRegisterWithId) => act.name === activity.name)) return true;
+    return false;
+  }
   
   const updateUser = async () => {
     setLoading(true);
-    if(!nameEvent && nameEvent.length < 2) {
-      setShowMessage({ show: true, text: 'Necessário inserir um Nome para o Evento com mais de 2 caracteres.'});
-    } else if(listDates.length === 0) {
-      setShowMessage({ show: true, text: 'Necessário inserir uma Data e Horário do Evento.' });
-    } else if (!description && description.length < 10) {
-      setShowMessage({ show: true, text: 'Necessário inserir uma Descrição para o Evento com pelo menos 10 caracteres.' });
-    } else if (!localName && localName.length < 2) {
-      setShowMessage({ show: true, text: 'Necessário inserir um nome para o Local do Evento com pelo menos 2 caracteres.' });
-    } else if (!address && address.length < 10) {
-      setShowMessage({ show: true, text: 'Necessário inserir um Endereço válido para o Endereço do Evento.' });
-    } else if (linkMaps.length < 10) {
-      setShowMessage({ show: true, text: 'Necessário inserir um link de compartilhamento do maps válido.' });
-    } else if (!imageFile) {
-      setShowMessage({ show: true, text: 'Necessário inserir uma imagem para o Evento.' });
-    } else {
-      const createEvnt = await registerEvent({
-        name: nameEvent, 
-        dates: listDates,
-        description,
-        localName,
-        address,
-        imageURL: imageFile,
-        linkMaps,
-      }, setShowMessage);
-       if (createEvnt) {
-        window.location.reload();
-       }
+    if(!firstName && firstName.length < 2) {
+      setShowMessage({ show: true, text: 'Necessário inserir um Nome com pelo menos 2 caracteres.'});
+    } else if (!lastName && lastName.length < 2) {
+      setShowMessage({ show: true, text: 'Necessário inserir um Sobrenome com pelo menos 2 caracteres.' });
+    } else if (age === 0) {
+      setShowMessage({ show: true, text: 'Necessário inserir uma idade.' });
+    } else if (!isValidWhatsappNumber(whatsapp)) {
+      setShowMessage({ show: true, text: 'Necessário inserir um número válido (dois números para o DDD e oito/nove números do telefone).' });
+    } else if (activitiesAdded.length === 0) {
+      setShowMessage({ show: true, text: 'É necessário selecionar pelo menos uma atividade do Evento para participar.' });
+    }  else {
+      // const createEvnt = await registerEvent({
+      //   name: nameEvent,
+      //   description,
+      //   localName,
+      //   address,
+      //   linkMaps,
+      // }, setShowMessage);
+      //  if (createEvnt) {
+      //   window.location.reload();
+      //  }
     }
     setLoading(false);
   };
@@ -126,142 +73,98 @@ export default function Subscribe() {
         <div className="break-words pt-4 sm:pt-2 px-2 w-full flex justify-end top-0 right-0">
           <IoIosCloseCircleOutline
             className="break-words text-4xl text-white cursor-pointer hover:text-white duration-500 transition-colors"
-            onClick={() => setShowSubscribe({ show: false, id: '' }) }
+            onClick={() => setShowSubscribe({ show: false, id: '', email: '' }) }
           />
         </div>
         <div className="break-words px-4 sm:px-10 w-full">
           <div className="break-words w-full overflow-y-auto flex flex-col justify-center items-center mt-2 mb-10">
             <div className="break-words w-full text-white text-2xl pb-3 font-bold text-center mt-2 mb-2">
-              Criação de Evento
+              Inscrição para o Evento
             </div>
             <div className="break-words w-full">
-              <label htmlFor="nameEvent" className="break-words mb-4 flex flex-col items-center w-full">
-                <p className="break-words w-full mb-1 text-white">Nome do Evento *</p>
+              <label htmlFor="firstName" className="break-words mb-4 flex flex-col items-center w-full">
+                <p className="break-words w-full mb-1 text-white">Nome *</p>
                 <input
                   type="text"
-                  id="nameEvent"
-                  value={ nameEvent }
-                  placeholder="Digite o nome do Evento"
+                  id="firstName"
+                  value={ firstName }
+                  placeholder="Digite o seu nome"
                   className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white outline-none"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNameEvent(e.target.value) }
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFirstName(e.target.value) }
                 />
               </label>
-              <p className="w-full text-white mb-3">
-                Datas do Evento (Escolha a Data, horário de Início e Término e depois clique em &quot;Adicionar&quot;. Você pode adicionar quantas datas desejar).
-              </p>
-              <div className="flex gap-3 mb-5 flex-wrap">
+              <label htmlFor="lastName" className="break-words mb-4 flex flex-col items-center w-full">
+                <p className="break-words w-full mb-1 text-white">Sobrenome *</p>
+                <input
+                  type="text"
+                  id="lastName"
+                  value={ lastName }
+                  placeholder="Digite o seu Sobrenome"
+                  className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white outline-none"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLastName(e.target.value) }
+                />
+              </label>
+              <label htmlFor="age" className="break-words mb-4 flex flex-col items-center w-full">
+                <p className="break-words w-full mb-1 text-white">Idade *</p>
+                <input
+                  type="age"
+                  id="age"
+                  value={age}
+                  placeholder="Digite a sua Idade"
+                  className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white outline-none"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAge(Number(e.target.value))}
+                />
+              </label>
+              <label htmlFor="whatsapp" className="break-words mb-4 flex flex-col items-center w-full">
+                <p className="break-words w-full mb-1 text-white">Whatsapp (DDD + número, ex: 83991234567) *</p>
+                <input
+                  type="text"
+                  id="whatsapp"
+                  value={ whatsapp }
+                  placeholder="83991234567"
+                  className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white outline-none"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWhatsapp((e.target.value)) }
+                />
+              </label>
+            </div>
+            <div className="text-white flex flex-col w-full">
+              <p className="mb-3">Escolha abaixo as atividades que deseja participar (clique para marcar ou desmarcar):</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 mb-5 gap-3">
                 {
-                  listDates.sort((a, b) => {
-                    return new Date(a.day).getTime() - new Date(b.day).getTime();
-                  })
-                  .map((dateItem: IDatesToAdd, index: number) => (
-                    <div key={ index } className="bg-white rounded-full px-2 py-2 flex items-center">
-                      { `${dateItem.day.split("-").reverse().join("-") }${dateItem.end && dateItem.end !== '' ? ', das ' : ', às '}${ dateItem.init.replace(":", "h") + "min" }${dateItem.end && dateItem.end !== '' ? ` às ${ dateItem.end.replace(":", "h") + "min" }`: ''}`}
-                      <MdDelete
-                        onClick={ () => deleteDate(dateItem) }
-                        className="ml-2 cursor-pointer"
-                      />
-                    </div>
+                  listActivities
+                  && listActivities.length > 0
+                  && listActivities.map((activities: IActivityRegisterWithId, index: number) => (
+                    <button
+                      type="button"
+                      key={index}
+                      onClick={ () => addOrRemoveActivity(activities) }
+                      className={`${verifyActivity(activities) ? 'border-red-800 bg-black' : 'border-white' } text-center w-full cursor-pointer border-2 p-4`}
+                    >
+                      <div className="font-bold">{activities.typeActivity} - { activities.systemSession.name } - { activities.name }</div>
+                      <div className="text-sm">
+                        <span className="pr-1 font-bold">Temas Sensíveis:</span>
+                        <span>{ activities.sensibility }</span>
+                      </div>
+                      <div className="  text-sm">
+                        <span className="pr-1 font-bold">Data:</span>
+                        {
+                          activities.dates.map((dateItem: IDatesToAdd, index: number) => (
+                            <span key={index} className="">
+                              { `${dateItem.day.split("-").reverse().join("-") }${dateItem.end && dateItem.end !== '' ? ' (das ' : ' (às '}${ dateItem.init.replace(":", "h") + "min" }${dateItem.end && dateItem.end !== '' ? ` às ${ dateItem.end.replace(":", "h") + "min)" }`: ')'} ${activities.dates.length - 1 !== index ? '| ' : ''}`}
+                            </span>
+                          ))
+                        }
+                      </div>
+                    </button>
                   ))
                 }
               </div>
-              <div className="grid grid-cols-4 gap-2">
-                <p className="break-words w-full mb-1 text-white">Dia *</p>
-                <p className="break-words w-full mb-1 text-white">Início *</p>
-                <p className="break-words w-full mb-1 text-white">Término</p>
-                <div />
-                <label htmlFor="day" className="break-words flex flex-col items-center w-full">
-                  <input
-                    type="date"
-                    id="day"
-                    value={prevDay}
-                    className="break-words bg-white border border-white p-2.5 cursor-pointer text-black text-center outline-none w-full"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleDayChange(e) }
-                  />
-                </label>
-                <label htmlFor="init" className="break-words flex flex-col items-center w-full">
-                  <input
-                    type="time"
-                    id="init"
-                    value={prevInit}
-                    className="break-words bg-white border border-white p-2.5 cursor-pointer text-black text-center outline-none w-full"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInitChange(e) }
-                  />
-                </label>
-                <label htmlFor="end" className="break-words flex flex-col items-center w-full">
-                  <input
-                    type="time"
-                    id="end"
-                    value={prevEnd}
-                    className="break-words bg-white border border-white p-2.5 cursor-pointer text-black text-center outline-none w-full"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleEndChange(e) }
-                  />
-                </label>
-                <button
-                  type="button"
-                  onClick={ addDate }
-                  className="border-2 border-black h-full hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold text-center relative w-full"
-                >
-                  Adicionar Data e Horário
-                </button>
-              </div>
             </div>
-            <label htmlFor="description" className="break-words my-5 flex flex-col items-center w-full">
-              <p className="break-words w-full mb-3 text-white">Descrição do Evento *</p>
-              <textarea
-                id="description"
-                rows={7}
-                value={ description }
-                className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white text-left sm:text-justify outline-none"
-                placeholder="Fale um pouco sobre você"
-                onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setDescription(e.target.value) }
-              />
-            </label>
-            <label htmlFor="local" className="break-words mb-5 flex flex-col items-center w-full">
-              <p className="break-words w-full mb-3 text-white">Local do Evento *</p>
-              <input
-                id="local"
-                value={ localName }
-                className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white text-left sm:text-justify outline-none"
-                placeholder="Digite o nome do estabelecimento do Evento"
-                onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setLocalName(e.target.value) }
-              />
-            </label>
-            <label htmlFor="address" className="break-words mb-5 flex flex-col items-center w-full">
-              <p className="break-words w-full mb-3 text-white">Endereço do Evento *</p>
-              <input
-                id="address"
-                value={ address }
-                className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white text-left sm:text-justify outline-none"
-                placeholder="Digite o endereço do Evento"
-                onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setAddress(e.target.value) }
-              />
-            </label>
-            <label htmlFor="linkMaps" className="break-words mb-5 flex flex-col items-center w-full">
-              <p className="break-words w-full mb-3 text-white">Insira abaixo o link do maps do Endereço descrito *</p>
-              <input
-                id="linkMaps"
-                value={ linkMaps }
-                className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white text-left sm:text-justify outline-none"
-                placeholder="Cole aqui o link do maps"
-                onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setLinkMaps(e.target.value) }
-              />
-            </label>
-            <label htmlFor="imageFile" className="break-words mb-5 flex flex-col items-center w-full">
-              <p className="break-words w-full mb-3 text-white">Adicione uma Imagem para o evento (1080 x 1350) *</p>
-              <input
-                type="file"
-                id="imageFile"
-                className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white text-left sm:text-justify outline-none"
-                placeholder="Cole aqui o link do maps"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImage(e) }
-              />
-            </label>
             <button
               className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative w-full"
               onClick={ updateUser }
             >
-              { loading ? 'Criando, aguarde...' : 'Criar Evento' }
+              { loading ? 'Inscrevendo, aguarde...' : 'Inscrever-se' }
             </button>
           </div>
           {

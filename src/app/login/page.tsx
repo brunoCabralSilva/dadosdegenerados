@@ -64,10 +64,6 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    console.log(showForgotPassword);
-  }, [showForgotPassword])
-
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();

@@ -1,17 +1,17 @@
 'use client'
 import contexto from "@/context/context";
-import { registerActivity } from "@/firebase/activities";
+import { registerActivity, updateActivityById } from "@/firebase/activities";
 import { getAllSystems, registerSystem } from "@/firebase/systems";
-import { IDatesToAdd, ISystemToAdd } from "@/interfaces";
+import { IActivityRegisterWithId, IDatesToAdd, ISystemToAdd } from "@/interfaces";
 import { useContext, useEffect, useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 
-export default function CreateActivity(props: { idEvent: string }) {
-  const { idEvent } = props;
+export default function EditActivity() {
   const {
     setShowMessage,
-    setShowCreateActivity,
+    showEditActivity,
+    setShowEditActivity,
   } = useContext(contexto);
   const [prevDay, setPrevDay] = useState<string>('');
   const [prevInit, setPrevInit] = useState<string>('');
@@ -31,6 +31,16 @@ export default function CreateActivity(props: { idEvent: string }) {
   const [listSystems, setListSystems] = useState<ISystemToAdd[]>([]);
 
   useEffect(() => {
+    if (showEditActivity) {
+      setListDates(showEditActivity.data.dates);
+      setNameActivity(showEditActivity.data.name);
+      setDescription(showEditActivity.data.description);
+      setSensibility(showEditActivity.data.sensibility);
+      setTypeActivity(showEditActivity.data.typeActivity);
+      setSystemSession(showEditActivity.data.systemSession.name);
+      setSlots(showEditActivity.data.slots)
+      setNoSlots(showEditActivity.data.noSlots);
+    }
     const getSystems = async () => {
       const getAll = await getAllSystems(setShowMessage);
       setListSystems(getAll);
@@ -132,8 +142,9 @@ export default function CreateActivity(props: { idEvent: string }) {
       if (typeActivity === 'Sessão de RPG') {
         const findSystem = listSystems.find((systemData: ISystemToAdd) => systemData.name === systemSession);
         if (findSystem) {
-          const createActvt = await registerActivity({
-            eventId: idEvent,
+          const updateActvt = await updateActivityById({
+            id: showEditActivity.data.id,
+            eventId: showEditActivity.data.eventId,
             name: nameActivity,
             typeActivity,
             systemSession: findSystem,
@@ -143,13 +154,12 @@ export default function CreateActivity(props: { idEvent: string }) {
             description,
             sensibility,
           }, setShowMessage);
-          if (createActvt) {
-            window.location.reload();
-          }
+          if (updateActvt) window.location.reload();
         }
       } else {
-        const createActvt = await registerActivity({
-          eventId: idEvent,
+        const updateActvt = await updateActivityById({
+          id: showEditActivity.data.id,
+          eventId: showEditActivity.data.eventId,
           name: nameActivity,
           typeActivity,
           systemSession: { name: '', description: ''},
@@ -159,9 +169,7 @@ export default function CreateActivity(props: { idEvent: string }) {
           description,
           sensibility,
         }, setShowMessage);
-        if (createActvt) {
-          window.location.reload();
-        }
+        if (updateActvt) window.location.reload();
       }
     }
     setLoading(false);
@@ -173,13 +181,27 @@ export default function CreateActivity(props: { idEvent: string }) {
         <div className="break-words pt-4 sm:pt-2 px-2 w-full flex justify-end top-0 right-0">
           <IoIosCloseCircleOutline
             className="break-words text-4xl text-white cursor-pointer hover:text-white duration-500 transition-colors"
-            onClick={() => setShowCreateActivity({ show: false, id: '' }) }
+            onClick={() => setShowEditActivity({
+              show: false,
+              data: {
+                id: '',
+                eventId: '',
+                name: '',
+                typeActivity: '',
+                systemSession: { name: '', description: '' },
+                slots: 0,
+                noSlots: false,
+                dates: [],
+                description: '',
+                sensibility: '',
+              }
+            }) }
           />
         </div>
         <div className="break-words px-4 sm:px-10 w-full">
           <div className="break-words w-full overflow-y-auto flex flex-col justify-center items-center mt-2 mb-10">
             <div className="break-words w-full text-white text-2xl pb-3 font-bold text-center mt-2 mb-2">
-              Criação de Atividade
+              Edição de Atividade
             </div>
             <div className="break-words w-full">
               <label htmlFor="nameActivity" className="break-words mb-4 flex flex-col items-center w-full">
@@ -390,7 +412,7 @@ export default function CreateActivity(props: { idEvent: string }) {
               className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative w-full"
               onClick={ updateUser }
             >
-              { loading ? 'Criando, aguarde...' : 'Criar Atividade' }
+              { loading ? 'Atualizando, aguarde...' : 'Atualizar Atividade' }
             </button>
           </div>
           {

@@ -1,5 +1,5 @@
 'use client'
-import { IUserData } from '@/interfaces';
+import { IActivityRegisterWithId, IUserData } from '@/interfaces';
 import { createContext } from 'react';
 
 interface DegeneratesContext {
@@ -25,12 +25,16 @@ interface DegeneratesContext {
   setShowCreateEvent: (state: boolean) => void,
   showEditEvent: { show: boolean, id: string },
   setShowEditEvent: (state: { show: boolean, id: string }) => void,
+  showEditActivity: { show: boolean, data: IActivityRegisterWithId },
+  setShowEditActivity: (state: { show: boolean, data: IActivityRegisterWithId }) => void,
   showDeleteEvent: { show: boolean, id: string },
   setShowDeleteEvent: (state: { show: boolean, id: string }) => void,
+  showDeleteActivity: { show: boolean, id: string },
+  setShowDeleteActivity: (state: { show: boolean, id: string }) => void,
   showCreateActivity: { show: boolean, id: string },
   setShowCreateActivity: (state: { show: boolean, id: string }) => void,
-  showSubscribe: { show: boolean, id: string },
-  setShowSubscribe: (state: { show: boolean, id: string }) => void,
+  showSubscribe: { show: boolean, id: string, email: string },
+  setShowSubscribe: (state: { show: boolean, id: string, email: string }) => void,
 }
 
 const initialValue: DegeneratesContext = {
@@ -64,11 +68,29 @@ const initialValue: DegeneratesContext = {
   setShowCreateEvent: () => {},
   showEditEvent: { show: false, id: '' },
   setShowEditEvent: () => {},
+  showEditActivity: {
+    show: false,
+    data: {
+      id: '',
+      eventId: '',
+      name: '',
+      typeActivity: '',
+      systemSession: { name: '', description: '' },
+      slots: 0,
+      noSlots: false,
+      dates: [],
+      description: '',
+      sensibility: '',
+    }
+  },
+  setShowEditActivity: () => {},
   showDeleteEvent: { show: false, id: '' },
   setShowDeleteEvent: () => {},
+  showDeleteActivity: { show: false, id: '' },
+  setShowDeleteActivity: () => {},
   showCreateActivity: { show: false, id: '' },
   setShowCreateActivity: () => {},
-  showSubscribe: { show: false, id: '' },
+  showSubscribe: { show: false, id: '', email: '' },
   setShowSubscribe: () => {},
 }
 

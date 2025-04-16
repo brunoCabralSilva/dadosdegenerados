@@ -3,6 +3,7 @@ import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, runT
 import firebaseConfig from "./connection";
 import { createEventImage, deleteEventImage, updateEventImage } from './storage';
 import { IEventRegister, IEventRegisterWithId, IEventUpdateWithId } from '@/interfaces';
+import { deleteActivitiesByEventId } from './activities';
 
 export async function registerEvent(
   dataEvent: IEventRegister,
@@ -101,6 +102,7 @@ export async function deleteEventById(
     const deleteImage = await deleteEventImage(eventId, setShowMessage);
     if (deleteImage) {
       await deleteDoc(eventRef);
+      await deleteActivitiesByEventId(eventId, setShowMessage);
       setShowMessage({ show: true, text: 'Evento excluído com sucesso.' });
     }
   } catch (error) {
