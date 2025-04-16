@@ -49,12 +49,15 @@ export default function Eventos() {
       const diffTime = eventDate.getTime() - today.getTime();
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
       console.log(diffDays);
+  
+      if (diffDays < 0) return "Encerrado";
       if (diffDays === 0) return "HOJE";
-      if (diffDays === 7) return "Em Breve!";
+      if (diffDays > 0 && diffDays <= 7) return "Em Breve!";
     }
+  
     return '';
   }
-
+  
   return(
     <div className="break-words w-full min-h-screen bg-black">
       { showCreateEvent && <CreateEvent /> }
