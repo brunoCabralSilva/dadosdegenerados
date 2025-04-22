@@ -19,6 +19,7 @@ export default function EditSubscribe(props: { idEvent: string, email: string })
   const [waitlist, setWaitlist] = useState<IActivityRegisterWithId[]>([]);
   const [activitiesAdded, setActivitiesAdded] = useState<string[]>([]);
   const [waitlistAdded, setWaitlistAdded] = useState<string[]>([]);
+  const [whatsappGroup, setWhatsappGroup] = useState<boolean>(false);
 
   useEffect(() => {
     const getActivities = async () => {
@@ -30,6 +31,7 @@ export default function EditSubscribe(props: { idEvent: string, email: string })
         setAge(listSubs[0].age);
         setWhatsapp(listSubs[0].whatsapp);
         setLastName(listSubs[0].lastName);
+        setWhatsappGroup(listSubs[0].whatsappGroup);
         const listActivitiesAdded = listSubs.filter((subs: ISubscribeWithId) => subs.waitlist === false).map((subs: ISubscribeWithId) => subs.activityId);
         setActivitiesAdded(listActivitiesAdded);
         const listWaitlistAdded = listSubs.filter((subs: ISubscribeWithId) => subs.waitlist === true).map((subs: ISubscribeWithId) => subs.activityId);
@@ -84,7 +86,7 @@ export default function EditSubscribe(props: { idEvent: string, email: string })
       const auth: IAuthenticate | null = await authenticate(setShowMessage);
       if (auth) {
         const updateSubs = await updateSubscribeByActivityId(
-          { age, lastName, whatsapp, firstName, email, idEvent },
+          { age, lastName, whatsapp, firstName, email, idEvent, whatsappGroup },
           activitiesAdded,
           waitlistAdded,
           setShowMessage,
@@ -154,6 +156,17 @@ export default function EditSubscribe(props: { idEvent: string, email: string })
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWhatsapp((e.target.value)) }
                 />
               </label>
+              <label
+                htmlFor="whatsapp-group"
+                onClick={ () => setWhatsappGroup(!whatsappGroup) }
+                className="break-words mb-4 flex items-center gap-2 w-full cursor-pointer"
+              >
+                <div
+                  id="whatsapp-group"
+                  className={`w-6 h-6 border-2 border-white ${whatsappGroup ? 'bg-red-900' : ''}`}
+                />
+                <p className="break-words w-full text-white">{ whatsappGroup ? 'Desmarque se você não faz parte do grupo do Dados Degenerados (Whatsapp)' : 'Marque se você já faz parte do grupo do Dados Degenerados (Whatsapp)'}</p>
+              </label>
             </div>
             <div className="text-white flex flex-col w-full">
               <p className="mb-3">Escolha abaixo as atividades que deseja participar (clique para marcar ou desmarcar):</p>
@@ -180,7 +193,7 @@ export default function EditSubscribe(props: { idEvent: string, email: string })
                         }
                       </div>
                       <div className="text-sm">
-                        { activities.availableSpots === 0 ? '(Você está inscrito nesta atividade)' : '' }
+                        { verifyActivity(activities.id) ? '(Você está inscrito nesta atividade)' : '' }
                       </div>
                       <div className="text-sm">
                         <span className="pr-1 font-bold">Vagas Disponíveis:</span>

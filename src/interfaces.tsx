@@ -94,6 +94,7 @@ export interface ISubscribe {
   idEvent: string;
   activityId: string[];
   waitlist: boolean;
+  whatsappGroup: boolean;
 }
 
 export interface ISubscribeToAdd {
@@ -103,6 +104,7 @@ export interface ISubscribeToAdd {
   firstName: string;
   email: string;
   idEvent: string;
+  whatsappGroup: boolean;
 }
 
 export interface ISubscribeWithId {
@@ -116,4 +118,5 @@ export interface ISubscribeWithId {
   waitlist: boolean;
   activityId: string;
   order: number;
+  whatsappGroup: boolean;
 }

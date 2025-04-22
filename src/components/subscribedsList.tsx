@@ -11,23 +11,25 @@ export default function SubscribedsList(props: { list: ISubscribeWithId[], activ
           { activity.name } - { activity.typeActivity } - { activity.systemSession.name }
         </div>
         <div className="h-0.5 w-full bg-white mt-2 mb-3" />
-        <div className="break-words w-full grid grid-cols-5 text-white">
+        <div className="break-words w-full grid grid-cols-6 text-white">
           <div className="font-bold">Nome</div>
           <div className="font-bold">Idade</div>
           <div className="font-bold col-span-2">Email</div>
           <div className="font-bold">Whatsapp</div>
+          <div className="font-bold">Está no Grupo?</div>
           {
             list
             .filter((subscribeds: ISubscribeWithId) => subscribeds.activityId === activity.id && subscribeds.waitlist === false)
             .map((subscribeds: ISubscribeWithId, index: number) => (
               <div
-                className="col-span-5 grid grid-cols-5 w-full font-normal"
+                className="col-span-6 grid grid-cols-6 w-full font-normal"
                 key={ index }
               >
                 <div>{ subscribeds.firstName } { subscribeds.lastName }</div>
                 <div>{ subscribeds.age }</div>
                 <div className="col-span-2">{ subscribeds.email }</div>
                 <div>{ subscribeds.whatsapp }</div>
+                <div>{ subscribeds.whatsappGroup ? 'Sim' : 'Não' }</div>
               </div>
             ))
           }
@@ -46,13 +48,14 @@ export default function SubscribedsList(props: { list: ISubscribeWithId[], activ
             .filter((subscribeds: ISubscribeWithId) => subscribeds.activityId === activity.id && subscribeds.waitlist === true)
             .map((subscribeds: ISubscribeWithId, index: number) => (
               <div
-                className="col-span-5 grid grid-cols-5 w-full font-normal"
+                className="col-span-6 grid grid-cols-6 w-full font-normal"
                 key={ index }
               >
                 <div>{ subscribeds.firstName } { subscribeds.lastName }</div>
                 <div>{ subscribeds.age }</div>
                 <div className="col-span-2">{ subscribeds.email }</div>
                 <div>{ subscribeds.whatsapp }</div>
+                <div>{ subscribeds.whatsappGroup ? 'Sim' : 'Não' }</div>
               </div>
             ))
           }
@@ -88,6 +91,10 @@ export default function SubscribedsList(props: { list: ISubscribeWithId[], activ
                   <span className="font-bold pr-1">Whatsapp:</span>
                   <span>{ subscribeds.whatsapp }</span>
                 </div>
+                <div>
+                  <span className="font-bold pr-1">Está no grupo do Whatsapp?</span>
+                  <span>{ subscribeds.whatsappGroup ? 'Sim' : 'Não' }</span>
+                </div>
               </div>
             ))
           }
@@ -124,6 +131,10 @@ export default function SubscribedsList(props: { list: ISubscribeWithId[], activ
                 <div>
                   <span className="font-bold pr-1">Whatsapp:</span>
                   <span>{ subscribeds.whatsapp }</span>
+                </div>
+                <div>
+                  <span className="font-bold pr-1">Está no grupo do Whatsapp?</span>
+                  <span>{ subscribeds.whatsappGroup ? 'Sim' : 'Não' }</span>
                 </div>
               </div>
             ))

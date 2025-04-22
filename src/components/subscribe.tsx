@@ -19,6 +19,7 @@ export default function Subscribe(props: { idEvent: string }) {
   const [waitlist, setWaitList] = useState<IActivityRegisterWithId[]>([]);
   const [activitiesAdded, setActivitiesAdded] = useState<string[]>([]);
   const [waitListAdded, setWaitListAdded] = useState<string[]>([]);
+  const [whatsappGroup, setWhatsappGroup] = useState<boolean>(false);
 
   useEffect(() => {
     const getActivities = async () => {
@@ -72,7 +73,7 @@ export default function Subscribe(props: { idEvent: string }) {
       const auth: IAuthenticate | null = await authenticate(setShowMessage);
       if (auth) {
         const createSubs = await registerSubscribe(
-          { age, lastName, whatsapp, firstName, email: auth.email, idEvent },
+          { age, lastName, whatsapp, firstName, email: auth.email, idEvent, whatsappGroup },
           activitiesAdded,
           waitListAdded,
           setShowMessage,
@@ -141,6 +142,17 @@ export default function Subscribe(props: { idEvent: string }) {
                   className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white outline-none"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWhatsapp((e.target.value)) }
                 />
+              </label>
+              <label
+                htmlFor="whatsapp-group"
+                onClick={ () => setWhatsappGroup(!whatsappGroup) }
+                className="break-words mb-4 flex items-center gap-2 w-full cursor-pointer"
+              >
+                <div
+                  id="whatsapp-group"
+                  className={`w-6 h-6 border-2 border-white ${whatsappGroup ? 'bg-red-900' : ''}`}
+                />
+                <p className="break-words w-full text-white">{ whatsappGroup ? 'Desmarque se você não faz parte do grupo do Dados Degenerados (Whatsapp)' : 'Marque se você já faz parte do grupo do Dados Degenerados (Whatsapp)'}</p>
               </label>
             </div>
             <div className="text-white flex flex-col w-full">
