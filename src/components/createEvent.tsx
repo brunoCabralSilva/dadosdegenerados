@@ -165,7 +165,7 @@ export default function CreateEvent() {
                   ))
                 }
               </div>
-              <div className="grid grid-cols-4 gap-2">
+              <div className="sm:grid sm:grid-cols-4 gap-2">
                 <p className="hidden sm:flex break-words w-full mb-1 text-white">Dia *</p>
                 <p className="hidden sm:flex break-words w-full mb-1 text-white">Início *</p>
                 <p className="hidden sm:flex break-words w-full mb-1 text-white">Término</p>
