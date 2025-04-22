@@ -3,7 +3,7 @@ import contexto from '@/context/context';
 import { deleteSubscribeById } from '@/firebase/subscribes';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
 export default function DeleteSubscribe() {

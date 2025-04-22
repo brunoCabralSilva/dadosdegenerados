@@ -1,5 +1,5 @@
 'use client'
-import { IActivityRegisterWithId, ISubscribeWithId, IUserData } from '@/interfaces';
+import { IActivityRegisterWithId, IUserData } from '@/interfaces';
 import { createContext } from 'react';
 
 interface DegeneratesContext {
