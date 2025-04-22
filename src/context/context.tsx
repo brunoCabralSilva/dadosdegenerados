@@ -1,5 +1,5 @@
 'use client'
-import { IActivityRegisterWithId, IUserData } from '@/interfaces';
+import { IActivityRegisterWithId, ISubscribeWithId, IUserData } from '@/interfaces';
 import { createContext } from 'react';
 
 interface DegeneratesContext {
@@ -27,10 +27,16 @@ interface DegeneratesContext {
   setShowEditEvent: (state: { show: boolean, id: string }) => void,
   showEditActivity: { show: boolean, data: IActivityRegisterWithId },
   setShowEditActivity: (state: { show: boolean, data: IActivityRegisterWithId }) => void,
+  showEditSubscribe: boolean,
+  setShowEditSubscribe: (state: boolean) => void,
   showDeleteEvent: { show: boolean, id: string },
   setShowDeleteEvent: (state: { show: boolean, id: string }) => void,
   showDeleteActivity: { show: boolean, id: string },
   setShowDeleteActivity: (state: { show: boolean, id: string }) => void,
+  showDeleteSubscribe: { show: boolean, id: string },
+  setShowDeleteSubscribe: (state: { show: boolean, id: string }) => void,
+  showSubscribeds: { show: boolean, id: string },
+  setShowSubscribeds: (state: { show: boolean, id: string }) => void,
   showCreateActivity: { show: boolean, id: string },
   setShowCreateActivity: (state: { show: boolean, id: string }) => void,
   showSubscribe: { show: boolean, id: string, email: string },
@@ -76,22 +82,29 @@ const initialValue: DegeneratesContext = {
       name: '',
       typeActivity: '',
       systemSession: { name: '', description: '' },
-      slots: 0,
-      noSlots: false,
+      spots: 0,
+      availableSpots: 0,
+      noSpots: false,
       dates: [],
       description: '',
       sensibility: '',
     }
   },
+  showEditSubscribe: false,
+  setShowEditSubscribe: () => {},
   setShowEditActivity: () => {},
   showDeleteEvent: { show: false, id: '' },
   setShowDeleteEvent: () => {},
   showDeleteActivity: { show: false, id: '' },
   setShowDeleteActivity: () => {},
+  showDeleteSubscribe: { show: false, id: '' },
+  setShowDeleteSubscribe: () => {},
   showCreateActivity: { show: false, id: '' },
   setShowCreateActivity: () => {},
   showSubscribe: { show: false, id: '', email: '' },
   setShowSubscribe: () => {},
+  showSubscribeds: { show: false, id: '' },
+  setShowSubscribeds: () => {},
 }
 
 const contexto = createContext(initialValue);

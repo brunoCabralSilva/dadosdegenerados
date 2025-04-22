@@ -23,8 +23,8 @@ export default function CreateActivity(props: { idEvent: string }) {
   const [loading, setLoading] = useState(false);
   const [typeActivity, setTypeActivity] = useState<string>('');
   const [systemSession, setSystemSession] = useState<string>('');
-  const [slots, setSlots] = useState<number>(0);
-  const [noSlots, setNoSlots] = useState<boolean>(false);
+  const [spots, setSpots] = useState<number>(0);
+  const [noSpots, setNoSpots] = useState<boolean>(false);
   const [showAddSystem, setShowAddSystem] = useState<boolean>(false);
   const [nameNewSystem, setNameNewSystem] = useState<string>('');
   const [descNewSystem, setDescNewSystem] = useState<string>('');
@@ -120,7 +120,7 @@ export default function CreateActivity(props: { idEvent: string }) {
       setShowMessage({ show: true, text: 'Necessário Escolher um tipo de Atividade.'});
     } else if(typeActivity === 'Sessão de RPG' && systemSession === '') {
       setShowMessage({ show: true, text: 'Necessário inserir um Sistema para a Sessão.' });
-    } else if (!noSlots && slots === 0) {
+    } else if (!noSpots && spots === 0) {
       setShowMessage({ show: true, text: 'Necessário inserir uma Quantidade de Vagas para a Atividade maior que Zero.' });
     } else if(listDates.length === 0) {
       setShowMessage({ show: true, text: 'Necessário inserir uma Data e Horário da Atividade.' });
@@ -137,8 +137,9 @@ export default function CreateActivity(props: { idEvent: string }) {
             name: nameActivity,
             typeActivity,
             systemSession: findSystem,
-            slots,
-            noSlots,
+            spots,
+            noSpots,
+            availableSpots: spots,
             dates: listDates,
             description,
             sensibility,
@@ -153,8 +154,9 @@ export default function CreateActivity(props: { idEvent: string }) {
           name: nameActivity,
           typeActivity,
           systemSession: { name: '', description: ''},
-          slots,
-          noSlots,
+          spots,
+          noSpots,
+          availableSpots: spots,
           dates: listDates,
           description,
           sensibility,
@@ -268,28 +270,36 @@ export default function CreateActivity(props: { idEvent: string }) {
                           onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setDescNewSystem(e.target.value) }
                         />
                       </label>
-                      <button
-                        onClick={ addSystem }
-                        className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative w-full"
-                      >
-                        Adicionar Sistema
-                      </button>
+                      <div className="flex gap-1">
+                        <button
+                          onClick={ addSystem }
+                          className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative w-full"
+                        >
+                          Adicionar Sistema
+                        </button>
+                        <button
+                          onClick={ () => setShowAddSystem(false) }
+                          className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative w-full"
+                        >
+                          Cancelar
+                        </button>
+                      </div>
                     </div>
                   }
                 </label>
               }
               <p className="break-words w-full mb-1 text-white">Quantidade de Vagas *</p>
-              <label htmlFor="slots" className="break-words mb-4 flex flex-col sm:flex-row items-center w-full gap-3">
+              <label htmlFor="spots" className="break-words mb-4 flex flex-col sm:flex-row items-center w-full gap-3">
                 {
-                  !noSlots &&
+                  !noSpots &&
                   <div className="w-full sm:w-1/2">
                     <input
-                      id="slots"
+                      id="spots"
                       type="number"
-                      value={ slots }
+                      value={ spots }
                       className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white outline-none"
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        if (Number(e.target.value) >= 0) setSlots(Number(e.target.value));
+                        if (Number(e.target.value) >= 0) setSpots(Number(e.target.value));
                       }}
                     />
                   </div>
@@ -297,11 +307,11 @@ export default function CreateActivity(props: { idEvent: string }) {
                 <div
                   className={`border-2 border-black h-full hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold text-center relative w-full sm:w-1/2 py-3`}
                   onClick={ () => {
-                    setNoSlots(!noSlots);
-                    setSlots(0);
+                    setNoSpots(!noSpots);
+                    setSpots(0);
                   }}
                 >
-                  { !noSlots ? 'Clique aqui para definir Vagas Ilimitadas' : 'Clique aqui para definir Vagas Limitadas' }
+                  { !noSpots ? 'Clique aqui para definir Vagas Ilimitadas' : 'Clique aqui para definir Vagas Limitadas' }
                 </div>
               </label>
               <p className="w-full text-white mb-3">

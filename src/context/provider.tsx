@@ -1,7 +1,7 @@
 'use client'
 import { ReactNode, useState } from 'react';
 import contexto from './context';
-import { IActivityRegisterWithId } from '@/interfaces';
+import { IActivityRegisterWithId, ISubscribeWithId } from '@/interfaces';
 
 interface IProvider { children: ReactNode }
 
@@ -35,16 +35,20 @@ export default function Provider({children }: IProvider) {
         name: '',
         typeActivity: '',
         systemSession: { name: '', description: '' },
-        slots: 0,
-        noSlots: false,
+        spots: 0,
+        availableSpots: 0,
+        noSpots: false,
         dates: [],
         description: '',
         sensibility: '',
       }
     });
+  const [showEditSubscribe, setShowEditSubscribe] = useState<boolean>(false);
   const [showDeleteActivity, setShowDeleteActivity] = useState<{show: boolean, id: string }>({ show: false, id: '' });
   const [showCreateActivity, setShowCreateActivity] = useState<{show: boolean, id: string }>({ show: false, id: '' });
   const [showSubscribe, setShowSubscribe] = useState<{show: boolean, id: string, email: string }>({ show: false, id: '', email: '' });
+  const [showSubscribeds, setShowSubscribeds] = useState<{show: boolean, id: string}>({ show: false, id: '' });
+  const [showDeleteSubscribe, setShowDeleteSubscribe] = useState<{show: boolean, id: string}>({ show: false, id: '' });
 
   return (
     <contexto.Provider
@@ -56,14 +60,17 @@ export default function Provider({children }: IProvider) {
         showMessage, setShowMessage,
         showEditEvent, setShowEditEvent,
         showSubscribe, setShowSubscribe,
+        showSubscribeds, setShowSubscribeds,
         showCreateEvent, setShowCreateEvent,
         showEditProfile, setShowEditProfile,
         showDeleteEvent, setShowDeleteEvent,
-        showDeleteActivity, setShowDeleteActivity,
         showEditActivity, setShowEditActivity,
+        showEditSubscribe, setShowEditSubscribe,
+        showDeleteActivity, setShowDeleteActivity,
         showCreateActivity, setShowCreateActivity,
         showChangePassword, setShowChangePassword,
         showForgotPassword, setShowForgotPassword,
+        showDeleteSubscribe, setShowDeleteSubscribe,
         showEditProfileImage, setShowEditProfileImage,
       }}
     >

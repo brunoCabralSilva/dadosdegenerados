@@ -21,36 +21,50 @@ import {
   IActivityRegisterWithId,
   IAuthenticate,
   IDatesToAdd,
-  IEventRegisterWithId
+  IEventRegisterWithId,
 } from "@/interfaces";
 import DeleteActivity from "@/components/deleteActivity";
 import EditActivity from "@/components/editActivity";
+import { getSubscribeByEmailAndEvent } from "@/firebase/subscribes";
+import EditSubscribe from "@/components/editSubscribe";
+import DeleteSubscribe from "@/components/deleteSubscribe";
+import { FaEye } from "react-icons/fa6";
+import Subscribeds from "@/components/subscribeds";
 
 export default function EventId() {
   const params = useParams();
-  const router = useRouter();
   const idEvent = params?.id as string;
   const {
     setRouterTo,
     userData, setUserData,
     showMessage, setShowMessage,
+    showSubscribe, setShowSubscribe,
     showEditEvent, setShowEditEvent,
     showDeleteEvent, setShowDeleteEvent,
     showEditActivity, setShowEditActivity,
+    showEditSubscribe, setShowEditSubscribe,
     showDeleteActivity, setShowDeleteActivity,
     showCreateActivity, setShowCreateActivity,
-    showSubscribe, setShowSubscribe,
+    showDeleteSubscribe, setShowDeleteSubscribe,
+    showSubscribeds, setShowSubscribeds,
   } = useContext(contexto);
+  const [subscribed, setSubscribed] = useState<boolean>(false);
   const [dataEvent, setDataEvent] = useState<IEventRegisterWithId | null>(null);
   const [listActivities, setListActivities] = useState<IActivityRegisterWithId[]>([]);
+  const [email, setEmail] = useState<string>('');
 
+  const router = useRouter();
+  
   useEffect(() => {
     setRouterTo(`/events/${idEvent}`);
     const authUser = async () => {
       const auth: IAuthenticate | null = await authenticate(setShowMessage);
-      if (auth && userData.id === '') {
+      if (auth) {
+        setEmail(auth.email);
         const getUser = await getUserByEmail(auth.email, setShowMessage);
         if (getUser) setUserData(getUser);
+        const isSubscribed = await getSubscribeByEmailAndEvent(auth.email, idEvent, setShowMessage);
+        if (isSubscribed) setSubscribed(true);
       }
     }
     const getEvent = async () => {
@@ -65,11 +79,27 @@ export default function EventId() {
     getEvent();
   }, []);
 
+  function getEventDateLabel(dates: IDatesToAdd[]): boolean {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    for (const dateObj of dates) {
+      const eventDate = new Date(dateObj.day);
+      eventDate.setHours(0, 0, 0, 0);
+      const diffTime = eventDate.getTime() - today.getTime();
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      return (diffDays === 0) || (diffDays > 0 && diffDays <= 7);
+    }
+    return false;
+  }
+
   const subscribe = async () => {
+    setRouterTo(`/events/${idEvent}`);
     const auth: IAuthenticate | null = await authenticate(setShowMessage);
-    if (auth) setShowSubscribe({ show: true, id: idEvent, email: auth.email });
-    else router.push('/login');
-}
+    if (auth) {
+      if (!subscribed) setShowSubscribe({ show: true, id: idEvent, email: email });
+      else setShowEditSubscribe(true);
+    } else (router.push('/login'))
+  };
 
   return(
     <div className="break-words w-full min-h-screen bg-black">
@@ -80,6 +110,9 @@ export default function EventId() {
       { showEditActivity.show && <EditActivity /> }
       { showDeleteActivity.show && <DeleteActivity /> }
       { showSubscribe.show && <Subscribe idEvent={ idEvent } /> }
+      { showSubscribeds.show && <Subscribeds /> }
+      { showEditSubscribe && <EditSubscribe idEvent={ idEvent } email={email} /> }
+      { showDeleteSubscribe.show && <DeleteSubscribe /> }
       <Nav />
       <div className="break-words w-full h-full items-center justify-start flex flex-col pb-10 min-h-screen mt-11">
         {
@@ -105,6 +138,14 @@ export default function EventId() {
                       {
                         userData.role === 'admin' &&
                         <div className="text-white flex gap-2 justify-end w-full">
+                          <button
+                            type="button"
+                            title="Visualizar Inscritos"
+                            onClick={ () => setShowSubscribeds({ show: true, id: idEvent }) }
+                            className="text-2xl cursor-pointer mr-1"
+                          >
+                            <FaEye />
+                          </button>
                           <button
                             type="button"
                             onClick={ () => setShowEditEvent({ show: true, id: idEvent }) }
@@ -153,23 +194,39 @@ export default function EventId() {
               }
               <div className="px-5 text-white flex flex-col sm:flex-row sm:items-center w-full justify-between my-5">
                 <p className="text-xl font-bold">Atividades Programadas</p>
-                <div className="flex gap-1">
-                  <button
-                    onClick={ subscribe }
-                    className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative mt-2 sm:mt-0"
-                  >
-                    Inscrever-se
-                  </button>
-                  {
-                    userData.role === 'admin' &&
-                    <button
-                      onClick={ () => setShowCreateActivity({ show: true, id: idEvent }) }
+                {
+                  dataEvent &&
+                  getEventDateLabel(dataEvent.dates) &&
+                  <div className="flex gap-1">
+                    {
+                      listActivities && listActivities.length > 0 &&
+                      <button
+                      onClick={ subscribe }
                       className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative mt-2 sm:mt-0"
-                    >
-                      Criar Atividade
-                    </button>
-                  }
-                </div>
+                      >
+                        { subscribed ? 'Ver Inscrição' : 'Inscrever-se' }
+                      </button>
+                    }
+                    {
+                      subscribed &&
+                      <button
+                        onClick={ () => setShowDeleteSubscribe({ show: true, id: idEvent }) }
+                        className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative mt-2 sm:mt-0"
+                      >
+                        Cancelar Inscrição
+                      </button>
+                    }
+                    {
+                      userData.role === 'admin' &&
+                      <button
+                        onClick={ () => setShowCreateActivity({ show: true, id: idEvent }) }
+                        className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative mt-2 sm:mt-0"
+                      >
+                        Criar Atividade
+                      </button>
+                    }
+                  </div>
+                }
               </div>
               <div className="px-5 text-white flex flex-col gap-2">
                 {
@@ -191,12 +248,14 @@ export default function EventId() {
                               <button
                                 type="button"
                                 onClick={ () => setShowEditActivity({ show: true, data: activity }) }
+                                title="Editar"
                                 className="text-2xl cursor-pointer"
                               >
                                 <FiEdit />
                               </button>
                               <button
                                 type="button"
+                                title="Excluir"
                                 onClick={ () => setShowDeleteActivity({ show: true, id: activity.id }) }
                                 className="text-2xl cursor-pointer"
                               >
@@ -219,10 +278,18 @@ export default function EventId() {
                       </div>
                       <div>
                         <span className="font-bold pr-1">{
-                          activity.noSlots ? 'Sem limite de Participantes' : `Quantidade de Participantes: ${activity.slots}`
+                          activity.noSpots ? 'Sem limite de Participantes' : `Quantidade de Participantes: ${activity.spots}`
                         }
                         </span>
                       </div>
+                      {
+                        !activity.noSpots &&
+                        <div>
+                          <span className="font-bold pr-1">
+                            Vagas Disponíveis: {activity.availableSpots}
+                          </span>
+                        </div>
+                      }
                       {
                         activity.typeActivity === 'Sessão de RPG' &&
                         <div className="mb-3">

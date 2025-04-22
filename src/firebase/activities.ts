@@ -1,6 +1,7 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, getFirestore, query, runTransaction, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, getFirestore, query, runTransaction, updateDoc, where } from "firebase/firestore";
 import firebaseConfig from "./connection";
-import { IActivityRegister, IActivityRegisterWithId } from "@/interfaces";
+import { IActivityRegister, IActivityRegisterWithId, ISubscribe } from "@/interfaces";
+import { deleteSubscribesByActivityId } from "./subscribes";
 
 export async function registerActivity(
   dataActivity: IActivityRegister,
@@ -14,8 +15,9 @@ export async function registerActivity(
       name: dataActivity.name, 
       typeActivity: dataActivity.typeActivity,
       systemSession: dataActivity.systemSession,
-      slots: dataActivity.slots,
-      noSlots: dataActivity.noSlots,
+      spots: dataActivity.spots,
+      noSpots: dataActivity.noSpots,
+      availableSpots: dataActivity.availableSpots,
       dates: dataActivity.dates,
       description: dataActivity.description,
       sensibility: dataActivity.sensibility,
@@ -47,6 +49,34 @@ export async function getActivitiesByEventId(
   } catch (error) {
     setShowMessage({ show: true, text: 'Erro ao obter atividades: ' + String(error) });
     return [];
+  }
+}
+
+export async function updateAvaiableSpots(
+  idEvent: string,
+  setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>
+) {
+  try {
+    const db = getFirestore(firebaseConfig);
+    const activitiesRef = collection(db, 'activities');
+    const activitiesQuery = query(activitiesRef, where('eventId', '==', idEvent));
+    const activitiesSnapshot = await getDocs(activitiesQuery);
+    const updatePromises = activitiesSnapshot.docs.map(async (activityDoc) => {
+      const activityId = activityDoc.id;
+      const activityData = activityDoc.data();
+      const totalSpots = activityData.spots;
+      const subscribesRef = collection(db, 'subscribes');
+      const subscribesQuery = query(subscribesRef, where('activityId', '==', activityId), where('waitlist', '==', false));
+      const subscribesSnapshot = await getDocs(subscribesQuery);
+      const count = subscribesSnapshot.size;
+      const availableSpots = Math.max(totalSpots - count, 0);
+      const activityRef = doc(db, 'activities', activityId);
+      await updateDoc(activityRef, { availableSpots });
+    });
+    await Promise.all(updatePromises);
+    setShowMessage({ show: true, text: 'Vagas disponíveis atualizadas com sucesso.' });
+  } catch (error) {
+    setShowMessage({ show: true, text: 'Erro ao atualizar vagas disponíveis: ' + String(error) });
   }
 }
 
@@ -93,6 +123,7 @@ export async function deleteActivityById(
     const db = getFirestore(firebaseConfig);
     const activityRef = doc(db, 'activities', id);
     await deleteDoc(activityRef);
+    await deleteSubscribesByActivityId(id, setShowMessage);
     setShowMessage({ show: true, text: 'Atividade excluída com sucesso.' });
   } catch (error) {
     setShowMessage({ show: true, text: 'Erro ao excluir atividade: ' + String(error) });

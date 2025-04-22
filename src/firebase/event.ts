@@ -4,6 +4,7 @@ import firebaseConfig from "./connection";
 import { createEventImage, deleteEventImage, updateEventImage } from './storage';
 import { IEventRegister, IEventRegisterWithId, IEventUpdateWithId } from '@/interfaces';
 import { deleteActivitiesByEventId } from './activities';
+import { deleteSubscribeById } from './subscribes';
 
 export async function registerEvent(
   dataEvent: IEventRegister,
@@ -103,6 +104,7 @@ export async function deleteEventById(
     if (deleteImage) {
       await deleteDoc(eventRef);
       await deleteActivitiesByEventId(eventId, setShowMessage);
+      await deleteSubscribeById(eventId, setShowMessage);
       setShowMessage({ show: true, text: 'Evento excluído com sucesso.' });
     }
   } catch (error) {

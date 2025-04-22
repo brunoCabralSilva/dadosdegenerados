@@ -2,29 +2,41 @@
 import contexto from "@/context/context";
 import { getActivitiesByEventId } from "@/firebase/activities";
 import { authenticate } from "@/firebase/authenticate";
-import { registerSubscribe } from "@/firebase/subscribes";
-import { IActivityRegisterWithId, IAuthenticate, IDatesToAdd } from "@/interfaces";
+import { getSubscribeByEmailAndEvent, updateSubscribeByActivityId } from "@/firebase/subscribes";
+import { IActivityRegisterWithId, IAuthenticate, IDatesToAdd, ISubscribeWithId } from "@/interfaces";
 import { useContext, useEffect, useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
-export default function Subscribe(props: { idEvent: string }) {
-  const { idEvent } = props;
-  const { setShowMessage, setShowSubscribe } = useContext(contexto);
+export default function EditSubscribe(props: { idEvent: string, email: string }) {
+  const { idEvent, email } = props;
+  const { setShowMessage, setShowEditSubscribe } = useContext(contexto);
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
   const [age, setAge] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [whatsapp, setWhatsapp] = useState<string>('');
   const [listActivities, setListActivities] = useState<IActivityRegisterWithId[]>([]);
-  const [waitlist, setWaitList] = useState<IActivityRegisterWithId[]>([]);
+  const [waitlist, setWaitlist] = useState<IActivityRegisterWithId[]>([]);
   const [activitiesAdded, setActivitiesAdded] = useState<string[]>([]);
-  const [waitListAdded, setWaitListAdded] = useState<string[]>([]);
+  const [waitlistAdded, setWaitlistAdded] = useState<string[]>([]);
 
   useEffect(() => {
     const getActivities = async () => {
       const getAll = await getActivitiesByEventId(idEvent, setShowMessage);
-      setListActivities(getAll.filter((all: IActivityRegisterWithId) => all.availableSpots > 0));
-      setWaitList(getAll.filter((all: IActivityRegisterWithId) => all.availableSpots <= 0));
+      
+      const listSubs = await getSubscribeByEmailAndEvent(email, idEvent, setShowMessage);
+      if (listSubs) {
+        setFirstName(listSubs[0].firstName);
+        setAge(listSubs[0].age);
+        setWhatsapp(listSubs[0].whatsapp);
+        setLastName(listSubs[0].lastName);
+        const listActivitiesAdded = listSubs.filter((subs: ISubscribeWithId) => subs.waitlist === false).map((subs: ISubscribeWithId) => subs.activityId);
+        setActivitiesAdded(listActivitiesAdded);
+        const listWaitlistAdded = listSubs.filter((subs: ISubscribeWithId) => subs.waitlist === true).map((subs: ISubscribeWithId) => subs.activityId);
+        setWaitlistAdded(listWaitlistAdded);
+        setListActivities(getAll.filter((all: IActivityRegisterWithId) => all.availableSpots > 0 || listActivitiesAdded.includes(all.id)));
+        setWaitlist(getAll.filter((all: IActivityRegisterWithId) => all.availableSpots <= 0 && !listActivitiesAdded.includes(all.id)));
+      }
     }
     getActivities();
   }, []);
@@ -41,9 +53,9 @@ export default function Subscribe(props: { idEvent: string }) {
   }
 
   const addOrRemoveWaitList = (id: string) => {
-    if (waitListAdded.find((act: string) => act === id)) {
-      setWaitListAdded(waitListAdded.filter((act: string) => act !== id));
-    } else setWaitListAdded([...waitListAdded, id]);
+    if (waitlistAdded.find((act: string) => act === id)) {
+      setWaitlistAdded(waitlistAdded.filter((act: string) => act !== id));
+    } else setWaitlistAdded([...waitlistAdded, id]);
   }
 
   const verifyActivity = (id: string) => {
@@ -52,7 +64,7 @@ export default function Subscribe(props: { idEvent: string }) {
   }
 
   const verifyWaitList = (id: string) => {
-    if (waitListAdded.find((act: string) => act === id)) return true;
+    if (waitlistAdded.find((act: string) => act === id)) return true;
     return false;
   }
   
@@ -71,13 +83,13 @@ export default function Subscribe(props: { idEvent: string }) {
     } else {
       const auth: IAuthenticate | null = await authenticate(setShowMessage);
       if (auth) {
-        const createSubs = await registerSubscribe(
-          { age, lastName, whatsapp, firstName, email: auth.email, idEvent },
+        const updateSubs = await updateSubscribeByActivityId(
+          { age, lastName, whatsapp, firstName, email, idEvent },
           activitiesAdded,
-          waitListAdded,
+          waitlistAdded,
           setShowMessage,
         );
-        if (createSubs) window.location.reload();
+        if (updateSubs) window.location.reload();
       }
     }
     setLoading(false);
@@ -89,13 +101,13 @@ export default function Subscribe(props: { idEvent: string }) {
         <div className="break-words pt-4 sm:pt-2 px-2 w-full flex justify-end top-0 right-0">
           <IoIosCloseCircleOutline
             className="break-words text-4xl text-white cursor-pointer hover:text-white duration-500 transition-colors"
-            onClick={() => setShowSubscribe({ show: false, id: '', email: '' }) }
+            onClick={() => setShowEditSubscribe(false)}
           />
         </div>
         <div className="break-words px-4 sm:px-10 w-full">
           <div className="break-words w-full overflow-y-auto flex flex-col justify-center items-center mt-2 mb-10">
             <div className="break-words w-full text-white text-2xl pb-3 font-bold text-center mt-2 mb-2">
-              Inscrição para o Evento
+              Sua Inscrição para o Evento
             </div>
             <div className="break-words w-full">
               <label htmlFor="firstName" className="break-words mb-4 flex flex-col items-center w-full">
@@ -157,10 +169,6 @@ export default function Subscribe(props: { idEvent: string }) {
                       className={`${verifyActivity(activities.id) ? 'border-red-800 bg-black' : 'border-white' } text-center w-full cursor-pointer border-2 p-4`}
                     >
                       <div className="font-bold">{activities.typeActivity} - { activities.systemSession.name } - { activities.name }</div>
-                      <div className="text-sm">
-                        <span className="pr-1 font-bold">Temas Sensíveis:</span>
-                        <span>{ activities.sensibility }</span>
-                      </div>
                       <div className="  text-sm">
                         <span className="pr-1 font-bold">Data:</span>
                         {
@@ -170,6 +178,17 @@ export default function Subscribe(props: { idEvent: string }) {
                             </span>
                           ))
                         }
+                      </div>
+                      <div className="text-sm">
+                        { activities.availableSpots === 0 ? '(Você está inscrito nesta atividade)' : '' }
+                      </div>
+                      <div className="text-sm">
+                        <span className="pr-1 font-bold">Vagas Disponíveis:</span>
+                        <span>{ activities.availableSpots }</span>
+                      </div>
+                      <div className="text-sm">
+                        <span className="pr-1 font-bold">Temas Sensíveis:</span>
+                        <span>{ activities.sensibility }</span>
                       </div>
                     </button>
                   ))
@@ -190,10 +209,6 @@ export default function Subscribe(props: { idEvent: string }) {
                       className={`${verifyWaitList(activities.id) ? 'border-red-800 bg-black' : 'border-white' } text-center w-full cursor-pointer border-2 p-4`}
                     >
                       <div className="font-bold">{activities.typeActivity} - { activities.systemSession.name } - { activities.name }</div>
-                      <div className="text-sm">
-                        <span className="pr-1 font-bold">Temas Sensíveis:</span>
-                        <span>{ activities.sensibility }</span>
-                      </div>
                       <div className="  text-sm">
                         <span className="pr-1 font-bold">Data:</span>
                         {
@@ -204,6 +219,17 @@ export default function Subscribe(props: { idEvent: string }) {
                           ))
                         }
                       </div>
+                      <div className="text-sm">
+                        { verifyWaitList(activities.id) ? '(Você está na lista de espera desta atividade)' : '' }
+                      </div>
+                      <div className="text-sm">
+                        <span className="pr-1 font-bold">Vagas Disponíveis:</span>
+                        <span>{ activities.availableSpots }</span>
+                      </div>
+                      <div className="text-sm">
+                        <span className="pr-1 font-bold">Temas Sensíveis:</span>
+                        <span>{ activities.sensibility }</span>
+                      </div>
                     </button>
                   ))
                 }
@@ -213,7 +239,7 @@ export default function Subscribe(props: { idEvent: string }) {
               className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative w-full"
               onClick={ updateUser }
             >
-              { loading ? 'Inscrevendo, aguarde...' : 'Inscrever-se' }
+              { loading ? 'Atualizando, aguarde...' : 'Atualizar Inscrição' }
             </button>
           </div>
           {
