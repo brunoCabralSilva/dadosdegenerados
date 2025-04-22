@@ -1,6 +1,6 @@
 import { addDoc, collection, deleteDoc, doc, getDocs, getFirestore, query, runTransaction, updateDoc, where } from "firebase/firestore";
 import firebaseConfig from "./connection";
-import { IActivityRegister, IActivityRegisterWithId, ISubscribe } from "@/interfaces";
+import { IActivityRegister, IActivityRegisterWithId } from "@/interfaces";
 import { deleteSubscribesByActivityId } from "./subscribes";
 
 export async function registerActivity(

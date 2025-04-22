@@ -131,7 +131,7 @@ export async function updateSubscribeById(dataSubscribe: ISubscribeWithId, setSh
   }
 }
 
-export async function getSubscribedsByEventId(idEvent: string, setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>): Promise<any | false> {
+export async function getSubscribedsByEventId(idEvent: string, setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>): Promise<boolean> {
   const db = getFirestore(firebaseConfig);
   try {
     const collectionRef = collection(db, 'subscribes');
@@ -147,14 +147,14 @@ export async function getSubscribedsByEventId(idEvent: string, setShowMessage: R
 export async function getSubscribedsByActivity(
   activityId: string,
   setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>
-): Promise<any[] | false> {
+): Promise<ISubscribeWithId[] | false> {
   const db = getFirestore(firebaseConfig);
   try {
     const collectionRef = collection(db, 'subscribes');
     const q = query(collectionRef, where('activitiesAdded', 'array-contains', activityId));
     const querySnapshot = await getDocs(q);
     if (querySnapshot.empty) return false;
-    const subscribes = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    const subscribes = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as ISubscribeWithId));
     return subscribes;
   } catch (error) {
     setShowMessage({ show: true, text: 'Erro ao buscar inscrição: ' + error });
@@ -165,14 +165,14 @@ export async function getSubscribedsByActivity(
 export async function getSubscribedsByEvent(
   eventId: string,
   setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>
-): Promise<any[] | false> {
+): Promise<ISubscribeWithId[] | false> {
   const db = getFirestore(firebaseConfig);
   try {
     const collectionRef = collection(db, 'subscribes');
     const q = query(collectionRef, where('idEvent', '==' , eventId));
     const querySnapshot = await getDocs(q);
     if (querySnapshot.empty) return false;
-    const subscribes = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    const subscribes = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as ISubscribeWithId));
     return subscribes;
   } catch (error) {
     setShowMessage({ show: true, text: 'Erro ao buscar Inscrições pelo Evento: ' + error });

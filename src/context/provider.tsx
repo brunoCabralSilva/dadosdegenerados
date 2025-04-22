@@ -1,7 +1,7 @@
 'use client'
 import { ReactNode, useState } from 'react';
 import contexto from './context';
-import { IActivityRegisterWithId, ISubscribeWithId } from '@/interfaces';
+import { IActivityRegisterWithId } from '@/interfaces';
 
 interface IProvider { children: ReactNode }
 
