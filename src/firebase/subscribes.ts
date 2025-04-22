@@ -201,7 +201,7 @@ export async function getSubscribeByEmailAndEvent(
   }
 }
 
-export async function deleteSubscribeById(
+export async function deleteSubscribeByEventId(
   eventId: string,
   setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>
 ) {
