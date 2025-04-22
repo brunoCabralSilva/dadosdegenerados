@@ -158,28 +158,29 @@ export default function EditEvent(
               <p className="w-full text-white mb-3">
                 Datas do Evento (Escolha a Data, horário de Início e Término e depois clique em &quot;Adicionar&quot;. Você pode adicionar quantas datas desejar).
               </p>
-              <div className="flex gap-3 mb-5 flex-wrap">
+              <div className="flex gap-3 mb-5 flex-wrap text-black">
                 {
                   listDates.sort((a, b) => {
                     return new Date(a.day).getTime() - new Date(b.day).getTime();
                   })
                   .map((dateItem: IDatesToAdd, index: number) => (
-                    <div key={ index } className="bg-white rounded-full px-2 py-2 flex items-center">
+                    <div key={ index } className="text-black bg-white rounded-full px-2 py-2 flex items-center">
                       { `${dateItem.day.split("-").reverse().join("-") }${dateItem.end && dateItem.end !== '' ? ', das ' : ', às '}${ dateItem.init.replace(":", "h") + "min" }${dateItem.end && dateItem.end !== '' ? ` às ${ dateItem.end.replace(":", "h") + "min" }`: ''}`}
                       <MdDelete
                         onClick={ () => deleteDate(dateItem) }
-                        className="ml-2 cursor-pointer"
+                        className="ml-2 cursor-pointer text-black"
                       />
                     </div>
                   ))
                 }
               </div>
-              <div className="grid grid-cols-4 gap-2">
-                <p className="break-words w-full mb-1 text-white">Dia *</p>
-                <p className="break-words w-full mb-1 text-white">Início *</p>
-                <p className="break-words w-full mb-1 text-white">Término</p>
+              <div className="sm:grid sm:grid-cols-4 gap-2">
+                <p className="hidden sm:flex break-words w-full mb-1 text-white">Dia *</p>
+                <p className="hidden sm:flex break-words w-full mb-1 text-white">Início *</p>
+                <p className="hidden sm:flex break-words w-full mb-1 text-white">Término</p>
                 <div />
-                <label htmlFor="day" className="break-words flex flex-col items-center w-full">
+                <span className="w-full mb-1 text-white sm:hidden">Dia *</span>
+                <label htmlFor="day" className="break-words flex flex-col items-center w-full mb-2 sm:mb-0">
                   <input
                     type="date"
                     id="day"
@@ -188,7 +189,8 @@ export default function EditEvent(
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleDayChange(e) }
                   />
                 </label>
-                <label htmlFor="init" className="break-words flex flex-col items-center w-full">
+                <span className="w-full mb-1 text-white sm:hidden">Início *</span>
+                <label htmlFor="init" className="break-words flex flex-col items-center w-full mb-2 sm:mb-0">
                   <input
                     type="time"
                     id="init"
@@ -197,7 +199,8 @@ export default function EditEvent(
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInitChange(e) }
                   />
                 </label>
-                <label htmlFor="end" className="break-words flex flex-col items-center w-full">
+                <span className="w-full mb-1 text-white sm:hidden">Término</span>
+                <label htmlFor="end" className="break-words flex flex-col items-center w-full mb-2 sm:mb-0">
                   <input
                     type="time"
                     id="end"
@@ -209,7 +212,7 @@ export default function EditEvent(
                 <button
                   type="button"
                   onClick={ addDate }
-                  className="border-2 border-black h-full hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold text-center relative w-full"
+                  className="border-2 border-black h-full hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold text-center relative w-full py-3 sm:py-0"
                 >
                   Adicionar Data e Horário
                 </button>
