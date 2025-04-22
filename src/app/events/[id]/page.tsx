@@ -137,7 +137,7 @@ export default function EventId() {
                       <span className="sm:w-full pr-1 font-bold text-2xl">{ dataEvent.name }</span>
                       {
                         userData.role === 'admin' &&
-                        <div className="text-white flex gap-2 justify-end w-full">
+                        <div className="text-white flex gap-2 justify-end w-full mb-3 sm:mb-0">
                           <button
                             type="button"
                             title="Visualizar Inscritos"
