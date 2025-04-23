@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen w-full bg-[url(/images/dd_logo_bg_black.png)]">
+    <div className="flex flex-col w-full bg-[url(/images/dd_logo_bg_black.png)]">
       <Nav />
       <div className="w-full flex flex-col items-center justify-center bg-[url(/images/dd_logo_bg_black.png)] bg-cover bg-black h-screen">
         <Image
@@ -69,9 +69,9 @@ export default function Home() {
             <p className="z-10 font-bold text-base sm:text-lg px-3 p-2">Perfil</p>
           </div>
         </Link>
-        <Link href="/about" className="col-span-1 row-span-2 sm:col-span-2 sm:row-span-2">
+        <Link href="/about" className="row-span-2 col-span-2">
           <div
-            className={`bg-[url(/images/degenerados4.jpeg)] bg-center bg-cover h-full sm:h-[40vh] text-white flex relative cursor-pointer border-transparent items-end`}>
+            className={`bg-[url(/images/degenerados4.jpeg)] bg-center bg-cover h-[20vh] sm:h-[40vh] text-white flex relative cursor-pointer border-transparent items-end`}>
             <div className={`absolute w-full h-full bg-black/40`} />
             <p className="z-10 font-bold text-base sm:text-lg px-3 p-2">Quem Somos</p>
           </div>
