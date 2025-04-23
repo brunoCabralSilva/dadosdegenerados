@@ -41,21 +41,21 @@ export default function Home() {
             <p className="z-10 font-bold text-base sm:text-lg px-3 p-2 relative">Eventos</p>
           </div>
         </Link>
-        <Link href="/auspices" className="col-span-1 sm:col-span-2 sm:row-span-4">
+        <Link href="/sessions" className="col-span-1 sm:col-span-2 sm:row-span-4">
           <div
             className={`bg-[url(/images/degenerados3.jpeg)] bg-cover bg-center h-[20vh] sm:h-full text-white flex relative cursor-pointer border-transparent items-end`}>
             <div className={`absolute w-full h-full bg-black/40`} />
             <p className="z-10 font-bold text-base sm:text-lg px-3 p-2">Sessões</p>
           </div>
         </Link>
-        <Link href="/gifts" className="col-span-2 sm:col-span-4 sm:row-span-2">
+        <Link href="/blog" className="col-span-2 sm:col-span-4 sm:row-span-2">
           <div
             className={`bg-[url(/images/degenerados6.jpeg)] bg-cover bg-center h-[20vh] sm:h-[40vh] text-white flex relative cursor-pointer border-transparent items-end`}>
             <div className={`absolute w-full h-full bg-black/40`} />
             <p className="z-10 font-bold text-base sm:text-lg px-3 p-2">Blog</p>
           </div>
         </Link>
-        <Link href="/forms" className="col-span-1 sm:col-span-2 sm:row-span-2">
+        <Link href="/media" className="col-span-1 sm:col-span-2 sm:row-span-2">
           <div
             className={`bg-[url(/images/degenerados7.jpeg)] bg-cover h-[20vh] sm:h-[40vh] text-white flex relative cursor-pointer bg-center border-transparent items-end`}>
             <div className={`absolute w-full h-full bg-black/40`} />
@@ -69,7 +69,7 @@ export default function Home() {
             <p className="z-10 font-bold text-base sm:text-lg px-3 p-2">Perfil</p>
           </div>
         </Link>
-        <Link href="/rituals" className="col-span-1 row-span-2 sm:col-span-2 sm:row-span-2">
+        <Link href="/about" className="col-span-1 row-span-2 sm:col-span-2 sm:row-span-2">
           <div
             className={`bg-[url(/images/degenerados4.jpeg)] bg-center bg-cover h-full sm:h-[40vh] text-white flex relative cursor-pointer border-transparent items-end`}>
             <div className={`absolute w-full h-full bg-black/40`} />
