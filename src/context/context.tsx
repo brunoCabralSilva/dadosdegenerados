@@ -41,6 +41,12 @@ interface DegeneratesContext {
   setShowCreateActivity: (state: { show: boolean, id: string }) => void,
   showSubscribe: { show: boolean, id: string, email: string },
   setShowSubscribe: (state: { show: boolean, id: string, email: string }) => void,
+  showCreatePubli: boolean,
+  setShowCreatePubli: (state: boolean) => void,
+  showEditPubli: boolean,
+  setShowEditPubli: (state: boolean) => void,
+  showDeletePubli: boolean,
+  setShowDeletePubli: (state: boolean) => void,
 }
 
 const initialValue: DegeneratesContext = {
@@ -54,15 +60,7 @@ const initialValue: DegeneratesContext = {
   setLogoutUser: () => {},
   showForgotPassword: false,
   setShowForgotPassword: () => {},
-  userData: {
-    id: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    imageURL: '',
-    description: '',
-    role: '',
-  },
+  userData: { id: '', firstName: '', lastName: '', email: '', imageURL: '', description: '', role: '' },
   setUserData : () => {},
   showEditProfile: false,
   setShowEditProfile: () => {},
@@ -74,22 +72,7 @@ const initialValue: DegeneratesContext = {
   setShowCreateEvent: () => {},
   showEditEvent: { show: false, id: '' },
   setShowEditEvent: () => {},
-  showEditActivity: {
-    show: false,
-    data: {
-      id: '',
-      eventId: '',
-      name: '',
-      typeActivity: '',
-      systemSession: { name: '', description: '' },
-      spots: 0,
-      availableSpots: 0,
-      noSpots: false,
-      dates: [],
-      description: '',
-      sensibility: '',
-    }
-  },
+  showEditActivity: { show: false, data: { id: '', eventId: '', name: '', typeActivity: '', systemSession: { name: '', description: '' }, spots: 0, availableSpots: 0, noSpots: false, dates: [], description: '', sensibility: '' }},
   showEditSubscribe: false,
   setShowEditSubscribe: () => {},
   setShowEditActivity: () => {},
@@ -105,6 +88,12 @@ const initialValue: DegeneratesContext = {
   setShowSubscribe: () => {},
   showSubscribeds: { show: false, id: '' },
   setShowSubscribeds: () => {},
+  showCreatePubli: false,
+  setShowCreatePubli: () => {},
+  showEditPubli: false,
+  setShowEditPubli: () => {},
+  showDeletePubli: false,
+  setShowDeletePubli: () => {},
 }
 
 const contexto = createContext(initialValue);

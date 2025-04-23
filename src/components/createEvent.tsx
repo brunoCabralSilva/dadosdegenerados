@@ -216,7 +216,7 @@ export default function CreateEvent() {
                 rows={7}
                 value={ description }
                 className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white text-left sm:text-justify outline-none"
-                placeholder="Fale um pouco sobre você"
+                placeholder="Digite um texto descritivo para o Evento"
                 onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setDescription(e.target.value) }
               />
             </label>
@@ -246,7 +246,7 @@ export default function CreateEvent() {
                 id="linkMaps"
                 value={ linkMaps }
                 className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white text-left sm:text-justify outline-none"
-                placeholder="Cole aqui o link do maps"
+                placeholder="Link do Google Maps"
                 onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setLinkMaps(e.target.value) }
               />
             </label>

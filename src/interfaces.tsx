@@ -120,3 +120,27 @@ export interface ISubscribeWithId {
   order: number;
   whatsappGroup: boolean;
 }
+
+export interface IBlog {
+  text: string;
+  title: string;
+  imageURL: File;
+  author: string;
+}
+
+export interface IBlogWithId {
+  id: string;
+  text: string;
+  title: string;
+  imageURL: string;
+  date: string;
+  author: string;
+}
+
+export interface IBlogUpdateWithId {
+  id: string;
+  text: string;
+  title: string;
+  imageURL: string | File;
+  author: string;
+}

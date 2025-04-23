@@ -10,15 +10,7 @@ export default function Provider({children }: IProvider) {
   const [showMessage, setShowMessage] = useState({ show: false, text: '' });
   const [logoutUser, setLogoutUser] = useState<boolean>(false);
   const [showForgotPassword, setShowForgotPassword] = useState<boolean>(false);
-  const [userData, setUserData] = useState({
-    id: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    imageURL: '',
-    description: '',
-    role: '',
-  });
+  const [userData, setUserData] = useState({ id: '', firstName: '', lastName: '', email: '', imageURL: '', description: '', role: '' });
   const [showEditProfileImage, setShowEditProfileImage] = useState<boolean>(false);
   const [showEditProfile, setShowEditProfile] = useState<boolean>(false);
   const [showChangePassword, setShowChangePassword] = useState<boolean>(false);
@@ -26,29 +18,16 @@ export default function Provider({children }: IProvider) {
   const [routerTo, setRouterTo] = useState('/');
   const [showEditEvent, setShowEditEvent] = useState<{show: boolean, id: string }>({ show: false, id: '' });
   const [showDeleteEvent, setShowDeleteEvent] = useState<{show: boolean, id: string }>({ show: false, id: '' });
-  const [showEditActivity, setShowEditActivity] = useState<{show: boolean, data: IActivityRegisterWithId }>(
-    {
-      show: false,
-      data: {
-        id: '',
-        eventId: '',
-        name: '',
-        typeActivity: '',
-        systemSession: { name: '', description: '' },
-        spots: 0,
-        availableSpots: 0,
-        noSpots: false,
-        dates: [],
-        description: '',
-        sensibility: '',
-      }
-    });
+  const [showEditActivity, setShowEditActivity] = useState<{show: boolean, data: IActivityRegisterWithId }>( { show: false, data: { id: '', eventId: '', name: '', typeActivity: '', systemSession: { name: '', description: '' }, spots: 0, availableSpots: 0, noSpots: false, dates: [], description: '', sensibility: '' }});
   const [showEditSubscribe, setShowEditSubscribe] = useState<boolean>(false);
   const [showDeleteActivity, setShowDeleteActivity] = useState<{show: boolean, id: string }>({ show: false, id: '' });
   const [showCreateActivity, setShowCreateActivity] = useState<{show: boolean, id: string }>({ show: false, id: '' });
   const [showSubscribe, setShowSubscribe] = useState<{show: boolean, id: string, email: string }>({ show: false, id: '', email: '' });
   const [showSubscribeds, setShowSubscribeds] = useState<{show: boolean, id: string}>({ show: false, id: '' });
   const [showDeleteSubscribe, setShowDeleteSubscribe] = useState<{show: boolean, id: string}>({ show: false, id: '' });
+  const [showCreatePubli, setShowCreatePubli] = useState<boolean>(false);
+  const [showEditPubli, setShowEditPubli] = useState<boolean>(false);
+  const [showDeletePubli, setShowDeletePubli] = useState<boolean>(false);
 
   return (
     <contexto.Provider
@@ -60,9 +39,12 @@ export default function Provider({children }: IProvider) {
         showMessage, setShowMessage,
         showEditEvent, setShowEditEvent,
         showSubscribe, setShowSubscribe,
+        showEditPubli, setShowEditPubli,
+        showDeletePubli, setShowDeletePubli,
         showSubscribeds, setShowSubscribeds,
         showCreateEvent, setShowCreateEvent,
         showEditProfile, setShowEditProfile,
+        showCreatePubli, setShowCreatePubli,
         showDeleteEvent, setShowDeleteEvent,
         showEditActivity, setShowEditActivity,
         showEditSubscribe, setShowEditSubscribe,

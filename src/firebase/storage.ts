@@ -45,6 +45,37 @@ export async function createEventImage (id: string, img: File, setShowMessage: R
   }
 };
 
+export async function createPubliImage (id: string, img: File, setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>){
+  try {
+    const storage = getStorage(firebaseConfig);
+    const storageRef = ref(storage, `images/blog/${id}/${img.name}`);
+    await uploadBytes(storageRef, img);
+    const downloadUrl = await getDownloadURL(storageRef);
+    return downloadUrl;
+  } catch (error) {
+    setShowMessage({ show: true, text: "Erro ao fazer upload da midia imagem: " + error });
+    return false;
+  }
+};
+
+export async function updateBlogImage(blogId: string, newImage: File, setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>) {
+  const storage = getStorage(firebaseConfig);
+  const folderRef = ref(storage, `images/blog/${blogId}`);
+  try {
+    const folderContents = await listAll(folderRef);
+    for (const itemRef of folderContents.items) {
+      await deleteObject(itemRef);
+    }
+    const newImageRef = ref(storage, `images/blog/${blogId}/${newImage.name}`);
+    await uploadBytes(newImageRef, newImage);
+    const newImageUrl = await getDownloadURL(newImageRef);
+    return newImageUrl;
+  } catch (error) {
+    setShowMessage({ show: true, text: "Erro ao atualizar imagem: " + error });
+    return null;
+  }
+}
+
 export async function updateEventImage(eventId: string, newImage: File, setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>) {
   const storage = getStorage(firebaseConfig);
   const folderRef = ref(storage, `images/events/${eventId}`);
@@ -81,6 +112,23 @@ export async function deleteEventImage(
   }
 }
 
+export async function deleteBlogImage(
+  id: string,
+  setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>
+) {
+  try {
+    const storage = getStorage(firebaseConfig);
+    const folderRef = ref(storage, `images/blog/${id}/`);
+    const listResult = await listAll(folderRef);
+    const deletePromises = listResult.items.map((itemRef) => deleteObject(itemRef));
+    await Promise.all(deletePromises);
+    setShowMessage({ show: true, text: 'Imagens da Publicação excluídas com sucesso.' });
+    return true;
+  } catch (error) {
+    setShowMessage({ show: true, text: 'Erro ao excluir imagens da Publicação: ' + error });
+    return false;
+  }
+}
 
 export async function createActivityImage (id: string, img: File, setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>){
   try {
