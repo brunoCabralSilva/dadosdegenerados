@@ -1,23 +1,42 @@
 [
   {
-    "name": "Bruno Cabral",
-    "imageURL": "bruno cabral.jpg",
-    "description": "Bruno é um Desenvolvedor Full Stack, com foco principalmente em React, Mysql, MongoDB e Node.js. É uma pessoa completamente apaixonada por RPG, O Senhor dos Anéis e filmes da Marvel. Atualmente vive em João Pessoa, Paraíba, Brasil."
+    "name": "Arthur Jorge",
+    "imageURL": "arthur jorge.jpeg",
+    "description": "Designer gráfico e ilustrador, tem experiência com RPG desde 2018, tendo contato com narrativas anti-hegemônicas desde o início graças ao mestre Bruno gostosinho da silva. Atua no coletivo principalmente na identidade visual e criação dos materiais gráficos, assim como na narração de mesas."
+  },
+  {
+    "name": "Davi Nóbrega",
+    "imageURL": "davi nobrega.jpeg",
+    "description": "Narrador desde a adolescência, é membro fundador do coletivo Taverna Literária, dedicado a relacionar as narrativas de RPG ao cotidiano da sala de aula. É professor de língua portuguesa, antifascista e apaixonado por histórias de fantasia sombria, horror gótico e cyberpunk."
+  },
+  {
+    "name": "Eduardo Knack",
+    "imageURL": "eduardo knack.jpeg",
+    "description": "Obteve o título de Mestre aos 12 anos, quando narrou uma aventura de RPG pela primeira vez. Depois se tornou professor de História e Historiador; seguiu com interesse pelo RPG, especialmente nos jogos que exploram cenários de horror gótico e cósmico, bem como jogos que se apropriam da história para construção das ambientações e narrativas."
+  },
+  {
+    "name": "Alan Tassio",
+    "imageURL": "alan tassio.jpeg",
+    "description": "Historiador de formação e jogador de RPG desde a adolescência. Ao longo dos anos, conheceu diversos sistemas e gêneros, sempre buscando narrativas envolventes. Com o tempo, passou a se interessar por jogos com temáticas históricas, unindo diversão, crítica e reflexão sobre o passado. Acredita no RPG como ferramenta potente para explorar contextos e provocar perguntas, sempre buscando criar mesas imersivas e instigantes."
+  },
+  {
+    "name": "Karina Meireles",
+    "imageURL": "karina meireles 2.jpeg",
+    "description": "Apaixonada pelo conhecimento e pelo desenvolvimento humano, me tornei pedagoga e acredito na aprendizagem como ferramenta de mudança social e na construção de um outro mundo possível. Desde os nove anos, jogo RPG, como diversão, mas também vejo como uma forma de explorar criatividade, estratégia e colaboração. Os mundos imaginários são espaços de descoberta e expressão, onde narrativa e identidade se entrelaçam, proporcionando momentos de aprendizado e diversão. Comprometida com a liberdade, me posiciono firmemente como antifascista. Em minha trajetória, uno paixão, conhecimento e engajamento para promover um ambiente onde todos possam crescer e serem autônomos."
+  },
+  {
+    "name": "Jocelio Procopio",
+    "imageURL": "jocelio procopio 2.jpeg",
+    "description": "Um ser vivo. 'Vocês vêem um Professor de Biologia, apaixonado pelo ensino, porém, o olhar dele reflete um adolescente que cresceu jogando RPG, criando mundos e aventuras fantásticas com seu grupo de amigos'. As conexões com os seres vivos ganham um sentido em sala de aula e de certa forma cada aula é uma aventura de RPG. Me interesso por jogos que desenvolvem tramas do cotidiano através de uma ótica que garante novos pontos de vista, XP e diversão no processo."
+  },
+  {
+    "name": "Pedro Meireles",
+    "imageURL": "pedro meireles 2.jpeg",
+    "description": "Jovem com ansiedade tentando achar seu lugar no mundo, estudante de engenharia elétrica e jogador de RPG a algum tempo com ambições de narrar RPG com mais frequência. Tive meu primeiro contato pra valer com o grupo de RPG 'Dragões de fumaça' e devo muito a capacidade de compartilhar sentimentos e piadas por meio de rolagem de dados, almejando melhorar minha habilidade em poder contar histórias, em especial uma que possa imaginar um mundo melhor."
   },
   {
     "name": "Bruno Cabral",
     "imageURL": "bruno cabral.jpg",
-    "description": "Bruno é um Desenvolvedor Full Stack, com foco principalmente em React, Mysql, MongoDB e Node.js. É uma pessoa completamente apaixonada por RPG, O Senhor dos Anéis e filmes da Marvel. Atualmente vive em João Pessoa, Paraíba, Brasil."
-  },
-  {
-    "name": "Bruno Cabral",
-    "imageURL": "bruno cabral.jpg",
-    "description": "Bruno é um Desenvolvedor Full Stack, com foco principalmente em React, Mysql, MongoDB e Node.js. É uma pessoa completamente apaixonada por RPG, O Senhor dos Anéis e filmes da Marvel. Atualmente vive em João Pessoa, Paraíba, Brasil."
-  },
-  {
-    "name": "Bruno Cabral",
-    "imageURL": "bruno cabral.jpg",
-    "description": "Bruno é um Desenvolvedor Full Stack, com foco principalmente em React, Mysql, MongoDB e Node.js. É uma pessoa completamente apaixonada por RPG, O Senhor dos Anéis e filmes da Marvel. Atualmente vive em João Pessoa, Paraíba, Brasil."
+    "description": "Desenvolvedor Web desde 2015, Narrador de RPG desde meados de 2013 e membro fundador do coletivo Garou Nordeste, dedicado a trazer uma ótica Nordestina fidedigna e não estereotipada a todos os jogos de RPG, com foco em 'Lobisomem: O Apocalipse'. Costuma criar narrativas que empoderem o que o mundo eurocêntrico insiste em ignorar e/ou representar de forma ruim, buscando criar um ambiente seguro e contra hegemônico nesse mundo capitalista selvagem."
   }
-  
 ]

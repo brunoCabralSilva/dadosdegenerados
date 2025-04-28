@@ -1,5 +1,27 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'sickamore';
+  src: url('/fonts/sickamore.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'brookline';
+  src: url('/fonts/Brookline.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.sickamore {
+  font-family: 'sickamore', Arial, Helvetica, sans-serif;
+}
+
+.brookline {
+  font-family: 'brookline', Arial, Helvetica, sans-serif;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
