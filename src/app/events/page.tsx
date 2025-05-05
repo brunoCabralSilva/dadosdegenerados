@@ -67,7 +67,7 @@ export default function Eventos() {
         <div className="break-words w-full flex items-start h-full">
           <div className="break-words w-full h-full">
             <div className="break-words w-full text-white">
-              <div className="break-words h-[35vh] bg-[url(/images/dd_logo_bg.jpg)] bg-cover flex flex-col items-center justify-center">
+              <div className="break-words h-[50vh] bg-[url(/images/dd_logo_bg.jpg)] bg-cover flex flex-col items-center justify-center">
                 <Image
                   width={1000}
                   height={1000}
