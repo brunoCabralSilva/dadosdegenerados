@@ -39,7 +39,7 @@ export default function About() {
     <div className="break-words w-full min-h-screen bg-black">
       { showMessage.show && <MessageToUser /> }
       <Nav />
-      <div className="break-words w-full h-full items-center justify-start flex flex-col pb-10      min-h-screen mt-11">
+      <div className="break-words w-full h-full items-center justify-start flex flex-col pb-10 min-h-screen">
         {
           !showData
           ? <div className="break-words h-screen flex items-center justify-center bg-dice w-full bg-center">
@@ -61,7 +61,9 @@ export default function About() {
                   src="/images/dd_logo_white.png"
                   alt={`Logo do Dados Degenerados`}
                 />
-                <div className="text-3xl sm:text-6xl mt-5 sickamore">Quem Somos?</div>
+                <div className="text-3xl sm:text-6xl mt-5 sickamore">
+                  Quem Somos?
+                </div>
               </div>
               <div className="flex flex-col items-center justify-center pt-24 pb-20 w-full bg-[url(/images/dd_logo_bg_black.png)]">
                 <Image
@@ -79,44 +81,44 @@ export default function About() {
                   className="object-contain w-8/12 sm:w-4/12"
                 />
               </div>
-              <div className="px-10 w-full">
-                <div className="flex px-3 mt-5 w-full text-center brookline text-3xl py-10 items-center">
+              <div className="sm:px-10 w-full">
+                <div className="flex px-3 mt-5 w-full text-center brookline text-3xl py-5 sm:py-10 items-center">
                   <hr className="text-white bg-white flex-1" />
-                  <div className="px-4 whitespace-nowrap">Afinal, o que é o Coletivo Dados Degenerados?</div>
+                  <div className="px-4 sm:whitespace-nowrap">Afinal, o que é o Coletivo Dados Degenerados?</div>
                   <hr className="text-white bg-white flex-1" />
                 </div>
-                <div className="mt-5 px-3">
-                  <div className="flex items-center gap-5">
+                <div className="mt-5 px-7 sm:px-3">
+                  <div className="flex flex-col sm:flex-row items-center gap-5">
                     <Image
                       width={1000}
                       height={1000}
-                      className="object-cover w-1/2 bg-black ml-3"
+                      className="object-cover w-full sm:w-1/2 bg-black ml-3"
                       src={`/images/degenerados0.jpeg`}
                       alt={`Imagem do Grupo reunido`}
                     />
-                    <p className="w-1/2">
+                    <p className="w-full text-justify sm:w-1/2">
                       O Crônicas Degeneradas é um evento que reúne narradores e jogadores de RPG para contar histórias que dialoguem com nossa realidade de forma anti-hegemônica, buscando construir narrativas que incentivem a autogestão, a diversidade e o pensamento crítico. Colocamos a imaginação em movimento para pensar e conhecer a nossa realidade, mas também, através da criatividade envolvida nas narrações coletivas que constroem um RPG, conhecer outros mundos, outras possibilidades. Ao interpretar um personagem que tem seu local de fala e autonomia em suas ações, podemos questionar nosso próprio lugar na sociedade, bem como reforçar nossa postura perante suas estruturas opressivas, desenvolvendo uma visão político-social ampla e antiautoritária. RPG é uma forma de literatura, é uma arte, e a arte é essencial para o mundo em tempos sombrios.
                     </p>
                   </div>
-                  <div className="flex items-center gap-5 mt-5">
-                    <p className="w-1/2">
+                  <div className="flex flex-col-reverse sm:flex-row items-center gap-5 mt-5">
+                    <p className="w-full text-justify sm:w-1/2">
                       O Crônicas Degeneradas é um evento que reúne narradores e jogadores de RPG para contar histórias que dialoguem com nossa realidade de forma anti-hegemônica, buscando construir narrativas que incentivem a autogestão, a diversidade e o pensamento crítico. Colocamos a imaginação em movimento para pensar e conhecer a nossa realidade, mas também, através da criatividade envolvida nas narrações coletivas que constroem um RPG, conhecer outros mundos, outras possibilidades. Ao interpretar um personagem que tem seu local de fala e autonomia em suas ações, podemos questionar nosso próprio lugar na sociedade, bem como reforçar nossa postura perante suas estruturas opressivas, desenvolvendo uma visão político-social ampla e antiautoritária. RPG é uma forma de literatura, é uma arte, e a arte é essencial para o mundo em tempos sombrios.
                     </p>
                     <Image
                       width={1000}
                       height={1000}
-                      className="object-cover w-1/2 bg-black mr-4 my-3"
+                      className="object-cover w-full sm:w-1/2 bg-black mr-4 my-3"
                       src={`/images/degenerados4.jpeg`}
                       alt={`Imagem do Grupo reunido`}
                     />
                   </div>
                 </div>
-                <div className="flex px-3 mt-5 w-full text-center brookline text-3xl py-5 items-center">
+                <div className="flex px-3 mt-5 w-full text-center brookline text-3xl py-3 sm:py-5 items-center">
                   <div className="h-0.5 w-full bg-white hidden sm:flex" />
                   <div className="w-full">Conheça nossos Objetivos:</div>
                   <div className="h-0.5 w-full bg-white hidden sm:flex" />
                 </div>
-                <div className="h-full bg-[url(/images/dd_logo_bg_black.png)] bg-center bg-cover p-5 sm:p-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full">
+                <div className="h-full bg-[url(/images/dd_logo_bg_black.png)] bg-center bg-cover p-5 sm:p-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-5 w-full">
                   {
                     objetives && admins.length > 0 &&
                     objetives.map((obj: { name: string, imageURL: string, description: string }, index: number) => (
@@ -131,7 +133,7 @@ export default function About() {
                           src={`/images/dd_logo_bg_black.png`}
                           alt=""
                         />
-                        <div className="flex flex-col w-full h-full p-8 z-20">
+                        <div className="flex flex-col w-full h-full p-3 sm:p-8 z-20">
                           <Image
                             width={1000}
                             height={1000}
