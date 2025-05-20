@@ -31,8 +31,6 @@ export default function EditPubli(
       setShowMessage({ show: true, text: 'Necessário inserir um Título para a Publicação com mais de 2 caracteres.'});
     } else if (!text && text.length < 20) {
       setShowMessage({ show: true, text: 'Necessário inserir um texto para a Publicação com pelo menos 20 caracteres.' });
-    } else if (!imageFile) {
-      setShowMessage({ show: true, text: 'Necessário inserir uma imagem para a Publicação.' });
     } else {
       const auth: IAuthenticate | null = await authenticate(setShowMessage);
       if (auth) {
