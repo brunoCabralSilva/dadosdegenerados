@@ -45,12 +45,12 @@ export default function BlogId() {
           const getUser = await getUserByEmail(auth.email, setShowMessage);
           if (getUser) setUserData(getUser);
         }
-        setShowData(true);
       }
     };
     const getAll = async () => {
       const getBlog = await getBlogsById(blogId, setShowMessage);
       if (getBlog) setDataBlog(getBlog);
+      setShowData(true);
     }
     getAll();
     authUser();
