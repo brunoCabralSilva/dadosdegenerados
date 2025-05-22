@@ -215,16 +215,16 @@ export default function EventId() {
                         Cancelar Inscrição
                       </button>
                     }
+                    {
+                      userData.role === 'admin' &&
+                      <button
+                        onClick={ () => setShowCreateActivity({ show: true, id: idEvent }) }
+                        className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative mt-2 sm:mt-0"
+                      >
+                        Criar Atividade
+                      </button>
+                    }
                   </div>
-                }
-                {
-                  userData.role === 'admin' &&
-                  <button
-                    onClick={ () => setShowCreateActivity({ show: true, id: idEvent }) }
-                    className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative mt-2 sm:mt-0"
-                  >
-                    Criar Atividade
-                  </button>
                 }
               </div>
               <div className="px-5 text-white flex flex-col gap-2">
