@@ -196,7 +196,6 @@ export default function EventId() {
                 <p className="text-xl font-bold">Atividades Programadas</p>
                 {
                   dataEvent &&
-                  getEventDateLabel(dataEvent.dates) &&
                   <div className="flex gap-1">
                     {
                       listActivities && listActivities.length > 0 &&
