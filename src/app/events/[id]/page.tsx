@@ -79,18 +79,18 @@ export default function EventId() {
     getEvent();
   }, []);
 
-  function getEventDateLabel(dates: IDatesToAdd[]): boolean {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    for (const dateObj of dates) {
-      const eventDate = new Date(dateObj.day);
-      eventDate.setHours(0, 0, 0, 0);
-      const diffTime = eventDate.getTime() - today.getTime();
-      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-      return (diffDays === 0) || (diffDays > 0 && diffDays <= 7);
-    }
-    return false;
-  }
+  // function getEventDateLabel(dates: IDatesToAdd[]): boolean {
+  //   const today = new Date();
+  //   today.setHours(0, 0, 0, 0);
+  //   for (const dateObj of dates) {
+  //     const eventDate = new Date(dateObj.day);
+  //     eventDate.setHours(0, 0, 0, 0);
+  //     const diffTime = eventDate.getTime() - today.getTime();
+  //     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  //     return (diffDays === 0) || (diffDays > 0 && diffDays <= 7);
+  //   }
+  //   return false;
+  // }
 
   const subscribe = async () => {
     setRouterTo(`/events/${idEvent}`);
