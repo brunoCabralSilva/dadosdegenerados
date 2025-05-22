@@ -137,7 +137,7 @@ export default function CreateActivity(props: { idEvent: string }) {
             name: nameActivity,
             typeActivity,
             systemSession: findSystem,
-            spots,
+            spots: noSpots? 1000 : spots,
             noSpots,
             availableSpots: spots,
             dates: listDates,
