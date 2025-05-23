@@ -25,7 +25,6 @@ export default function EditProfile(props: { setDataUser: React.Dispatch<React.S
   
   const updateUser = async () => {
     setLoading(true);
-    console.log(prevLastName);
     if (!prevFirstName || prevFirstName.length < 2) {
       setShowMessage({ show: true, text: 'Necessário inserir um Nome com mais de 2 caracteres' });
     } else if(!prevLastName || prevLastName.length < 2) {

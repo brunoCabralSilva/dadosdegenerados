@@ -1,7 +1,7 @@
 'use client'
 import contexto from '@/context/context';
 import { authenticate } from '@/firebase/authenticate';
-import { getSubscribeByEmailAndEvent } from '@/firebase/subscribes';
+import { deleteSubscribeByEventIdAndEmail } from '@/firebase/subscribes';
 import { IAuthenticate } from '@/interfaces';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -18,7 +18,7 @@ export default function DeleteSubscribe() {
   const deleteSubscribe = async () => {
     const auth: IAuthenticate | null = await authenticate(setShowMessage);
     if (auth) {
-      await getSubscribeByEmailAndEvent(auth.email, showDeleteSubscribe.id, setShowMessage);
+      await deleteSubscribeByEventIdAndEmail(showDeleteSubscribe.id, auth.email, setShowMessage);
       router.push('/events');
       setShowDeleteSubscribe({ show: false, id: '' });
     }

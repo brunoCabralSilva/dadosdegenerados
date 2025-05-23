@@ -20,7 +20,6 @@ export default function Nav() {
         setLoginLogout('logout');
       } else setLoginLogout('login');
     };
-    console.log(loginLogout);
     fetchData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

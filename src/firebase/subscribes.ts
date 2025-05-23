@@ -221,6 +221,33 @@ export async function deleteSubscribeByEventId(
   }
 }
 
+export async function deleteSubscribeByEventIdAndEmail(
+  eventId: string,
+  email: string,
+  setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>
+) {
+  try {
+    const db = getFirestore(firebaseConfig);
+    const collectionRef = collection(db, 'subscribes');
+    const q = query(
+      collectionRef,
+      where('idEvent', '==', eventId),
+      where('email', '==', email)
+    );
+    const querySnapshot = await getDocs(q);
+
+    const deletePromises = querySnapshot.docs.map((docSnapshot) =>
+      deleteDoc(doc(db, 'subscribes', docSnapshot.id))
+    );
+
+    await Promise.all(deletePromises);
+    await updateAvaiableSpots(eventId, setShowMessage);
+    setShowMessage({ show: true, text: 'A Inscrição foi cancelada.' });
+  } catch (error) {
+    setShowMessage({ show: true, text: 'Erro ao cancelar Inscrição: ' + error });
+  }
+}
+
 export async function deleteSubscribesByActivityId(
   activityId: string,
   setShowMessage?: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>
