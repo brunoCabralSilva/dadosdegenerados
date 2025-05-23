@@ -24,8 +24,8 @@ export default function Subscribe(props: { idEvent: string }) {
   useEffect(() => {
     const getActivities = async () => {
       const getAll = await getActivitiesByEventId(idEvent, setShowMessage);
-      setListActivities(getAll.filter((all: IActivityRegisterWithId) => all.availableSpots > 0));
-      setWaitList(getAll.filter((all: IActivityRegisterWithId) => all.availableSpots <= 0));
+      setListActivities(getAll.filter((all: IActivityRegisterWithId) => all.availableSpots > 0 || all.noSpots));
+      setWaitList(getAll.filter((all: IActivityRegisterWithId) => all.availableSpots <= 0 && !all.noSpots));
     }
     getActivities();
   }, []);
@@ -155,72 +155,78 @@ export default function Subscribe(props: { idEvent: string }) {
                 <p className="break-words w-full text-white">{ whatsappGroup ? 'Desmarque se você não faz parte do grupo do Dados Degenerados (Whatsapp)' : 'Marque se você já faz parte do grupo do Dados Degenerados (Whatsapp)'}</p>
               </label>
             </div>
-            <div className="text-white flex flex-col w-full">
-              <p className="mb-3">Escolha abaixo as atividades que deseja participar (clique para marcar ou desmarcar):</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 mb-5 gap-3">
-                {
-                  listActivities
-                  && listActivities.length > 0
-                  && listActivities.map((activities: IActivityRegisterWithId, index: number) => (
-                    <button
-                      type="button"
-                      key={index}
-                      onClick={ () => addOrRemoveActivity(activities.id) }
-                      className={`${verifyActivity(activities.id) ? 'border-red-800 bg-black' : 'border-white' } text-center w-full cursor-pointer border-2 p-4`}
-                    >
-                      <div className="font-bold">{activities.typeActivity} - { activities.systemSession.name } - { activities.name }</div>
-                      <div className="text-sm">
-                        <span className="pr-1 font-bold">Temas Sensíveis:</span>
-                        <span>{ activities.sensibility }</span>
-                      </div>
-                      <div className="  text-sm">
-                        <span className="pr-1 font-bold">Data:</span>
-                        {
-                          activities.dates.map((dateItem: IDatesToAdd, index: number) => (
-                            <span key={index} className="">
-                              { `${dateItem.day.split("-").reverse().join("-") }${dateItem.end && dateItem.end !== '' ? ' (das ' : ' (às '}${ dateItem.init.replace(":", "h") + "min" }${dateItem.end && dateItem.end !== '' ? ` às ${ dateItem.end.replace(":", "h") + "min)" }`: ')'} ${activities.dates.length - 1 !== index ? '| ' : ''}`}
-                            </span>
-                          ))
-                        }
-                      </div>
-                    </button>
-                  ))
-                }
+            {
+              listActivities && listActivities.length > 0 && 
+              <div className="text-white flex flex-col w-full">
+                <p className="mb-3">Escolha abaixo as atividades que deseja participar (clique para marcar ou desmarcar):</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 mb-5 gap-3">
+                  {
+                    listActivities
+                    && listActivities.length > 0
+                    && listActivities.map((activities: IActivityRegisterWithId, index: number) => (
+                      <button
+                        type="button"
+                        key={index}
+                        onClick={ () => addOrRemoveActivity(activities.id) }
+                        className={`${verifyActivity(activities.id) ? 'border-red-800 bg-black' : 'border-white' } text-center w-full cursor-pointer border-2 p-4`}
+                      >
+                        <div className="font-bold">{activities.typeActivity} - { activities.systemSession.name } - { activities.name }</div>
+                        <div className="text-sm">
+                          <span className="pr-1 font-bold">Temas Sensíveis:</span>
+                          <span>{ activities.sensibility }</span>
+                        </div>
+                        <div className="  text-sm">
+                          <span className="pr-1 font-bold">Data:</span>
+                          {
+                            activities.dates.map((dateItem: IDatesToAdd, index: number) => (
+                              <span key={index} className="">
+                                { `${dateItem.day.split("-").reverse().join("-") }${dateItem.end && dateItem.end !== '' ? ' (das ' : ' (às '}${ dateItem.init.replace(":", "h") + "min" }${dateItem.end && dateItem.end !== '' ? ` às ${ dateItem.end.replace(":", "h") + "min)" }`: ')'} ${activities.dates.length - 1 !== index ? '| ' : ''}`}
+                              </span>
+                            ))
+                          }
+                        </div>
+                      </button>
+                    ))
+                  }
+                </div>
               </div>
-            </div>
-            <div className="text-white flex flex-col w-full">
-              <p className="mb-3">As Atividades abaixo já alcançaram o número máximo de participantes. Clique para marcar ou desmarcar as Atividades que desejar entrar na lista de espera:</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 mb-5 gap-3">
-                {
-                  waitlist
-                  && waitlist.length > 0
-                  && waitlist.map((activities: IActivityRegisterWithId, index: number) => (
-                    <button
-                      type="button"
-                      key={index}
-                      onClick={ () => addOrRemoveWaitList(activities.id) }
-                      className={`${verifyWaitList(activities.id) ? 'border-red-800 bg-black' : 'border-white' } text-center w-full cursor-pointer border-2 p-4`}
-                    >
-                      <div className="font-bold">{activities.typeActivity} - { activities.systemSession.name } - { activities.name }</div>
-                      <div className="text-sm">
-                        <span className="pr-1 font-bold">Temas Sensíveis:</span>
-                        <span>{ activities.sensibility }</span>
-                      </div>
-                      <div className="  text-sm">
-                        <span className="pr-1 font-bold">Data:</span>
-                        {
-                          activities.dates.map((dateItem: IDatesToAdd, index: number) => (
-                            <span key={index} className="">
-                              { `${dateItem.day.split("-").reverse().join("-") }${dateItem.end && dateItem.end !== '' ? ' (das ' : ' (às '}${ dateItem.init.replace(":", "h") + "min" }${dateItem.end && dateItem.end !== '' ? ` às ${ dateItem.end.replace(":", "h") + "min)" }`: ')'} ${activities.dates.length - 1 !== index ? '| ' : ''}`}
-                            </span>
-                          ))
-                        }
-                      </div>
-                    </button>
-                  ))
-                }
+            }
+            {
+              waitlist && waitlist.length > 0 &&
+              <div className="text-white flex flex-col w-full">
+                <p className="mb-3">As Atividades abaixo já alcançaram o número máximo de participantes. Clique para marcar ou desmarcar as Atividades que desejar entrar na lista de espera:</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 mb-5 gap-3">
+                    {
+                      waitlist
+                      && waitlist.length > 0
+                      && waitlist.map((activities: IActivityRegisterWithId, index: number) => (
+                        <button
+                          type="button"
+                          key={index}
+                          onClick={ () => addOrRemoveWaitList(activities.id) }
+                          className={`${verifyWaitList(activities.id) ? 'border-red-800 bg-black' : 'border-white' } text-center w-full cursor-pointer border-2 p-4`}
+                        >
+                          <div className="font-bold">{activities.typeActivity} - { activities.systemSession.name } - { activities.name }</div>
+                          <div className="text-sm">
+                            <span className="pr-1 font-bold">Temas Sensíveis:</span>
+                            <span>{ activities.sensibility }</span>
+                          </div>
+                          <div className="  text-sm">
+                            <span className="pr-1 font-bold">Data:</span>
+                            {
+                              activities.dates.map((dateItem: IDatesToAdd, index: number) => (
+                                <span key={index} className="">
+                                  { `${dateItem.day.split("-").reverse().join("-") }${dateItem.end && dateItem.end !== '' ? ' (das ' : ' (às '}${ dateItem.init.replace(":", "h") + "min" }${dateItem.end && dateItem.end !== '' ? ` às ${ dateItem.end.replace(":", "h") + "min)" }`: ')'} ${activities.dates.length - 1 !== index ? '| ' : ''}`}
+                                </span>
+                              ))
+                            }
+                          </div>
+                        </button>
+                      ))
+                    }
+                  </div>
               </div>
-            </div>
+            }
             <button
               className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative w-full"
               onClick={ updateUser }
