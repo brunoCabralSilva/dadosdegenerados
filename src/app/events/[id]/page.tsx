@@ -190,131 +190,131 @@ export default function EventId() {
                       { dataEvent.description }
                     </div>                          
                   </div>
-                </div>
-              }
-              <div className="px-5 text-white flex flex-col sm:flex-row sm:items-center w-full justify-between my-5">
-                <p className="text-xl font-bold">Atividades Programadas</p>
-                {
-                  dataEvent &&
-                  <div className="flex gap-1">
+                  <div className="px-5 text-white flex flex-col sm:flex-row sm:items-center w-full justify-between my-5">
+                    <p className="text-xl font-bold">Atividades Programadas</p>
                     {
-                      listActivities && listActivities.length > 0 &&
-                      <button
-                      onClick={ subscribe }
-                      className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative mt-2 sm:mt-0"
-                      >
-                        { subscribed ? 'Ver Inscrição' : 'Inscrever-se' }
-                      </button>
-                    }
-                    {
-                      subscribed &&
-                      <button
-                        onClick={ () => setShowDeleteSubscribe({ show: true, id: idEvent }) }
-                        className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative mt-2 sm:mt-0"
-                      >
-                        Cancelar Inscrição
-                      </button>
-                    }
-                    {
-                      userData.role === 'admin' &&
-                      <button
-                        onClick={ () => setShowCreateActivity({ show: true, id: idEvent }) }
-                        className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative mt-2 sm:mt-0"
-                      >
-                        Criar Atividade
-                      </button>
+                      dataEvent &&
+                      <div className="flex gap-1">
+                        {
+                          listActivities && listActivities.length > 0 &&
+                          <button
+                          onClick={ subscribe }
+                          className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative mt-2 sm:mt-0"
+                          >
+                            { subscribed ? 'Ver Inscrição' : 'Inscrever-se' }
+                          </button>
+                        }
+                        {
+                          subscribed &&
+                          <button
+                            onClick={ () => setShowDeleteSubscribe({ show: true, id: idEvent }) }
+                            className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative mt-2 sm:mt-0"
+                          >
+                            Cancelar Inscrição
+                          </button>
+                        }
+                        {
+                          userData.role === 'admin' &&
+                          <button
+                            onClick={ () => setShowCreateActivity({ show: true, id: idEvent }) }
+                            className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative mt-2 sm:mt-0"
+                          >
+                            Criar Atividade
+                          </button>
+                        }
+                      </div>
                     }
                   </div>
-                }
-              </div>
-              <div className="px-5 text-white flex flex-col gap-2">
-                {
-                  listActivities
-                  && listActivities.length > 0
-                  && listActivities.map((activity: IActivityRegisterWithId, index: number) => (
-                    <div
-                      key={index}
-                      className="p-4 border border-white bg-[url(/images/dd_logo_bg_black.png)] bg-center"
-                    >
-                      <div className="text-xl font-bold mb-2 flex w-full justify-between">
-                        <span className="pr-1">
-                          { activity.typeActivity } - { activity.name }
-                        </span>
-                        <div>
+                  <div className="px-5 text-white flex flex-col gap-2">
+                    {
+                      listActivities
+                      && listActivities.length > 0
+                      && listActivities.map((activity: IActivityRegisterWithId, index: number) => (
+                        <div
+                          key={index}
+                          className="p-4 border border-white bg-[url(/images/dd_logo_bg_black.png)] bg-center"
+                        >
+                          <div className="text-xl font-bold mb-2 flex w-full justify-between">
+                            <span className="pr-1">
+                              { activity.typeActivity } - { activity.name }
+                            </span>
+                            <div>
+                              {
+                                userData.role === 'admin' &&
+                                <div className="text-white flex gap-2 justify-end w-full">
+                                  <button
+                                    type="button"
+                                    onClick={ () => setShowEditActivity({ show: true, data: activity }) }
+                                    title="Editar"
+                                    className="text-2xl cursor-pointer"
+                                  >
+                                    <FiEdit />
+                                  </button>
+                                  <button
+                                    type="button"
+                                    title="Excluir"
+                                    onClick={ () => setShowDeleteActivity({ show: true, id: activity.id }) }
+                                    className="text-2xl cursor-pointer"
+                                  >
+                                    <MdDelete />
+                                  </button>
+                                </div>
+                              }
+                            </div>
+                          </div>
+                          <div className="w-full mb-3 h-0.5 bg-white" />
+                          <div className="">
+                            <span className="font-bold">Data: </span>
+                            {
+                              activity.dates.map((dateItem: IDatesToAdd, index: number) => (
+                                <span key={index} className="">
+                                  { `${dateItem.day.split("-").reverse().join("-") }${dateItem.end && dateItem.end !== '' ? ' (das ' : ' (às '}${ dateItem.init.replace(":", "h") + "min" }${dateItem.end && dateItem.end !== '' ? ` às ${ dateItem.end.replace(":", "h") + "min)" }`: ')'} ${activity.dates.length - 1 !== index ? '| ' : ''}`}
+                                </span>
+                              ))
+                            }
+                          </div>
+                          <div>
+                            <span className="font-bold pr-1">{
+                              activity.noSpots ? 'Sem limite de Participantes' : `Quantidade de Participantes: ${activity.spots}`
+                            }
+                            </span>
+                          </div>
                           {
-                            userData.role === 'admin' &&
-                            <div className="text-white flex gap-2 justify-end w-full">
-                              <button
-                                type="button"
-                                onClick={ () => setShowEditActivity({ show: true, data: activity }) }
-                                title="Editar"
-                                className="text-2xl cursor-pointer"
-                              >
-                                <FiEdit />
-                              </button>
-                              <button
-                                type="button"
-                                title="Excluir"
-                                onClick={ () => setShowDeleteActivity({ show: true, id: activity.id }) }
-                                className="text-2xl cursor-pointer"
-                              >
-                                <MdDelete />
-                              </button>
+                            !activity.noSpots &&
+                            <div>
+                              <span className="font-bold pr-1">
+                                Vagas Disponíveis: {activity.availableSpots}
+                              </span>
+                            </div>
+                          }
+                          {
+                            activity.typeActivity === 'Sessão de RPG' &&
+                            <div className="mb-3">
+                              <span className="font-bold pr-1">Sistema:</span>
+                              <span>{ activity.systemSession.name }</span>
+                            </div>
+                          }
+                          <div className="">
+                            <div className="font-bold pr-1">{ activity.typeActivity === 'Sessão de RPG' ? 'Sinopse:' : 'Descrição:' }</div>
+                            <div className="text-justify">{ activity.description }</div>
+                          </div>
+                          <div className="mb-3">
+                            <div className="font-bold mt-2 pr-1 text-justify">Possíveis temas sensíveis que serão abordados:</div>
+                            <div className="text-justify">{ activity.sensibility }</div>
+                          </div>
+                          {
+                            activity.typeActivity === 'Sessão de RPG' &&
+                            <div>
+                              <div className="font-bold mb-1">Como é jogar { activity.systemSession.name }?</div>
+                              <div className="mb-3 text-justify">{ activity.systemSession.description }</div>
                             </div>
                           }
                         </div>
-                      </div>
-                      <div className="w-full mb-3 h-0.5 bg-white" />
-                      <div className="">
-                        <span className="font-bold">Data: </span>
-                        {
-                          activity.dates.map((dateItem: IDatesToAdd, index: number) => (
-                            <span key={index} className="">
-                              { `${dateItem.day.split("-").reverse().join("-") }${dateItem.end && dateItem.end !== '' ? ' (das ' : ' (às '}${ dateItem.init.replace(":", "h") + "min" }${dateItem.end && dateItem.end !== '' ? ` às ${ dateItem.end.replace(":", "h") + "min)" }`: ')'} ${activity.dates.length - 1 !== index ? '| ' : ''}`}
-                            </span>
-                          ))
-                        }
-                      </div>
-                      <div>
-                        <span className="font-bold pr-1">{
-                          activity.noSpots ? 'Sem limite de Participantes' : `Quantidade de Participantes: ${activity.spots}`
-                        }
-                        </span>
-                      </div>
-                      {
-                        !activity.noSpots &&
-                        <div>
-                          <span className="font-bold pr-1">
-                            Vagas Disponíveis: {activity.availableSpots}
-                          </span>
-                        </div>
-                      }
-                      {
-                        activity.typeActivity === 'Sessão de RPG' &&
-                        <div className="mb-3">
-                          <span className="font-bold pr-1">Sistema:</span>
-                          <span>{ activity.systemSession.name }</span>
-                        </div>
-                      }
-                      <div className="">
-                        <div className="font-bold pr-1">{ activity.typeActivity === 'Sessão de RPG' ? 'Sinopse:' : 'Descrição:' }</div>
-                        <div className="text-justify">{ activity.description }</div>
-                      </div>
-                      <div className="mb-3">
-                        <div className="font-bold mt-2 pr-1 text-justify">Possíveis temas sensíveis que serão abordados:</div>
-                        <div className="text-justify">{ activity.sensibility }</div>
-                      </div>
-                      {
-                        activity.typeActivity === 'Sessão de RPG' &&
-                        <div>
-                          <div className="font-bold mb-1">Como é jogar { activity.systemSession.name }?</div>
-                          <div className="mb-3 text-justify">{ activity.systemSession.description }</div>
-                        </div>
-                      }
-                    </div>
-                  ))
-                }
-              </div>
+                      ))
+                    }
+                  </div>
+                </div>
+              }
             </div>
           </div>
         }
