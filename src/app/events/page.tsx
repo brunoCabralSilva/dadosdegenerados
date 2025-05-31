@@ -42,19 +42,23 @@ export default function Eventos() {
   function getEventDateLabel(dates: IDatesToAdd[]): string | null {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-  
+
     for (const dateObj of dates) {
-      const eventDate = new Date(dateObj.day);
+      const [year, month, day] = dateObj.day.split('-').map(Number);
+      const eventDate = new Date(year, month - 1, day);
       eventDate.setHours(0, 0, 0, 0);
+
       const diffTime = eventDate.getTime() - today.getTime();
-      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));  
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
       if (diffDays < 0) return "Encerrado";
       if (diffDays === 0) return "HOJE";
       if (diffDays > 0 && diffDays <= 7) return "Em Breve!";
     }
-  
+
     return '';
   }
+
   
   return(
     <div className="break-words w-full min-h-screen bg-black">
