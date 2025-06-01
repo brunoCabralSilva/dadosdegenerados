@@ -300,10 +300,13 @@ export default function EventId() {
                               <span>{ activity.systemSession.name }</span>
                             </div>
                           }
-                          <div className="">
-                            <div className="font-bold pr-1">{ activity.typeActivity === 'Sessão de RPG' ? 'Sinopse:' : 'Descrição:' }</div>
-                            <div className="text-justify">{ activity.description }</div>
-                          </div>
+                          {
+                            activity.description !== '' &&
+                            <div className="">
+                              <div className="font-bold pr-1">{ activity.typeActivity === 'Sessão de RPG' ? 'Sinopse:' : 'Descrição:' }</div>
+                              <div className="text-justify">{ activity.description }</div>
+                            </div>
+                          }
                           <div className="mb-3">
                             <div className="font-bold mt-2 pr-1 text-justify">Possíveis temas sensíveis que serão abordados:</div>
                             <div className="text-justify">{ activity.sensibility }</div>
