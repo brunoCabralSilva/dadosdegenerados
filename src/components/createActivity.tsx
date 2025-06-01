@@ -290,12 +290,12 @@ export default function CreateActivity(props: { idEvent: string }) {
                 </label>
               }
               <label htmlFor="nameNewSystem" className="break-words mb-4 flex flex-col items-center w-full">
-                <p className="break-words w-full mb-2 text-white">Nome do { typeActivity !== 'Sessão de RPG' ? 'Responsável' : 'Narrador' }</p>
+                <p className="break-words w-full mb-2 text-white">{ typeActivity !== 'Sessão de RPG' ? 'Responsável' : 'Narrador(a)' }</p>
                 <input
                   type="text"
                   id="nameNewSystem"
                   value={ dm }
-                  placeholder={`Nome e Sobrenome do ${typeActivity !== 'Sessão de RPG' ? 'Responsável' : 'Narrador'}`}
+                  placeholder={`${typeActivity !== 'Sessão de RPG' ? 'Responsável' : 'Narrador(a)'}`}
                   className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white outline-none"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDm(e.target.value) }
                 />

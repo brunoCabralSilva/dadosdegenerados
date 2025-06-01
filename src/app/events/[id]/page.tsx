@@ -283,7 +283,7 @@ export default function EventId() {
                             activity.dm &&
                             <div>
                               <span className="font-bold pr-1">
-                                { `${activity.typeActivity !== 'Sessão de RPG' ? 'Responsável' : 'Narrador'}: ${ activity.dm }` }
+                                { `${activity.typeActivity !== 'Sessão de RPG' ? 'Responsável' : 'Narrador(a)'}: ${ activity.dm }` }
                               </span>
                             </div>
                           }
