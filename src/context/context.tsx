@@ -72,7 +72,7 @@ const initialValue: DegeneratesContext = {
   setShowCreateEvent: () => {},
   showEditEvent: { show: false, id: '' },
   setShowEditEvent: () => {},
-  showEditActivity: { show: false, data: { id: '', eventId: '', name: '', typeActivity: '', systemSession: { name: '', description: '' }, spots: 0, availableSpots: 0, noSpots: false, dates: [], description: '', sensibility: '' }},
+  showEditActivity: { show: false, data: { id: '', dm: '', eventId: '', name: '', typeActivity: '', systemSession: { name: '', description: '' }, spots: 0, availableSpots: 0, noSpots: false, dates: [], description: '', sensibility: '' }},
   showEditSubscribe: false,
   setShowEditSubscribe: () => {},
   setShowEditActivity: () => {},
