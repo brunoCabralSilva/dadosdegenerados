@@ -53,9 +53,10 @@ export default function CreateEvent() {
     } else if (!prevInit) {
       setShowMessage({ show: true, text: "Você precisa informar o horário de início." });
     } else {
-      const today = new Date();
-      const selectedDate = new Date(prevDay);
+       const today = new Date();
       today.setHours(0, 0, 0, 0);
+      const [year, month, day] = prevDay.split('-').map(Number);
+      const selectedDate = new Date(year, month - 1, day);
       selectedDate.setHours(0, 0, 0, 0);
       if (selectedDate < today) {
         setShowMessage({ show: true, text: "A data selecionada é anterior à data atual." });

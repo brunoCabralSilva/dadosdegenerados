@@ -52,7 +52,6 @@ export default function EventId() {
   const [dataEvent, setDataEvent] = useState<IEventRegisterWithId | null>(null);
   const [listActivities, setListActivities] = useState<IActivityRegisterWithId[]>([]);
   const [email, setEmail] = useState<string>('');
-
   const router = useRouter();
   
   useEffect(() => {
@@ -78,6 +77,20 @@ export default function EventId() {
     authUser();
     getEvent();
   }, []);
+
+  function isLatestDateTodayOrFuture(): boolean {
+    if (!dataEvent?.dates || dataEvent?.dates.length === 0) return false;
+
+    const latestTime = Math.max(
+      ...dataEvent?.dates.map(d => {
+        const [year, month, day] = d.day.split('-').map(Number);
+        return new Date(year, month - 1, day).getTime();
+      })
+    );
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return latestTime >= today.getTime();
+  }
   
   const subscribe = async () => {
     setRouterTo(`/events/${idEvent}`);
@@ -119,7 +132,7 @@ export default function EventId() {
               {
                 dataEvent &&
                 <div className="text-white mt-5">
-                  <div className="px-5 col-span-2">
+                  <div className="px-5">
                     <div className="flex flex-col-reverse sm:flex-row items-start sm:items-center justify-between w-full">
                       <span className="sm:w-full pr-1 font-bold text-2xl">{ dataEvent.name }</span>
                       {
@@ -133,13 +146,16 @@ export default function EventId() {
                           >
                             <FaEye />
                           </button>
-                          <button
-                            type="button"
-                            onClick={ () => setShowEditEvent({ show: true, id: idEvent }) }
-                            className="text-2xl cursor-pointer"
-                          >
-                            <FiEdit />
-                          </button>
+                          {
+                            isLatestDateTodayOrFuture() &&
+                            <button
+                              type="button"
+                              onClick={ () => setShowEditEvent({ show: true, id: idEvent }) }
+                              className="text-2xl cursor-pointer"
+                            >
+                              <FiEdit />
+                            </button>
+                          }
                           <button
                             type="button"
                             onClick={ () => setShowDeleteEvent({ show: true, id: idEvent }) }
@@ -165,7 +181,7 @@ export default function EventId() {
                       <span className="mb-2 sm:mb-0">{ dataEvent.address }</span>
                     </a>
                     <div className="mb-5">
-                      {
+                      { dataEvent.dates.length > 1 ? 'Datas: ' : 'Data: ' } {
                         dataEvent.dates.map((dateItem: IDatesToAdd, index: number) => (
                           <span key={index} className="text-sm font-bold">
                             { `${dateItem.day.split("-").reverse().join("-") }${dateItem.end && dateItem.end !== '' ? ' (das ' : ' (às '}${ dateItem.init.replace(":", "h") + "min" }${dateItem.end && dateItem.end !== '' ? ` às ${ dateItem.end.replace(":", "h") + "min)" }`: ')'} ${dataEvent.dates.length - 1 !== index ? '| ' : ''}`}
@@ -183,7 +199,7 @@ export default function EventId() {
                       dataEvent &&
                       <div className="flex gap-1">
                         {
-                          listActivities && listActivities.length > 0 &&
+                          listActivities && listActivities.length > 0 && isLatestDateTodayOrFuture() &&
                           <button
                           onClick={ subscribe }
                           className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative mt-2 sm:mt-0"
@@ -192,7 +208,7 @@ export default function EventId() {
                           </button>
                         }
                         {
-                          subscribed &&
+                          subscribed && isLatestDateTodayOrFuture() &&
                           <button
                             onClick={ () => setShowDeleteSubscribe({ show: true, id: idEvent }) }
                             className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative mt-2 sm:mt-0"
@@ -201,7 +217,7 @@ export default function EventId() {
                           </button>
                         }
                         {
-                          userData.role === 'admin' &&
+                          userData.role === 'admin' && isLatestDateTodayOrFuture() &&
                           <button
                             onClick={ () => setShowCreateActivity({ show: true, id: idEvent }) }
                             className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative mt-2 sm:mt-0"
@@ -229,14 +245,17 @@ export default function EventId() {
                               {
                                 userData.role === 'admin' &&
                                 <div className="text-white flex gap-2 justify-end w-full">
-                                  <button
-                                    type="button"
-                                    onClick={ () => setShowEditActivity({ show: true, data: activity }) }
-                                    title="Editar"
-                                    className="text-2xl cursor-pointer"
-                                  >
-                                    <FiEdit />
-                                  </button>
+                                  {
+                                    isLatestDateTodayOrFuture() &&
+                                    <button
+                                      type="button"
+                                      onClick={ () => setShowEditActivity({ show: true, data: activity }) }
+                                      title="Editar"
+                                      className="text-2xl cursor-pointer"
+                                    >
+                                      <FiEdit />
+                                    </button>
+                                  }
                                   <button
                                     type="button"
                                     title="Excluir"

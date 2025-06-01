@@ -1,11 +1,10 @@
 import * as functions from "firebase-functions";
 import * as nodemailer from "nodemailer";
 
-// Configure seu e-mail e senha de app (use variáveis seguras)
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: functions.config().email.user, // ex: via firebase functions:config:set
+    user: functions.config().email.user,
     pass: functions.config().email.pass,
   },
 });

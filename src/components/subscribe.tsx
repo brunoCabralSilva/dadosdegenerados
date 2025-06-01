@@ -20,6 +20,7 @@ export default function Subscribe(props: { idEvent: string }) {
   const [activitiesAdded, setActivitiesAdded] = useState<string[]>([]);
   const [waitListAdded, setWaitListAdded] = useState<string[]>([]);
   const [whatsappGroup, setWhatsappGroup] = useState<boolean>(false);
+  const [imageRights, setImageRights] = useState<boolean>(false);
 
   useEffect(() => {
     const getActivities = async () => {
@@ -69,6 +70,8 @@ export default function Subscribe(props: { idEvent: string }) {
       setShowMessage({ show: true, text: 'Necessário inserir um número válido (dois números para o DDD e oito/nove números do telefone).' });
     } else if (activitiesAdded.length === 0) {
       setShowMessage({ show: true, text: 'É necessário selecionar pelo menos uma atividade do Evento para participar.' });
+    } else if (!imageRights) {
+      setShowMessage({ show: true, text: 'É necessário concordar com os direitos de autorização de uso de Imagem, voz e nome.' });
     } else {
       const auth: IAuthenticate | null = await authenticate(setShowMessage);
       if (auth) {
@@ -227,6 +230,19 @@ export default function Subscribe(props: { idEvent: string }) {
                   </div>
               </div>
             }
+            <label
+              htmlFor="imageRights"
+              onClick={ () => setImageRights(!imageRights) }
+              className="break-words mb-4 flex items-start gap-2 w-full cursor-pointer"
+            >
+              <div
+                id="imageRights"
+                className={`w-6 h-6 border-2 border-white ${imageRights ? 'bg-red-900' : ''}`}
+              />
+              <p className="break-words w-full text-white">
+                Ao participar deste evento, autorizo, de forma gratuita, o uso da minha imagem, voz e nome em fotografias, vídeos e demais registros audiovisuais realizados durante as atividades. Estou ciente de que esse material poderá ser utilizado para fins institucionais, promocionais e informativos, em meios físicos ou digitais, como redes sociais, sites, folders, vídeos e outros materiais de divulgação, sem limite de tempo ou território. Declaro, ainda, que esta autorização é concedida de forma livre e espontânea, sem que haja qualquer ônus presente ou futuro e que não será devida qualquer remuneração pelo uso ora autorizado.
+              </p>
+            </label>
             <button
               className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative w-full"
               onClick={ updateUser }

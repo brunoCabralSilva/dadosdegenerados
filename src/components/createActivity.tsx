@@ -124,8 +124,6 @@ export default function CreateActivity(props: { idEvent: string }) {
       setShowMessage({ show: true, text: 'Necessário inserir uma Quantidade de Vagas para a Atividade maior que Zero.' });
     } else if(listDates.length === 0) {
       setShowMessage({ show: true, text: 'Necessário inserir uma Data e Horário da Atividade.' });
-    } else if (!description && description.length < 10) {
-      setShowMessage({ show: true, text: 'Necessário inserir uma Descrição para a Atividade com pelo menos 10 caracteres.' });
     } else if (!sensibility && sensibility.length < 10) {
       setShowMessage({ show: true, text: 'Necessário descrever os temas sensíveis para a Atividade com pelo menos 5 caracteres.' });
     } else {
@@ -378,7 +376,7 @@ export default function CreateActivity(props: { idEvent: string }) {
               </div>
             </div>
             <label htmlFor="description" className="break-words my-5 flex flex-col items-center w-full">
-              <p className="break-words w-full mb-3 text-white">{`Descrição ${typeActivity !== '' ? `da ${typeActivity}`  : ''}`} *</p>
+              <p className="break-words w-full mb-3 text-white">{`Descrição ${typeActivity !== '' ? `da ${typeActivity}`  : ''}`}</p>
               <textarea
                 id="description"
                 rows={7}

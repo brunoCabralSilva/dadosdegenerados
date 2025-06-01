@@ -24,20 +24,44 @@ export default function Eventos() {
 
   useEffect(() => {
     setRouterTo('/events');
-    const getEvents = async () => {
-      const events: IEventRegisterWithId[] | undefined = await getAllEvents(setShowMessage);
-      if (events) setDataEvents(events);
-    }
-    const authUser = async () => {
-      const auth: IAuthenticate | null = await authenticate(setShowMessage);
-      if (auth && userData.id === '') {
-        const getUser = await getUserByEmail(auth.email, setShowMessage);
-        if (getUser) setUserData(getUser);
-      }
-    };
     authUser();
     getEvents();
   }, []);
+
+  const getEvents = async () => {
+    const events: IEventRegisterWithId[] | undefined = await getAllEvents(setShowMessage);
+    if (events) {
+      const sortedEvents = [...events].sort((a, b) => {
+        const dateA = getEarliestDateFromDates(a.dates);
+        const dateB = getEarliestDateFromDates(b.dates);
+        return dateB - dateA;
+      });
+      setDataEvents(sortedEvents);
+    }
+  };
+
+  const authUser = async () => {
+    const auth: IAuthenticate | null = await authenticate(setShowMessage);
+    if (auth && userData.id === '') {
+      const getUser = await getUserByEmail(auth.email, setShowMessage);
+      if (getUser) setUserData(getUser);
+    }
+  };
+
+  const getEarliestDateFromDates = (dates: IDatesToAdd[]): number => {
+    if (!dates || dates.length === 0) return Infinity;
+    console.log(Math.min(
+      ...dates.map(d => {
+        const [year, month, day] = d.day.split('-').map(Number);
+        return new Date(year, month - 1, day).getTime();
+      })));
+    return Math.min(
+      ...dates.map(d => {
+        const [year, month, day] = d.day.split('-').map(Number);
+        return new Date(year, month - 1, day).getTime();
+      })
+    );
+  };
 
   function getEventDateLabel(dates: IDatesToAdd[]): string | null {
     const today = new Date();
@@ -53,7 +77,7 @@ export default function Eventos() {
 
       if (diffDays < 0) return "Encerrado";
       if (diffDays === 0) return "HOJE";
-      if (diffDays > 0 && diffDays <= 7) return "Em Breve!";
+      return "Em Breve!";
     }
 
     return '';
