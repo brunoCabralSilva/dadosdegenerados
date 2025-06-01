@@ -56,6 +56,7 @@ export interface IEventUpdateWithId {
 export interface IActivityRegister {
   eventId: string;
   name: string;
+  dm: string;
   typeActivity: string;
   systemSession: ISystemToAdd;
   spots: number;
@@ -70,6 +71,7 @@ export interface IActivityRegisterWithId {
   id: string;
   eventId: string;
   name: string;
+  dm: string;
   typeActivity: string;
   systemSession: ISystemToAdd;
   spots: number;

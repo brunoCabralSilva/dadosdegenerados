@@ -29,6 +29,7 @@ export default function CreateActivity(props: { idEvent: string }) {
   const [nameNewSystem, setNameNewSystem] = useState<string>('');
   const [descNewSystem, setDescNewSystem] = useState<string>('');
   const [listSystems, setListSystems] = useState<ISystemToAdd[]>([]);
+  const [dm, setDm] = useState<string>('');
 
   useEffect(() => {
     const getSystems = async () => {
@@ -137,6 +138,7 @@ export default function CreateActivity(props: { idEvent: string }) {
             systemSession: findSystem,
             spots: noSpots? 1000 : spots,
             noSpots,
+            dm,
             availableSpots: spots,
             dates: listDates,
             description,
@@ -151,6 +153,7 @@ export default function CreateActivity(props: { idEvent: string }) {
           eventId: idEvent,
           name: nameActivity,
           typeActivity,
+          dm,
           systemSession: { name: '', description: ''},
           spots,
           noSpots,
@@ -286,6 +289,17 @@ export default function CreateActivity(props: { idEvent: string }) {
                   }
                 </label>
               }
+              <label htmlFor="nameNewSystem" className="break-words mb-4 flex flex-col items-center w-full">
+                <p className="break-words w-full mb-2 text-white">Nome do { typeActivity !== 'Sessão de RPG' ? 'Responsável' : 'Narrador' }</p>
+                <input
+                  type="text"
+                  id="nameNewSystem"
+                  value={ dm }
+                  placeholder={`Nome e Sobrenome do ${typeActivity !== 'Sessão de RPG' ? 'Responsável' : 'Narrador'}`}
+                  className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white outline-none"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDm(e.target.value) }
+                />
+              </label>
               <p className="break-words w-full mb-1 text-white">Quantidade de Vagas *</p>
               <label htmlFor="spots" className="break-words mb-4 flex flex-col sm:flex-row items-center w-full gap-3">
                 {

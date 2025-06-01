@@ -29,6 +29,7 @@ export default function EditActivity() {
   const [nameNewSystem, setNameNewSystem] = useState<string>('');
   const [descNewSystem, setDescNewSystem] = useState<string>('');
   const [listSystems, setListSystems] = useState<ISystemToAdd[]>([]);
+  const [dm, setDm] = useState<string>('');
 
   useEffect(() => {
     if (showEditActivity) {
@@ -40,6 +41,7 @@ export default function EditActivity() {
       setSystemSession(showEditActivity.data.systemSession.name);
       setSpots(showEditActivity.data.spots)
       setNoSpots(showEditActivity.data.noSpots);
+      if (showEditActivity.data.dm) setDm(showEditActivity.data.dm);
     }
     const getSystems = async () => {
       const getAll = await getAllSystems(setShowMessage);
@@ -121,6 +123,12 @@ export default function EditActivity() {
       setDescNewSystem('');
     }
   }
+
+  const calculateAvaiableSpots = () => {
+    if (showEditActivity.data.spots === spots) return showEditActivity.data.availableSpots;
+    const subscribeds = showEditActivity.data.spots - showEditActivity.data.availableSpots;
+    return spots - subscribeds;
+  }
   
   const updateUser = async () => {
     setLoading(true);
@@ -147,7 +155,8 @@ export default function EditActivity() {
             typeActivity,
             systemSession: findSystem,
             spots,
-            availableSpots: spots,
+            dm,
+            availableSpots: calculateAvaiableSpots(),
             noSpots,
             dates: listDates,
             description,
@@ -163,6 +172,7 @@ export default function EditActivity() {
           typeActivity,
           systemSession: { name: '', description: ''},
           spots,
+          dm,
           availableSpots: spots,
           noSpots,
           dates: listDates,
@@ -187,6 +197,7 @@ export default function EditActivity() {
                 id: '',
                 eventId: '',
                 name: '',
+                dm: '',
                 typeActivity: '',
                 systemSession: { name: '', description: '' },
                 spots: 0,
@@ -301,6 +312,17 @@ export default function EditActivity() {
                   }
                 </label>
               }
+              <label htmlFor="nameNewSystem" className="break-words mb-4 flex flex-col items-center w-full">
+                <p className="break-words w-full mb-2 text-white">Nome do { typeActivity !== 'Sessão de RPG' ? 'Responsável' : 'Narrador' }</p>
+                <input
+                  type="text"
+                  id="nameNewSystem"
+                  value={ dm }
+                  placeholder={`Nome e Sobrenome do ${typeActivity !== 'Sessão de RPG' ? 'Responsável' : 'Narrador'}`}
+                  className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white outline-none"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDm(e.target.value) }
+                />
+              </label>
               <p className="break-words w-full mb-1 text-white">Quantidade de Vagas *</p>
               <label htmlFor="spots" className="break-words mb-4 flex flex-col sm:flex-row items-center w-full gap-3">
                 {

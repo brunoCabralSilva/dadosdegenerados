@@ -248,8 +248,8 @@ export default function EventId() {
                                   {
                                     isLatestDateTodayOrFuture() &&
                                     <button
-                                      type="button"
-                                      onClick={ () => setShowEditActivity({ show: true, data: activity }) }
+                                    type="button"
+                                    onClick={ () => setShowEditActivity({ show: true, data: activity }) }
                                       title="Editar"
                                       className="text-2xl cursor-pointer"
                                     >
@@ -261,7 +261,7 @@ export default function EventId() {
                                     title="Excluir"
                                     onClick={ () => setShowDeleteActivity({ show: true, id: activity.id }) }
                                     className="text-2xl cursor-pointer"
-                                  >
+                                    >
                                     <MdDelete />
                                   </button>
                                 </div>
@@ -279,6 +279,14 @@ export default function EventId() {
                               ))
                             }
                           </div>
+                          {
+                            activity.dm &&
+                            <div>
+                              <span className="font-bold pr-1">
+                                { `${activity.typeActivity !== 'Sessão de RPG' ? 'Responsável' : 'Narrador'}: ${ activity.dm }` }
+                              </span>
+                            </div>
+                          }
                           <div>
                             <span className="font-bold pr-1">{
                               activity.noSpots ? 'Sem limite de Participantes' : `Quantidade de Participantes: ${activity.spots}`
