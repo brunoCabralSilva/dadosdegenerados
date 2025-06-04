@@ -312,7 +312,7 @@ export default function EventId() {
                             activity.description !== '' &&
                             <div className="">
                               <div className="font-bold pr-1">{ activity.typeActivity === 'Sessão de RPG' ? 'Sinopse:' : 'Descrição:' }</div>
-                              <div className="text-justify">{ activity.description }</div>
+                              <div className="text-justify whitespace-pre-line">{ activity.description }</div>
                             </div>
                           }
                           <div className="mb-3">
