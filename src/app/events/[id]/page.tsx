@@ -220,7 +220,9 @@ export default function EventId() {
                     {
                       listActivities
                       && listActivities.length > 0
-                      && listActivities.map((activity: IActivityRegisterWithId, index: number) => (
+                      && listActivities
+                      .sort((a, b) => a.name.localeCompare(b.name))
+                      .map((activity: IActivityRegisterWithId, index: number) => (
                         <Activity
                           key={ index }
                           dataEvent={ dataEvent }

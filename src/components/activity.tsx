@@ -26,7 +26,7 @@ export default function Activity(
         onClick={ () => setShowDetails(!showDetails) }
         className="p-4 border cursor-pointer border-white bg-[url(/images/dd_logo_bg_black.png)] bg-center"
       >
-        <div className="text-xl font-bold mb-2 flex w-full justify-between items-center">
+        <div className="text-lg sm:text-xl font-bold mb-2 flex flex-col sm:flex-row w-full justify-between items-center">
           <span className="pr-1">
             { activity.typeActivity } - { activity.name }
           </span>
@@ -38,25 +38,25 @@ export default function Activity(
       <div
         className="p-4 border border-white bg-[url(/images/dd_logo_bg_black.png)] bg-center"
       >
-        <div className="text-xl font-bold mb-2 flex w-full justify-between">
-          <span className="pr-1">
+        <div className="text-xl font-bold mb-2 flex flex-col sm:flex-row w-full justify-between items-center">
+          <span className="pr-1 text-center sm:text-left">
             { activity.typeActivity } - { activity.name }
           </span>
           <div>
-            {
-              userData.role === 'admin' &&
-              <div className="text-white flex gap-2 justify-end w-full">
-                {
-                  isLatestDateTodayOrFuture(dataEvent) &&
-                  <button
-                  type="button"
-                  onClick={ () => setShowEditActivity({ show: true, data: activity }) }
-                    title="Editar"
-                    className="text-2xl cursor-pointer"
-                  >
-                    <FiEdit />
-                  </button>
-                }
+            <div className="text-white flex gap-4 sm:gap-2 justify-end w-full my-3 sm:my-0">
+              {
+                isLatestDateTodayOrFuture(dataEvent) && userData.role === 'admin' &&
+                <button
+                type="button"
+                onClick={ () => setShowEditActivity({ show: true, data: activity }) }
+                  title="Editar"
+                  className="text-2xl cursor-pointer"
+                >
+                  <FiEdit />
+                </button>
+              }
+              {
+                userData.role === 'admin' &&
                 <button
                   type="button"
                   title="Excluir"
@@ -65,16 +65,16 @@ export default function Activity(
                   >
                   <MdDelete />
                 </button>
-                <button
-                  type="button"
-                  title="Minimizar"
-                  onClick={ () => setShowDetails(!showDetails) }
-                  className="text-2xl cursor-pointer"
-                  >
-                  <IoIosArrowUp />
-                </button>
-              </div>
-            }
+              }
+              <button
+                type="button"
+                title="Minimizar"
+                onClick={ () => setShowDetails(!showDetails) }
+                className="text-2xl cursor-pointer"
+                >
+                <IoIosArrowUp />
+              </button>
+            </div>
           </div>
         </div>
         <div className="w-full mb-3 h-0.5 bg-white" />
