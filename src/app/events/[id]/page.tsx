@@ -30,23 +30,25 @@ import EditSubscribe from "@/components/editSubscribe";
 import DeleteSubscribe from "@/components/deleteSubscribe";
 import { FaEye } from "react-icons/fa6";
 import Subscribeds from "@/components/subscribeds";
+import Activity from "@/components/activity";
 
 export default function EventId() {
   const params = useParams();
   const idEvent = params?.id as string;
   const {
     setRouterTo,
+    showEditActivity,
+    showDeleteActivity,
     userData, setUserData,
+    isLatestDateTodayOrFuture,
     showMessage, setShowMessage,
     showSubscribe, setShowSubscribe,
     showEditEvent, setShowEditEvent,
     showDeleteEvent, setShowDeleteEvent,
-    showEditActivity, setShowEditActivity,
+    showSubscribeds, setShowSubscribeds,
     showEditSubscribe, setShowEditSubscribe,
-    showDeleteActivity, setShowDeleteActivity,
     showCreateActivity, setShowCreateActivity,
     showDeleteSubscribe, setShowDeleteSubscribe,
-    showSubscribeds, setShowSubscribeds,
   } = useContext(contexto);
   const [subscribed, setSubscribed] = useState<boolean>(false);
   const [dataEvent, setDataEvent] = useState<IEventRegisterWithId | null>(null);
@@ -77,20 +79,6 @@ export default function EventId() {
     authUser();
     getEvent();
   }, []);
-
-  function isLatestDateTodayOrFuture(): boolean {
-    if (!dataEvent?.dates || dataEvent?.dates.length === 0) return false;
-
-    const latestTime = Math.max(
-      ...dataEvent?.dates.map(d => {
-        const [year, month, day] = d.day.split('-').map(Number);
-        return new Date(year, month - 1, day).getTime();
-      })
-    );
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    return latestTime >= today.getTime();
-  }
   
   const subscribe = async () => {
     setRouterTo(`/events/${idEvent}`);
@@ -147,7 +135,7 @@ export default function EventId() {
                             <FaEye />
                           </button>
                           {
-                            isLatestDateTodayOrFuture() &&
+                            isLatestDateTodayOrFuture(dataEvent) &&
                             <button
                               type="button"
                               onClick={ () => setShowEditEvent({ show: true, id: idEvent }) }
@@ -199,7 +187,7 @@ export default function EventId() {
                       dataEvent &&
                       <div className="flex gap-1">
                         {
-                          listActivities && listActivities.length > 0 && isLatestDateTodayOrFuture() &&
+                          listActivities && listActivities.length > 0 && isLatestDateTodayOrFuture(dataEvent) &&
                           <button
                           onClick={ subscribe }
                           className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative mt-2 sm:mt-0"
@@ -208,7 +196,7 @@ export default function EventId() {
                           </button>
                         }
                         {
-                          subscribed && isLatestDateTodayOrFuture() &&
+                          subscribed && isLatestDateTodayOrFuture(dataEvent) &&
                           <button
                             onClick={ () => setShowDeleteSubscribe({ show: true, id: idEvent }) }
                             className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative mt-2 sm:mt-0"
@@ -217,7 +205,7 @@ export default function EventId() {
                           </button>
                         }
                         {
-                          userData.role === 'admin' && isLatestDateTodayOrFuture() &&
+                          userData.role === 'admin' && isLatestDateTodayOrFuture(dataEvent) &&
                           <button
                             onClick={ () => setShowCreateActivity({ show: true, id: idEvent }) }
                             className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative mt-2 sm:mt-0"
@@ -233,100 +221,11 @@ export default function EventId() {
                       listActivities
                       && listActivities.length > 0
                       && listActivities.map((activity: IActivityRegisterWithId, index: number) => (
-                        <div
-                          key={index}
-                          className="p-4 border border-white bg-[url(/images/dd_logo_bg_black.png)] bg-center"
-                        >
-                          <div className="text-xl font-bold mb-2 flex w-full justify-between">
-                            <span className="pr-1">
-                              { activity.typeActivity } - { activity.name }
-                            </span>
-                            <div>
-                              {
-                                userData.role === 'admin' &&
-                                <div className="text-white flex gap-2 justify-end w-full">
-                                  {
-                                    isLatestDateTodayOrFuture() &&
-                                    <button
-                                    type="button"
-                                    onClick={ () => setShowEditActivity({ show: true, data: activity }) }
-                                      title="Editar"
-                                      className="text-2xl cursor-pointer"
-                                    >
-                                      <FiEdit />
-                                    </button>
-                                  }
-                                  <button
-                                    type="button"
-                                    title="Excluir"
-                                    onClick={ () => setShowDeleteActivity({ show: true, id: activity.id }) }
-                                    className="text-2xl cursor-pointer"
-                                    >
-                                    <MdDelete />
-                                  </button>
-                                </div>
-                              }
-                            </div>
-                          </div>
-                          <div className="w-full mb-3 h-0.5 bg-white" />
-                          <div className="">
-                            <span className="font-bold">Data: </span>
-                            {
-                              activity.dates.map((dateItem: IDatesToAdd, index: number) => (
-                                <span key={index} className="">
-                                  { `${dateItem.day.split("-").reverse().join("-") }${dateItem.end && dateItem.end !== '' ? ' (das ' : ' (às '}${ dateItem.init.replace(":", "h") + "min" }${dateItem.end && dateItem.end !== '' ? ` às ${ dateItem.end.replace(":", "h") + "min)" }`: ')'} ${activity.dates.length - 1 !== index ? '| ' : ''}`}
-                                </span>
-                              ))
-                            }
-                          </div>
-                          {
-                            activity.dm &&
-                            <div>
-                              <span className="font-bold pr-1">
-                                { `${activity.typeActivity !== 'Sessão de RPG' ? 'Responsável' : 'Narrador(a)'}: ${ activity.dm }` }
-                              </span>
-                            </div>
-                          }
-                          <div>
-                            <span className="font-bold pr-1">{
-                              activity.noSpots ? 'Sem limite de Participantes' : `Quantidade de Participantes: ${activity.spots}`
-                            }
-                            </span>
-                          </div>
-                          {
-                            !activity.noSpots &&
-                            <div>
-                              <span className="font-bold pr-1">
-                                Vagas Disponíveis: {activity.availableSpots}
-                              </span>
-                            </div>
-                          }
-                          {
-                            activity.typeActivity === 'Sessão de RPG' &&
-                            <div className="mb-3">
-                              <span className="font-bold pr-1">Sistema:</span>
-                              <span>{ activity.systemSession.name }</span>
-                            </div>
-                          }
-                          {
-                            activity.description !== '' &&
-                            <div className="">
-                              <div className="font-bold pr-1">{ activity.typeActivity === 'Sessão de RPG' ? 'Sinopse:' : 'Descrição:' }</div>
-                              <div className="text-justify whitespace-pre-line">{ activity.description }</div>
-                            </div>
-                          }
-                          <div className="mb-3">
-                            <div className="font-bold mt-2 pr-1 text-justify">Possíveis temas sensíveis que serão abordados:</div>
-                            <div className="text-justify">{ activity.sensibility }</div>
-                          </div>
-                          {
-                            activity.typeActivity === 'Sessão de RPG' &&
-                            <div>
-                              <div className="font-bold mb-1">Como é jogar { activity.systemSession.name }?</div>
-                              <div className="mb-3 text-justify">{ activity.systemSession.description }</div>
-                            </div>
-                          }
-                        </div>
+                        <Activity
+                          key={ index }
+                          dataEvent={ dataEvent }
+                          activity={ activity }
+                        />
                       ))
                     }
                   </div>

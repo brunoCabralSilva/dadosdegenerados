@@ -1,7 +1,7 @@
 'use client'
 import { ReactNode, useState } from 'react';
 import contexto from './context';
-import { IActivityRegisterWithId } from '@/interfaces';
+import { IActivityRegisterWithId, IEventRegisterWithId } from '@/interfaces';
 
 interface IProvider { children: ReactNode }
 
@@ -29,9 +29,24 @@ export default function Provider({children }: IProvider) {
   const [showEditPubli, setShowEditPubli] = useState<boolean>(false);
   const [showDeletePubli, setShowDeletePubli] = useState<boolean>(false);
 
+  function isLatestDateTodayOrFuture(dataEvent: IEventRegisterWithId): boolean {
+    if (!dataEvent?.dates || dataEvent?.dates.length === 0) return false;
+
+    const latestTime = Math.max(
+      ...dataEvent?.dates.map(d => {
+        const [year, month, day] = d.day.split('-').map(Number);
+        return new Date(year, month - 1, day).getTime();
+      })
+    );
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return latestTime >= today.getTime();
+  }
+
   return (
     <contexto.Provider
       value={{
+        isLatestDateTodayOrFuture,
         routerTo, setRouterTo,
         userData, setUserData,
         dataUser, setDataUser,

@@ -1,8 +1,9 @@
 'use client'
-import { IActivityRegisterWithId, IUserData } from '@/interfaces';
+import { IActivityRegisterWithId, IEventRegisterWithId, IUserData } from '@/interfaces';
 import { createContext } from 'react';
 
 interface DegeneratesContext {
+  isLatestDateTodayOrFuture: (dataEvent: IEventRegisterWithId) => boolean,
   routerTo: string,
   setRouterTo: (state: string) => void,
   dataUser: { email: string, displayName: string },
@@ -50,6 +51,7 @@ interface DegeneratesContext {
 }
 
 const initialValue: DegeneratesContext = {
+  isLatestDateTodayOrFuture: () => false,
   routerTo: '/',
   setRouterTo: () => {},
   dataUser: { email: '', displayName: '' },
