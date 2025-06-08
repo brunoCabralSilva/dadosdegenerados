@@ -114,9 +114,7 @@ export default function CreateEvent() {
         imageURL: imageFile,
         linkMaps,
       }, setShowMessage);
-       if (createEvnt) {
-        window.location.reload();
-       }
+       if (createEvnt) window.location.reload();
     }
     setLoading(false);
   };

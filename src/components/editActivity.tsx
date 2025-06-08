@@ -30,6 +30,7 @@ export default function EditActivity() {
   const [descNewSystem, setDescNewSystem] = useState<string>('');
   const [listSystems, setListSystems] = useState<ISystemToAdd[]>([]);
   const [dm, setDm] = useState<string>('');
+  const [recommendedAge, setRecommendedAge] = useState<number>(0);
 
   useEffect(() => {
     if (showEditActivity) {
@@ -41,6 +42,10 @@ export default function EditActivity() {
       setSystemSession(showEditActivity.data.systemSession.name);
       setSpots(showEditActivity.data.spots)
       setNoSpots(showEditActivity.data.noSpots);
+
+      if (!showEditActivity.data.recommendedAge) setRecommendedAge(0);
+      else setRecommendedAge(showEditActivity.data.recommendedAge);
+
       if (showEditActivity.data.dm) setDm(showEditActivity.data.dm);
     }
     const getSystems = async () => {
@@ -138,6 +143,11 @@ export default function EditActivity() {
       setShowMessage({ show: true, text: 'Necessário Escolher um tipo de Atividade.'});
     } else if(typeActivity === 'Sessão de RPG' && systemSession === '') {
       setShowMessage({ show: true, text: 'Necessário inserir um Sistema para a Sessão.' });
+      
+    } else if(dm === '') {
+      setShowMessage({ show: true, text: `Necessário preencher o nome do ${ typeActivity === 'Sessão de RPG' ? 'Narrador' : 'Responsável'} pela atividade.` });
+    } else if(recommendedAge === 0) {
+      setShowMessage({ show: true, text: 'Necessário selecionar uma Faixa Etária.' });
     } else if (!noSpots && spots === 0) {
       setShowMessage({ show: true, text: 'Necessário inserir uma Quantidade de Vagas para a Atividade maior que Zero.' });
     } else if(listDates.length === 0) {
@@ -149,35 +159,37 @@ export default function EditActivity() {
         const findSystem = listSystems.find((systemData: ISystemToAdd) => systemData.name === systemSession);
         if (findSystem) {
           const updateActvt = await updateActivityById({
-            id: showEditActivity.data.id,
-            eventId: showEditActivity.data.eventId,
-            name: nameActivity,
-            typeActivity,
-            systemSession: findSystem,
-            spots,
             dm,
-            availableSpots: calculateAvaiableSpots(),
+            spots,
             noSpots,
-            dates: listDates,
             description,
             sensibility,
+            typeActivity,
+            recommendedAge,
+            dates: listDates,
+            name: nameActivity,
+            systemSession: findSystem,
+            id: showEditActivity.data.id,
+            eventId: showEditActivity.data.eventId,
+            availableSpots: calculateAvaiableSpots(),
           }, setShowMessage);
           if (updateActvt) window.location.reload();
         }
       } else {
         const updateActvt = await updateActivityById({
+          dm,
+          spots,
+          noSpots,
+          sensibility,
+          description,
+          typeActivity,
+          recommendedAge,
+          dates: listDates,
+          name: nameActivity,
+          availableSpots: spots,
           id: showEditActivity.data.id,
           eventId: showEditActivity.data.eventId,
-          name: nameActivity,
-          typeActivity,
           systemSession: { name: '', description: ''},
-          spots,
-          dm,
-          availableSpots: spots,
-          noSpots,
-          dates: listDates,
-          description,
-          sensibility,
         }, setShowMessage);
         if (updateActvt) window.location.reload();
       }
@@ -198,6 +210,7 @@ export default function EditActivity() {
                 eventId: '',
                 name: '',
                 dm: '',
+                recommendedAge: 0,
                 typeActivity: '',
                 systemSession: { name: '', description: '' },
                 spots: 0,
@@ -322,6 +335,25 @@ export default function EditActivity() {
                   className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white outline-none"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDm(e.target.value) }
                 />
+              </label>
+              <label htmlFor="nameNewSystem" className="break-words mb-4 flex flex-col items-center w-full">
+                <p className="break-words w-full mb-2 text-white">
+                  Faixa Etária *
+                </p>
+                <select
+                  className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white outline-none"
+                  value={ recommendedAge }
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setRecommendedAge(Number(e.target.value))}
+                >
+                  <option value={0} disabled>Selecione</option>
+                  <option value={12}>+12 </option>
+                  <option value={13}>+13 </option>
+                  <option value={14}>+14 </option>
+                  <option value={15}>+15 </option>
+                  <option value={16}>+16 </option>
+                  <option value={17}>+17 </option>
+                  <option value={18}>+18 </option>
+                </select>
               </label>
               <p className="break-words w-full mb-1 text-white">Quantidade de Vagas *</p>
               <label htmlFor="spots" className="break-words mb-4 flex flex-col sm:flex-row items-center w-full gap-3">

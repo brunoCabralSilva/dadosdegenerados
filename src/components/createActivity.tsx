@@ -30,6 +30,7 @@ export default function CreateActivity(props: { idEvent: string }) {
   const [descNewSystem, setDescNewSystem] = useState<string>('');
   const [listSystems, setListSystems] = useState<ISystemToAdd[]>([]);
   const [dm, setDm] = useState<string>('');
+  const [recommendedAge, setRecommendedAge] = useState<number>(0);
 
   useEffect(() => {
     const getSystems = async () => {
@@ -121,6 +122,10 @@ export default function CreateActivity(props: { idEvent: string }) {
       setShowMessage({ show: true, text: 'Necessário Escolher um tipo de Atividade.'});
     } else if(typeActivity === 'Sessão de RPG' && systemSession === '') {
       setShowMessage({ show: true, text: 'Necessário inserir um Sistema para a Sessão.' });
+    } else if(dm === '') {
+      setShowMessage({ show: true, text: `Necessário preencher o nome do ${ typeActivity === 'Sessão de RPG' ? 'Narrador' : 'Responsável'} pela atividade.` });
+    } else if(recommendedAge === 0) {
+      setShowMessage({ show: true, text: 'Necessário selecionar uma Faixa Etária.' });
     } else if (!noSpots && spots === 0) {
       setShowMessage({ show: true, text: 'Necessário inserir uma Quantidade de Vagas para a Atividade maior que Zero.' });
     } else if(listDates.length === 0) {
@@ -132,39 +137,37 @@ export default function CreateActivity(props: { idEvent: string }) {
         const findSystem = listSystems.find((systemData: ISystemToAdd) => systemData.name === systemSession);
         if (findSystem) {
           const createActvt = await registerActivity({
-            eventId: idEvent,
-            name: nameActivity,
-            typeActivity,
-            systemSession: findSystem,
-            spots: noSpots? 1000 : spots,
-            noSpots,
             dm,
-            availableSpots: spots,
-            dates: listDates,
+            noSpots,
             description,
             sensibility,
+            typeActivity,
+            recommendedAge,
+            dates: listDates,
+            eventId: idEvent,
+            name: nameActivity,
+            availableSpots: spots,
+            systemSession: findSystem,
+            spots: noSpots? 1000 : spots,
           }, setShowMessage);
-          if (createActvt) {
-            window.location.reload();
-          }
+          if (createActvt) window.location.reload();
         }
       } else {
         const createActvt = await registerActivity({
-          eventId: idEvent,
-          name: nameActivity,
-          typeActivity,
           dm,
-          systemSession: { name: '', description: ''},
           spots,
           noSpots,
-          availableSpots: spots,
-          dates: listDates,
-          description,
           sensibility,
+          description,
+          typeActivity,
+          recommendedAge,
+          dates: listDates,
+          eventId: idEvent,
+          name: nameActivity,
+          availableSpots: spots,
+          systemSession: { name: '', description: ''},
         }, setShowMessage);
-        if (createActvt) {
-          window.location.reload();
-        }
+        if (createActvt) window.location.reload();
       }
     }
     setLoading(false);
@@ -300,7 +303,28 @@ export default function CreateActivity(props: { idEvent: string }) {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDm(e.target.value) }
                 />
               </label>
-              <p className="break-words w-full mb-1 text-white">Quantidade de Vagas *</p>
+              <label htmlFor="nameNewSystem" className="break-words mb-4 flex flex-col items-center w-full">
+                <p className="break-words w-full mb-2 text-white">
+                  Faixa Etária *
+                </p>
+                <select
+                  className="break-words bg-black border border-white w-full p-3 cursor-pointer text-white outline-none"
+                  value={ recommendedAge }
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setRecommendedAge(Number(e.target.value))}
+                >
+                  <option value={0} disabled>Selecione</option>
+                  <option value={12}>+12 </option>
+                  <option value={13}>+13 </option>
+                  <option value={14}>+14 </option>
+                  <option value={15}>+15 </option>
+                  <option value={16}>+16 </option>
+                  <option value={17}>+17 </option>
+                  <option value={18}>+18 </option>
+                </select>
+              </label>
+              <p className="break-words w-full mb-1 text-white">
+                Quantidade de Vagas *
+              </p>
               <label htmlFor="spots" className="break-words mb-4 flex flex-col sm:flex-row items-center w-full gap-3">
                 {
                   !noSpots &&

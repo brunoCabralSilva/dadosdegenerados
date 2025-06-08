@@ -20,6 +20,7 @@ export default function DeleteActivity() {
       else {
         await deleteActivityById(showDeleteActivity.id, setShowMessage);
         setShowDeleteActivity({ show: false, id: '' });
+        window.location.reload();
       }
     };
 

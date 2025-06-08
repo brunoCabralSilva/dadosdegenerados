@@ -221,7 +221,12 @@ export default function EventId() {
                       listActivities
                       && listActivities.length > 0
                       && listActivities
-                      .sort((a, b) => a.name.localeCompare(b.name))
+                      .sort((a, b) => {
+                        const dateA = new Date(a.dates[0].day).getTime();
+                        const dateB = new Date(b.dates[0].day).getTime();
+                        if (dateA !== dateB) return dateA - dateB;
+                        return a.name.localeCompare(b.name);
+                      })
                       .map((activity: IActivityRegisterWithId, index: number) => (
                         <Activity
                           key={ index }

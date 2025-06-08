@@ -57,6 +57,7 @@ export interface IActivityRegister {
   eventId: string;
   name: string;
   dm: string;
+  recommendedAge: number,
   typeActivity: string;
   systemSession: ISystemToAdd;
   spots: number;
@@ -72,6 +73,7 @@ export interface IActivityRegisterWithId {
   eventId: string;
   name: string;
   dm: string;
+  recommendedAge: number,
   typeActivity: string;
   systemSession: ISystemToAdd;
   spots: number;

@@ -18,7 +18,7 @@ export default function Provider({children }: IProvider) {
   const [routerTo, setRouterTo] = useState('/');
   const [showEditEvent, setShowEditEvent] = useState<{show: boolean, id: string }>({ show: false, id: '' });
   const [showDeleteEvent, setShowDeleteEvent] = useState<{show: boolean, id: string }>({ show: false, id: '' });
-  const [showEditActivity, setShowEditActivity] = useState<{show: boolean, data: IActivityRegisterWithId }>( { show: false, data: { id: '', dm: '', eventId: '', name: '', typeActivity: '', systemSession: { name: '', description: '' }, spots: 0, availableSpots: 0, noSpots: false, dates: [], description: '', sensibility: '' }});
+  const [showEditActivity, setShowEditActivity] = useState<{show: boolean, data: IActivityRegisterWithId }>( { show: false, data: { id: '', dm: '', eventId: '', name: '', typeActivity: '', recommendedAge: 0, systemSession: { name: '', description: '' }, spots: 0, availableSpots: 0, noSpots: false, dates: [], description: '', sensibility: '' }});
   const [showEditSubscribe, setShowEditSubscribe] = useState<boolean>(false);
   const [showDeleteActivity, setShowDeleteActivity] = useState<{show: boolean, id: string }>({ show: false, id: '' });
   const [showCreateActivity, setShowCreateActivity] = useState<{show: boolean, id: string }>({ show: false, id: '' });

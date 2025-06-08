@@ -12,10 +12,12 @@ export async function registerActivity(
     const collectionRef = collection(db, 'activities');
     await addDoc(collectionRef, {
       eventId: dataActivity.eventId,
-      name: dataActivity.name, 
+      name: dataActivity.name,
+      dm: dataActivity.dm,
       typeActivity: dataActivity.typeActivity,
       systemSession: dataActivity.systemSession,
       spots: dataActivity.spots,
+      recommendedAge: dataActivity.recommendedAge,
       noSpots: dataActivity.noSpots,
       availableSpots: dataActivity.availableSpots,
       dates: dataActivity.dates,

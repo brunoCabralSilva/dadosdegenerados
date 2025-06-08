@@ -65,7 +65,7 @@ export default function Profile() {
       <div className="break-words w-full h-full items-center justify-start flex flex-col pb-10 min-h-screen mt-11">
         {
             !showData 
-              ? <div className="break-words h-screen flex items-center justify-center bg-dice w-full bg-center">
+              ? <div className="break-words h-screen flex items-center justify-center w-full bg-center">
                   <Loading />               
                 </div>
               : <div className="break-words w-full flex items-start h-full">

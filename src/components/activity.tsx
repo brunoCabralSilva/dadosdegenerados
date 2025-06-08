@@ -27,9 +27,19 @@ export default function Activity(
         className="p-4 border cursor-pointer border-white bg-[url(/images/dd_logo_bg_black.png)] bg-center"
       >
         <div className="text-lg sm:text-xl font-bold mb-2 flex flex-col sm:flex-row w-full justify-between items-center">
-          <span className="pr-1">
-            { activity.typeActivity } - { activity.name }
-          </span>
+          <div className="pr-1 flex flex-col sm:flex-row flex-wrap">
+            <div className="flex">
+              <span className="w-full text-center">{ activity.typeActivity }</span>
+              <span className="pl-0 sm:pl-2 hidden sm:flex"> - </span>
+            </div>
+            <div className="flex pl-0 sm:pl-2">
+              <span>{ activity.name }</span>
+              <span className="pl-0 sm:pl-2 hidden sm:flex"> - </span>
+            </div>
+            <div className="pl-0 sm:pl-2">
+              { `${activity.dates[0].day.split("-").reverse().join("-") }` }
+            </div>
+          </div>
           <IoIosArrowDown className="text-2xl" />
         </div>
       </button>
@@ -93,6 +103,14 @@ export default function Activity(
           <div>
             <span className="font-bold pr-1">
               { `${activity.typeActivity !== 'Sessão de RPG' ? 'Responsável' : 'Narrador(a)'}: ${ activity.dm }` }
+            </span>
+          </div>
+        }
+        {
+          activity.dm &&
+          <div>
+            <span className="font-bold pr-1">
+              Faixa Etária: +{ activity.recommendedAge && activity.recommendedAge }
             </span>
           </div>
         }
