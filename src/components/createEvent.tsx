@@ -268,7 +268,7 @@ export default function CreateEvent() {
           </div>
           {
             loading
-            && <div className="break-words bg-black/80 text-white flex items-center justify-center flex-col my-5">
+            && <div className="break-words text-white flex items-center justify-center flex-col my-5">
               <span className="break-words loader z-50" />
             </div>
           }
