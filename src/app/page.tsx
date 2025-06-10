@@ -33,19 +33,20 @@ export default function Home() {
           />
         </div>
       </div>
-      <div className="bg-black grid grid-cols-2 sm:grid-cols-8 w-full h-full px-4 sm:px-8 pb-4 gap-4 sm:gap-6 py-5">
-        <Link href="/events" className="col-span-1 sm:col-span-2 sm:row-span-2">
-          <div
-            className={`bg-[url(/images/degenerados.jpeg)] bg-center bg-cover h-full sm:h-[40vh] text-white flex relative cursor-pointer border-transparent items-end`}>
-            <div className={`absolute w-full h-full bg-black/40`} />
-            <p className="z-10 font-bold text-base sm:text-lg px-3 p-2 relative">Eventos</p>
-          </div>
-        </Link>
-        <Link href="/sessions" className="col-span-1 sm:col-span-2 sm:row-span-4">
+      <div className="bg-black grid grid-cols-5 sm:grid-cols-8 w-full h-full px-4 sm:px-8 pb-4 gap-4 sm:gap-6 py-5">
+
+        <Link href="/events" className="col-span-3 sm:col-span-2 sm:row-span-4">
           <div
             className={`bg-[url(/images/degenerados3.jpeg)] bg-cover bg-center h-[20vh] sm:h-full text-white flex relative cursor-pointer border-transparent items-end`}>
             <div className={`absolute w-full h-full bg-black/40`} />
-            <p className="z-10 font-bold text-base sm:text-lg px-3 p-2">Sessões</p>
+            <p className="z-10 font-bold text-base sm:text-lg px-3 p-2">Eventos</p>
+          </div>
+        </Link>
+        <Link href="/media" className="col-span-2 sm:col-span-2 sm:row-span-2">
+          <div
+            className={`bg-[url(/images/degenerados7.jpeg)] bg-cover h-[20vh] sm:h-[40vh] text-white flex relative cursor-pointer bg-center border-transparent items-end`}>
+            <div className={`absolute w-full h-full bg-black/40`} />
+            <p className="z-10 font-bold text-base sm:text-lg px-3 p-2 relative">Mídia</p>
           </div>
         </Link>
         <Link href="/blog" className="col-span-2 sm:col-span-4 sm:row-span-2">
@@ -55,25 +56,25 @@ export default function Home() {
             <p className="z-10 font-bold text-base sm:text-lg px-3 p-2">Blog</p>
           </div>
         </Link>
-        <Link href="/media" className="col-span-1 sm:col-span-2 sm:row-span-2">
+        <Link href="/profile" className="col-span-3 sm:row-span-2 sm:hidden flex">
           <div
-            className={`bg-[url(/images/degenerados7.jpeg)] bg-cover h-[20vh] sm:h-[40vh] text-white flex relative cursor-pointer bg-center border-transparent items-end`}>
-            <div className={`absolute w-full h-full bg-black/40`} />
-            <p className="z-10 font-bold text-base sm:text-lg px-3 p-2 relative">Mídia</p>
-          </div>
-        </Link>
-        <Link href="/profile" className="col-span-1 sm:row-span-2 sm:col-span-2">
-          <div
-            className={`bg-[url(/images/degenerados8.jpeg)] bg-top bg-cover h-[20vh] sm:h-[40vh] text-white flex relative cursor-pointer border-transparent items-end`}>
+            className={`bg-[url(/images/degenerados8.jpeg)] bg-top bg-cover h-[20vh] sm:h-[40vh] text-white flex w-full relative cursor-pointer border-transparent items-end`}>
             <div className={`absolute w-full h-full bg-black/40`} />
             <p className="z-10 font-bold text-base sm:text-lg px-3 p-2">Perfil</p>
           </div>
         </Link>
-        <Link href="/about" className="row-span-2 col-span-2">
+        <Link href="/about" className="row-span-2 col-span-5 sm:col-span-4">
           <div
             className={`bg-[url(/images/degenerados4.jpeg)] bg-center bg-cover h-[20vh] sm:h-[40vh] text-white flex relative cursor-pointer border-transparent items-end`}>
             <div className={`absolute w-full h-full bg-black/40`} />
             <p className="z-10 font-bold text-base sm:text-lg px-3 p-2">Quem Somos</p>
+          </div>
+        </Link>
+        <Link href="/profile" className="col-span-2 sm:row-span-2 hidden sm:flex w-full">
+          <div
+            className={`bg-[url(/images/degenerados8.jpeg)] bg-top bg-cover h-[20vh] sm:h-[40vh] text-white flex w-full relative cursor-pointer border-transparent items-end`}>
+            <div className={`absolute w-full h-full bg-black/40`} />
+            <p className="z-10 font-bold text-base sm:text-lg px-3 p-2">Perfil</p>
           </div>
         </Link>
       </div>

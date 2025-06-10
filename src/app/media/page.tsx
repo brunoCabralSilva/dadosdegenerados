@@ -47,15 +47,6 @@ export default function Media() {
           </div>
           <div className="w-full px-3 pt-5 pb-3 flex justify-between items-center">
             <p className="font-bold text-xl">Mídia</p>
-            {
-              userData.role === 'admin' &&
-              <button
-                // onClick={ () => setShowCreateEvent(true) }
-                className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative ease-in group-hover:bg-opacity-0"
-              >
-                Adicionar Mídia
-              </button>
-            }
           </div>
           <div className="w-full px-3">
             <hr />
