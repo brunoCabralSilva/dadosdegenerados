@@ -1,5 +1,5 @@
 'use client'
-import { IActivityRegisterWithId, IEventRegisterWithId, IUserData } from '@/interfaces';
+import { IActivityRegisterWithId, IEventRegisterWithId, ISubscribeWithId, IUserData } from '@/interfaces';
 import { createContext } from 'react';
 
 interface DegeneratesContext {
@@ -40,6 +40,10 @@ interface DegeneratesContext {
   setShowSubscribeds: (state: { show: boolean, id: string }) => void,
   showCreateActivity: { show: boolean, id: string },
   setShowCreateActivity: (state: { show: boolean, id: string }) => void,
+  showDeleteSubscribeds: { show: boolean, id: string },
+  setShowDeleteSubscribeds: (state: { show: boolean, id: string }) => void,
+  showDeleteAnotherSubscribeds: { show: boolean, data: ISubscribeWithId },
+  setShowDeleteAnotherSubscribeds: (state: { show: boolean, data: ISubscribeWithId }) => void,
   showSubscribe: { show: boolean, id: string, email: string },
   setShowSubscribe: (state: { show: boolean, id: string, email: string }) => void,
   showCreatePubli: boolean,
@@ -48,6 +52,8 @@ interface DegeneratesContext {
   setShowEditPubli: (state: boolean) => void,
   showDeletePubli: boolean,
   setShowDeletePubli: (state: boolean) => void,
+  showLinkGroup: boolean,
+  setShowLinkGroup: (state: boolean) => void,
 }
 
 const initialValue: DegeneratesContext = {
@@ -86,6 +92,10 @@ const initialValue: DegeneratesContext = {
   setShowDeleteSubscribe: () => {},
   showCreateActivity: { show: false, id: '' },
   setShowCreateActivity: () => {},
+  showDeleteSubscribeds: { show: false, id: '' },
+  setShowDeleteSubscribeds: () => {},
+  showDeleteAnotherSubscribeds: { show: false, data: { id: '', age: 0, lastName: '', whatsapp: '', firstName: '', email: '', idEvent: '', waitlist: false, activityId: '', order: 0, whatsappGroup: false }},
+  setShowDeleteAnotherSubscribeds: () => {},
   showSubscribe: { show: false, id: '', email: '' },
   setShowSubscribe: () => {},
   showSubscribeds: { show: false, id: '' },
@@ -96,6 +106,8 @@ const initialValue: DegeneratesContext = {
   setShowEditPubli: () => {},
   showDeletePubli: false,
   setShowDeletePubli: () => {},
+  showLinkGroup: false,
+  setShowLinkGroup: () => {},
 }
 
 const contexto = createContext(initialValue);

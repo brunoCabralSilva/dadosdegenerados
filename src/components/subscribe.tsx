@@ -6,10 +6,11 @@ import { registerSubscribe } from "@/firebase/subscribes";
 import { IActivityRegisterWithId, IAuthenticate, IDatesToAdd } from "@/interfaces";
 import { useContext, useEffect, useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import ShowLinkGroup from "./showLinkGroup";
 
 export default function Subscribe(props: { idEvent: string }) {
   const { idEvent } = props;
-  const { setShowMessage, setShowSubscribe } = useContext(contexto);
+  const { setShowMessage, setShowSubscribe, showLinkGroup, setShowLinkGroup } = useContext(contexto);
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
   const [age, setAge] = useState<number>(0);
@@ -68,7 +69,7 @@ export default function Subscribe(props: { idEvent: string }) {
       setShowMessage({ show: true, text: 'Necessário inserir uma idade.' });
     } else if (!isValidWhatsappNumber(whatsapp)) {
       setShowMessage({ show: true, text: 'Necessário inserir um número válido (dois números para o DDD e oito/nove números do telefone).' });
-    } else if (activitiesAdded.length === 0) {
+    } else if (activitiesAdded.length === 0 && waitListAdded.length === 0) {
       setShowMessage({ show: true, text: 'É necessário selecionar pelo menos uma atividade do Evento para participar.' });
     } else if (!imageRights) {
       setShowMessage({ show: true, text: 'É necessário concordar com os direitos de autorização de uso de Imagem, voz e nome.' });
@@ -76,12 +77,13 @@ export default function Subscribe(props: { idEvent: string }) {
       const auth: IAuthenticate | null = await authenticate(setShowMessage);
       if (auth) {
         const createSubs = await registerSubscribe(
-          { age, lastName, whatsapp, firstName, email: auth.email, idEvent, whatsappGroup },
+          { age, lastName: lastName.toLocaleLowerCase(), whatsapp, firstName: firstName.toLocaleLowerCase(), email: auth.email, idEvent, whatsappGroup },
           activitiesAdded,
           waitListAdded,
           setShowMessage,
         );
-        if (createSubs) window.location.reload();
+        if (createSubs && whatsappGroup) window.location.reload();
+        if (createSubs && !whatsappGroup) setShowLinkGroup(true);
       }
     }
     setLoading(false);
@@ -89,6 +91,7 @@ export default function Subscribe(props: { idEvent: string }) {
 
   return (
     <div className="break-words z-20 fixed top-0 left-0 w-full flex items-start justify-center bg-[url(/images/dd_logo_bg_black.png)] py-2 sm:px-0 overflow-y-auto h-full">
+      { showLinkGroup && <ShowLinkGroup /> }
       <div className="break-words w-full lex flex-col justify-center items-center min-h-screen relative border-white border-2 mx-1 pb-5 mt-10">
         <div className="break-words pt-4 sm:pt-2 px-2 w-full flex justify-end top-0 right-0">
           <IoIosCloseCircleOutline

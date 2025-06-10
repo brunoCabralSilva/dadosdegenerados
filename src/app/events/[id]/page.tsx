@@ -31,6 +31,7 @@ import DeleteSubscribe from "@/components/deleteSubscribe";
 import { FaEye } from "react-icons/fa6";
 import Subscribeds from "@/components/subscribeds";
 import Activity from "@/components/activity";
+import DeleteSubscribeds from "@/components/deleteSubscribeds";
 
 export default function EventId() {
   const params = useParams();
@@ -49,6 +50,7 @@ export default function EventId() {
     showEditSubscribe, setShowEditSubscribe,
     showCreateActivity, setShowCreateActivity,
     showDeleteSubscribe, setShowDeleteSubscribe,
+    showDeleteSubscribeds, setShowDeleteSubscribeds,
   } = useContext(contexto);
   const [subscribed, setSubscribed] = useState<boolean>(false);
   const [dataEvent, setDataEvent] = useState<IEventRegisterWithId | null>(null);
@@ -101,6 +103,7 @@ export default function EventId() {
       { showSubscribeds.show && <Subscribeds /> }
       { showEditSubscribe && <EditSubscribe idEvent={ idEvent } email={email} /> }
       { showDeleteSubscribe.show && <DeleteSubscribe /> }
+      { showDeleteSubscribeds.show && <DeleteSubscribeds /> }
       <Nav />
       <div className="break-words w-full h-full items-center justify-start flex flex-col pb-10 min-h-screen mt-11">
         {
@@ -185,12 +188,12 @@ export default function EventId() {
                     <p className="text-xl font-bold">Atividades Programadas</p>
                     {
                       dataEvent &&
-                      <div className="flex gap-1">
+                      <div className="flex flex-col sm:flex-row gap-1">
                         {
                           listActivities && listActivities.length > 0 && isLatestDateTodayOrFuture(dataEvent) &&
                           <button
-                          onClick={ subscribe }
-                          className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative mt-2 sm:mt-0"
+                            onClick={ subscribe }
+                            className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative mt-2 sm:mt-0"
                           >
                             { subscribed ? 'Ver Inscrição' : 'Inscrever-se' }
                           </button>
@@ -211,6 +214,15 @@ export default function EventId() {
                             className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative mt-2 sm:mt-0"
                           >
                             Criar Atividade
+                          </button>
+                        }
+                        {
+                          userData.role === 'admin' && isLatestDateTodayOrFuture(dataEvent) &&
+                          <button
+                            onClick={ () => setShowDeleteSubscribeds({ show: true, id: idEvent }) }
+                            className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative mt-2 sm:mt-0"
+                          >
+                            Remover Inscrito(s)
                           </button>
                         }
                       </div>

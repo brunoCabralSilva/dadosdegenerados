@@ -48,7 +48,9 @@ export async function registerSubscribe(
     });
     await Promise.all([...promisesActivity, ...promisesWaitlist]);
     await updateAvaiableSpots(dataSubscribe.idEvent, setShowMessage);
-    setShowMessage({ show: true, text: 'Inscrição registradas com sucesso!' });
+    if (dataSubscribe.whatsappGroup) {
+      setShowMessage({ show: true, text: 'Inscrição registradas com sucesso! Será muito bom te ver de novo!' });
+    }
     return true;
   } catch (error) {
     setShowMessage({ show: true, text: 'Erro ao registrar inscrição: ' + error });
@@ -245,6 +247,33 @@ export async function deleteSubscribeByEventIdAndEmail(
     setShowMessage({ show: true, text: 'A Inscrição foi cancelada.' });
   } catch (error) {
     setShowMessage({ show: true, text: 'Erro ao cancelar Inscrição: ' + error });
+  }
+}
+
+export async function deleteSubscribesByActivityIdAndEmail(
+  data: ISubscribeWithId,
+  setShowMessage: React.Dispatch<React.SetStateAction<{ show: boolean; text: string }>>
+) {
+  try {
+    const db = getFirestore(firebaseConfig);
+    const collectionRef = collection(db, 'subscribes');
+    const q = query(
+      collectionRef,
+      where('idEvent', '==', data.idEvent),
+      where('activityId', '==', data.activityId),
+      where('email', '==', data.email)
+    );
+    const querySnapshot = await getDocs(q);
+
+    const deletePromises = querySnapshot.docs.map((docSnapshot) =>
+      deleteDoc(doc(db, 'subscribes', docSnapshot.id))
+    );
+
+    await Promise.all(deletePromises);
+    await updateAvaiableSpots(data.idEvent, setShowMessage);
+    setShowMessage({ show: true, text: 'A Inscrição foi cancelada para esta atividade.' });
+  } catch (error) {
+    setShowMessage({ show: true, text: 'Erro ao cancelar Inscrição para esta atividade: ' + error });
   }
 }
 

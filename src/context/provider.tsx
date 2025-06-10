@@ -1,7 +1,7 @@
 'use client'
 import { ReactNode, useState } from 'react';
 import contexto from './context';
-import { IActivityRegisterWithId, IEventRegisterWithId } from '@/interfaces';
+import { IActivityRegisterWithId, IEventRegisterWithId, ISubscribeWithId } from '@/interfaces';
 
 interface IProvider { children: ReactNode }
 
@@ -22,12 +22,15 @@ export default function Provider({children }: IProvider) {
   const [showEditSubscribe, setShowEditSubscribe] = useState<boolean>(false);
   const [showDeleteActivity, setShowDeleteActivity] = useState<{show: boolean, id: string }>({ show: false, id: '' });
   const [showCreateActivity, setShowCreateActivity] = useState<{show: boolean, id: string }>({ show: false, id: '' });
+  const [showDeleteSubscribeds, setShowDeleteSubscribeds] = useState<{show: boolean, id: string }>({ show: false, id: '' });
+  const [showDeleteAnotherSubscribeds, setShowDeleteAnotherSubscribeds] = useState<{ show: boolean, data: ISubscribeWithId }>({ show: false, data: { id: '', age: 0, lastName: '', whatsapp: '', firstName: '', email: '', idEvent: '', waitlist: false, activityId: '', order: 0, whatsappGroup: false }});
   const [showSubscribe, setShowSubscribe] = useState<{show: boolean, id: string, email: string }>({ show: false, id: '', email: '' });
   const [showSubscribeds, setShowSubscribeds] = useState<{show: boolean, id: string}>({ show: false, id: '' });
   const [showDeleteSubscribe, setShowDeleteSubscribe] = useState<{show: boolean, id: string}>({ show: false, id: '' });
   const [showCreatePubli, setShowCreatePubli] = useState<boolean>(false);
   const [showEditPubli, setShowEditPubli] = useState<boolean>(false);
   const [showDeletePubli, setShowDeletePubli] = useState<boolean>(false);
+  const [showLinkGroup, setShowLinkGroup] = useState<boolean>(false);
 
   function isLatestDateTodayOrFuture(dataEvent: IEventRegisterWithId): boolean {
     if (!dataEvent?.dates || dataEvent?.dates.length === 0) return false;
@@ -55,6 +58,7 @@ export default function Provider({children }: IProvider) {
         showEditEvent, setShowEditEvent,
         showSubscribe, setShowSubscribe,
         showEditPubli, setShowEditPubli,
+        showLinkGroup, setShowLinkGroup,
         showDeletePubli, setShowDeletePubli,
         showSubscribeds, setShowSubscribeds,
         showCreateEvent, setShowCreateEvent,
@@ -69,6 +73,8 @@ export default function Provider({children }: IProvider) {
         showForgotPassword, setShowForgotPassword,
         showDeleteSubscribe, setShowDeleteSubscribe,
         showEditProfileImage, setShowEditProfileImage,
+        showDeleteSubscribeds, setShowDeleteSubscribeds,
+        showDeleteAnotherSubscribeds, setShowDeleteAnotherSubscribeds,
       }}
     >
       {children}

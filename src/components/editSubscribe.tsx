@@ -86,7 +86,7 @@ export default function EditSubscribe(props: { idEvent: string, email: string })
       const auth: IAuthenticate | null = await authenticate(setShowMessage);
       if (auth) {
         const updateSubs = await updateSubscribeByActivityId(
-          { age, lastName, whatsapp, firstName, email, idEvent, whatsappGroup },
+          { age, lastName: lastName.toLocaleLowerCase(), whatsapp, firstName: firstName.toLocaleLowerCase(), email, idEvent, whatsappGroup },
           activitiesAdded,
           waitlistAdded,
           setShowMessage,

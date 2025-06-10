@@ -76,7 +76,6 @@ export async function updateAvaiableSpots(
       await updateDoc(activityRef, { availableSpots });
     });
     await Promise.all(updatePromises);
-    setShowMessage({ show: true, text: 'Vagas disponíveis atualizadas com sucesso.' });
   } catch (error) {
     setShowMessage({ show: true, text: 'Erro ao atualizar vagas disponíveis: ' + String(error) });
   }

@@ -53,7 +53,7 @@ export default function DeleteSubscribe() {
               onClick={() => setShowDeleteSubscribe({ show: false, id: '' }) }
               className={`text-white  transition-colors bg-green-900 hover:border-green-900 cursor-pointer border-2 border-white w-full p-2 mt-6 font-bold`}
               >
-                Retornar
+                Não Cancelar
               </button>
               <button
                 type="button"
