@@ -31,6 +31,7 @@ export default function Provider({children }: IProvider) {
   const [showEditPubli, setShowEditPubli] = useState<boolean>(false);
   const [showDeletePubli, setShowDeletePubli] = useState<boolean>(false);
   const [showLinkGroup, setShowLinkGroup] = useState<boolean>(false);
+  const [imageZoom, setImageZoom] = useState<string>('');
 
   function isLatestDateTodayOrFuture(dataEvent: IEventRegisterWithId): boolean {
     if (!dataEvent?.dates || dataEvent?.dates.length === 0) return false;
@@ -53,6 +54,7 @@ export default function Provider({children }: IProvider) {
         routerTo, setRouterTo,
         userData, setUserData,
         dataUser, setDataUser,
+        imageZoom, setImageZoom,
         logoutUser, setLogoutUser,
         showMessage, setShowMessage,
         showEditEvent, setShowEditEvent,

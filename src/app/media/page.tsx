@@ -9,9 +9,12 @@ import contexto from "../../context/context";
 import Nav from "@/components/nav";
 import { IAuthenticate } from "@/interfaces";
 import MessageToUser from "@/components/messageToUser";
+import ImageGrid from "@/components/ImageGrid";
+import ImageZoom from "@/components/ImageZoom";
 
 export default function Media() {
   const {
+    imageZoom,
     setRouterTo,
     userData, setUserData,
     showMessage, setShowMessage,
@@ -33,6 +36,7 @@ export default function Media() {
   return(
     <div className="break-words w-full min-h-screen bg-black">
       { showMessage.show && <MessageToUser /> }
+      { imageZoom !== '' && <ImageZoom /> }
       <Nav />
       <div className="break-words w-full h-full items-center justify-start flex flex-col pb-10 min-h-screen mt-11">
         <div className="flex flex-col items-start h-full break-words w-full text-white">
@@ -50,6 +54,13 @@ export default function Media() {
           </div>
           <div className="w-full px-3">
             <hr />
+          </div>
+          <div>
+            <ImageGrid
+              folderPath="/images/events"
+              totalImages={99}
+              oddImagesLandscape={true}
+            />
           </div>
         </div>
       </div>

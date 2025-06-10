@@ -54,6 +54,8 @@ interface DegeneratesContext {
   setShowDeletePubli: (state: boolean) => void,
   showLinkGroup: boolean,
   setShowLinkGroup: (state: boolean) => void,
+  imageZoom: string,
+  setImageZoom: (state: string) => void,
 }
 
 const initialValue: DegeneratesContext = {
@@ -108,6 +110,8 @@ const initialValue: DegeneratesContext = {
   setShowDeletePubli: () => {},
   showLinkGroup: false,
   setShowLinkGroup: () => {},
+  imageZoom: '',
+  setImageZoom: () => {},
 }
 
 const contexto = createContext(initialValue);
