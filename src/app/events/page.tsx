@@ -93,18 +93,28 @@ export default function Eventos() {
         <div className="break-words w-full flex items-start h-full">
           <div className="break-words w-full h-full">
             <div className="break-words w-full text-white">
-              <div className="break-words h-[50vh] bg-[url(/images/dd_logo_bg.jpg)] bg-cover flex flex-col items-center justify-center">
+              <div className="break-words bg-[url(/images/dd_logo_bg_black.png)] bg-cover flex flex-col items-center justify-center w-full h-screen relative">
                 <Image
                   width={1000}
                   height={1000}
-                  className="object-cover w-2/3 sm:w-1/5"
-                  src="/images/dd_logo_completa_sem_fundo_preta.png"
+                  className="float-left object-cover w-full h-full bg-black opacity-20 absolute z-10"
+                  src={`/images/degenerados.jpeg`}
+                  alt={`Imagem do Grupo reunido`}
+                />
+                <Image
+                  width={1000}
+                  height={1000}
+                  className="object-cover w-2/5 sm:w-1/5 z-20"
+                  src="/images/dd_logo_white.png"
                   alt={`Logo do Dados Degenerados`}
                 />
+                <div className="text-3xl sm:text-6xl mt-5 sickamore">
+                  Eventos
+                </div>
               </div>
               <div>
                 <div className="w-full px-3 pt-5 pb-3 flex justify-between items-center">
-                  <p className="font-bold text-xl">Eventos</p>
+                  <p className="font-bold text-xl"></p>
                   {
                     userData.role === 'admin' &&
                     <button
