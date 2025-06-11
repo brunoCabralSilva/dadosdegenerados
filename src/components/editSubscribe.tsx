@@ -250,6 +250,7 @@ export default function EditSubscribe(props: { idEvent: string, email: string })
             </div>
             <button
               className="break-words border-2 border-black hover:border-white transition-colors duration-400 text-white cursor-pointer bg-[url(/images/dd_logo_bg.jpg)] font-bold rounded-lg text-sm px-5 py-2.5 text-center relative w-full"
+              disabled={ loading }
               onClick={ updateUser }
             >
               { loading ? 'Atualizando, aguarde...' : 'Atualizar Inscrição' }
