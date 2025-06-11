@@ -8,7 +8,7 @@ export default function ImageZoom() {
   const { imageZoom, setImageZoom } = useContext(contexto);
   return(
     <div className="z-[80] fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-black/80 px-3 sm:px-0">
-      <div className="w-full h-screen flex flex-col justify-start items-center bg-black/80 relative border-white border-2">
+      <div className="w-full h-screen flex flex-col justify-start items-center bg-black/80 relative">
         <div className="pt-4 sm:pt-2 px-2 w-full flex justify-end right-0 h-[10vh]">
           <IoIosCloseCircleOutline
             className="text-4xl text-white cursor-pointer"
